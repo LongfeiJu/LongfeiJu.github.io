@@ -164,3 +164,6 @@ nav ul a[aria-current="page"]{color:var(--navy); text-decoration:underline; text
 :root[lang="zh-Hans"] .en-only{display:none}
 .zh-only{display:none}
 :root[lang="zh-Hans"] .zh-only{display:block}
+
+#photography .gallery{padding-bottom:0}
+#photography{border-top:1px solid var(--line)}

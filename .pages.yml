@@ -204,8 +204,24 @@ content:
           - name: linkedin
             label: "LinkedIn URL"
             type: string
+  - name: hobbies
+    label: "Hobbies page"
+    type: file
+    path: content/hobbies.json
+    format: json
+    fields:
+      - name: intro
+        label: "Intro line under the title"
+        type: object
+        fields:
+          - name: en
+            label: "English"
+            type: text
+          - name: zh
+            label: "中文 (optional)"
+            type: text
   - name: photos
-    label: "Photography"
+    label: "Hobbies · Photography"
     type: file
     path: content/photos.json
     format: json

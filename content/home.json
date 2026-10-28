@@ -1,0 +1,204 @@
+{
+  "hero": {
+    "eyebrow": {
+      "en": "Singapore · Finance & Quantitative Finance",
+      "zh": "新加坡 · 金融与量化金融"
+    },
+    "greeting": {
+      "en": "Hi, I'm Longfei.",
+      "zh": "你好，我是巨龙飞。"
+    },
+    "intro": {
+      "en": "I'm a Chinese international student at Singapore Management University. This is my personal website, where I show some of my projects and the things I care about: commodities, how they move around the world, and how they are priced.",
+      "zh": "我是一名就读于新加坡管理大学的中国留学生。这是我的个人网站，展示我的一些项目，以及我关注的事情：大宗商品、它们如何在全球流动，以及如何定价。"
+    }
+  },
+  "glance": [
+    {
+      "label": {
+        "en": "University",
+        "zh": "学校"
+      },
+      "value": {
+        "en": "Singapore Management University",
+        "zh": "新加坡管理大学"
+      }
+    },
+    {
+      "label": {
+        "en": "Degree",
+        "zh": "学位"
+      },
+      "value": {
+        "en": "BBM, Finance (International Trading) + Quantitative Finance",
+        "zh": "工商管理学士：金融（国际贸易方向）+ 量化金融"
+      }
+    },
+    {
+      "label": {
+        "en": "GPA",
+        "zh": "GPA"
+      },
+      "value": {
+        "en": "4.00 / 4.00 · Dean's List",
+        "zh": "4.00 / 4.00 · 院长嘉许名单"
+      }
+    },
+    {
+      "label": {
+        "en": "Desk",
+        "zh": "研究组"
+      },
+      "value": {
+        "en": "Corn, SMU Maritime Merchants Society",
+        "zh": "玉米组，SMU 海事商人协会"
+      }
+    },
+    {
+      "label": {
+        "en": "Languages",
+        "zh": "语言"
+      },
+      "value": {
+        "en": "English, Mandarin",
+        "zh": "英语、普通话"
+      }
+    }
+  ],
+  "projects": [
+    {
+      "title": {
+        "en": "Corn: Follow the Bushel",
+        "zh": "玉米：追踪一蒲式耳"
+      },
+      "description": {
+        "en": "Stalk to truck, elevator, ship and end use. Covers basis, storage carry, dry bulk ship sizes and the six main export routes.",
+        "zh": "从玉米秆到卡车、粮库、货轮和终端用途。涵盖基差、仓储价差、干散货船型和六大出口航线。"
+      },
+      "status": "Live",
+      "link": "corn.html",
+      "icon": "corn"
+    },
+    {
+      "title": {
+        "en": "Crude oil",
+        "zh": "原油"
+      },
+      "description": {
+        "en": "Wellhead to refinery: grades and differentials, tanker classes, chokepoints and the crack spread.",
+        "zh": "从井口到炼厂：油品等级与价差、油轮船型、海上咽喉要道和裂解价差。"
+      },
+      "status": "Planned",
+      "link": "",
+      "icon": "oil"
+    },
+    {
+      "title": {
+        "en": "Copper",
+        "zh": "铜"
+      },
+      "description": {
+        "en": "Mine to cathode: concentrate, smelting charges (TC/RCs), warehouse stocks and demand from grids and EVs.",
+        "zh": "从矿山到阴极铜：精矿、加工费（TC/RC）、仓库库存，以及电网和电动车带来的需求。"
+      },
+      "status": "Planned",
+      "link": "",
+      "icon": "copper"
+    }
+  ],
+  "story": {
+    "title": {
+      "en": "Six countries, one route",
+      "zh": "六个国家，一条路线"
+    },
+    "text": {
+      "en": "I left China when I was two and grew up across East Africa and Southeast Asia. My story follows that route on a globe, one move at a time.",
+      "zh": "我两岁离开中国，在东非和东南亚长大。我的故事在地球仪上沿着这条路线，一站一站展开。"
+    }
+  },
+  "experience": [
+    {
+      "dates": {
+        "en": "Sep 2026 – Present",
+        "zh": "2026年9月 – 至今"
+      },
+      "role": {
+        "en": "Research Analyst, Agriculture & Grains (Corn Desk)",
+        "zh": "研究分析师，农业与谷物（玉米组）"
+      },
+      "org": {
+        "en": "SMU Maritime Merchants Society",
+        "zh": "SMU 海事商人协会"
+      },
+      "description": {
+        "en": "Analysing price drivers, global trade flows and supply-demand balance sheets across the main origin and destination markets.",
+        "zh": "分析主要产地和消费市场的价格驱动因素、全球贸易流向和供需平衡表。"
+      }
+    },
+    {
+      "dates": {
+        "en": "May 2026 – Jul 2026",
+        "zh": "2026年5月 – 2026年7月"
+      },
+      "role": {
+        "en": "International Strategy Intern",
+        "zh": "国际战略实习生"
+      },
+      "org": {
+        "en": "PingAn Group · OneConnect Financial Technology",
+        "zh": "中国平安 · 金融壹账通"
+      },
+      "description": {
+        "en": "Pitched and translated live product demos for BNP Paribas executives, owned the ZhiNiao platform's pitch materials, and supported C-level consultations with Vingroup Vietnam.",
+        "zh": "为法国巴黎银行高管现场演示并翻译数字化产品，负责知鸟平台的路演材料，并协助与越南 Vingroup 的高层战略咨询。"
+      }
+    },
+    {
+      "dates": {
+        "en": "Oct 2025 – Aug 2026",
+        "zh": "2025年10月 – 2026年8月"
+      },
+      "role": {
+        "en": "Project Lead",
+        "zh": "项目负责人"
+      },
+      "org": {
+        "en": "Wilmar International (Yihai Kerry)",
+        "zh": "丰益国际（益海嘉里）"
+      },
+      "description": {
+        "en": "Led a 12-person volunteer mission to an orphanage in Hebei and managed a SGD 15,000 budget with reporting to SMU and Wilmar.",
+        "zh": "带领 12 人志愿团队赴河北一所孤儿院开展项目，管理 15,000 新元预算，并向 SMU 和丰益汇报。"
+      }
+    },
+    {
+      "dates": {
+        "en": "May 2025 – Aug 2025",
+        "zh": "2025年5月 – 2025年8月"
+      },
+      "role": {
+        "en": "Investment Analyst Intern",
+        "zh": "投资分析实习生"
+      },
+      "org": {
+        "en": "Reform Fund",
+        "zh": "Reform Fund"
+      },
+      "description": {
+        "en": "Built valuation and stress-test models for APAC solar, wind and storage assets, and a Java tool that standardised pricing and sensitivity models across teams.",
+        "zh": "为亚太地区的太阳能、风电和储能资产搭建估值与压力测试模型，并开发了一个 Java 工具，统一各团队的定价与敏感性模型。"
+      }
+    }
+  ],
+  "contact": {
+    "title": {
+      "en": "Get in touch",
+      "zh": "联系我"
+    },
+    "text": {
+      "en": "I'm happy to talk about commodities, trading, internships or any of the projects here.",
+      "zh": "欢迎和我聊大宗商品、交易、实习机会，或这里的任何项目。"
+    },
+    "linkedin": "https://www.linkedin.com/in/longfei-ju-b4a008168"
+  }
+}

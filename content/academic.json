@@ -1,0 +1,74 @@
+{
+  "intro": {
+    "en": "Research and academic work.",
+    "zh": "研究与学术作品。"
+  },
+  "items": [
+    {
+      "kind": {
+        "en": "IB Diploma · World Studies Extended Essay",
+        "zh": ""
+      },
+      "title": {
+        "en": "Aligning Narratives to State Interests: Deciphering State-Driven Censorship in the Portrayal of China's Zero-Covid Policy on Online News Articles",
+        "zh": ""
+      },
+      "question": {
+        "en": "To what extent did censorship legislation, particularly the Provisions for the Administration of Internet News Information Service, ensure language used in portraying China's Zero-Covid policy on online news articles aligned with China's state interests?",
+        "zh": ""
+      },
+      "summary": {
+        "en": "An interdisciplinary study combining English Language & Literature with Global Politics. It applies Fairclough's three-dimensional critical discourse analysis to English-language articles from China Daily and Xinhua, reads them through postcolonial theory, and compares China's internet news regulations with Singapore's POFMA using Mill's method of difference.",
+        "zh": ""
+      },
+      "details": [
+        {
+          "label": {
+            "en": "Theme",
+            "zh": ""
+          },
+          "value": {
+            "en": "Culture, Language and Identity",
+            "zh": ""
+          }
+        },
+        {
+          "label": {
+            "en": "Subjects",
+            "zh": ""
+          },
+          "value": {
+            "en": "Global Politics · English Language & Literature",
+            "zh": ""
+          }
+        },
+        {
+          "label": {
+            "en": "Methods",
+            "zh": ""
+          },
+          "value": {
+            "en": "Critical discourse analysis · Postcolonial theory · Comparative politics",
+            "zh": ""
+          }
+        },
+        {
+          "label": {
+            "en": "Length",
+            "zh": ""
+          },
+          "value": {
+            "en": "3,999 words",
+            "zh": ""
+          }
+        }
+      ],
+      "note": {
+        "en": "Full essay available on request.",
+        "zh": ""
+      },
+      "file": "",
+      "show_in_chinese": false
+    }
+  ]
+}

@@ -3,146 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>*{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<title>Longfei Ju</title>
+<meta name="description" content="Longfei Ju: Finance and Quantitative Finance at Singapore Management University. Projects, story, photography and academic work.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>Longfei Ju</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
-<style>
-/* Layout: single column, 1080px measure; sticky nav; hero with an at-a-glance panel; sections separated by hairlines; one full-width navy band for the story teaser. */
-:root{
-  --bg:#ffffff;        /* white page (single light theme by design) */
-  --surface:#f5f7fb;
-  --navy:#13294b;      /* primary */
-  --navy-soft:#2a4673;
-  --text:#16213a;
-  --muted:#5d6878;
-  --line:#e1e6ee;
-  --band:#13294b; --band-text:#eef0f4; --band-muted:#a9b6cc;
-  --f-display:"Source Serif 4", "Noto Serif SC", "Iowan Old Style", Georgia, serif;
-  --f-body:"Schibsted Grotesk", "Noto Sans SC", "Segoe UI", system-ui, sans-serif;
-  --f-mono:"IBM Plex Mono", "Noto Sans SC", ui-monospace, Consolas, monospace;
-  color-scheme:light;
-}
-html{background:var(--bg)}
-body{background:var(--bg); color:var(--text); font-family:var(--f-body); font-size:16px; line-height:1.6;
-  padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
-body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:var(--bg)}
-a{color:inherit}
-a:focus-visible, button:focus-visible{outline:2px solid var(--navy); outline-offset:3px; border-radius:2px}
-.wrap{max-width:1080px; margin:0 auto}
-
-/* nav */
-header{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--line); margin:0 calc(-1 * max(16px, env(safe-area-inset-left,0px))) 0 calc(-1 * max(16px, env(safe-area-inset-right,0px)));
-  padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
-nav{max-width:1080px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px; height:60px}
-.mark{display:flex; align-items:center; gap:10px; text-decoration:none; font-weight:600; letter-spacing:.01em; color:var(--navy)}
-.mark b{width:30px; height:30px; border:1.5px solid var(--navy); display:grid; place-items:center; font:500 13px/1 var(--f-mono); letter-spacing:.02em}
-nav ul{display:flex; gap:clamp(12px, 3vw, 28px); list-style:none; margin:0; padding:0; font-size:14.5px}
-nav ul a{text-decoration:none; color:var(--muted)}
-nav ul a:hover{color:var(--navy)}
-@media (max-width:560px){ .hide-s{display:none} .mark span{display:none} }
-.navr{display:flex; align-items:center; gap:clamp(12px,3vw,28px)}
-.langbtn{font:500 13px/1 var(--f-body); padding:7px 10px; border:1.5px solid var(--navy); background:transparent; color:var(--navy); cursor:pointer}
-.langbtn:hover{background:var(--navy); color:var(--bg)}
-
-/* hero */
-.hero{display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:clamp(28px,6vw,72px); align-items:end; padding-block:clamp(56px,10vw,112px) clamp(48px,7vw,80px)}
-.eyebrow{font:500 12px/1.3 var(--f-mono); letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
-h1{font:400 clamp(44px,7vw,78px)/1.02 var(--f-display); letter-spacing:-.02em; margin:14px 0 22px; color:var(--navy); text-wrap:balance}
-h1 em{font-style:italic}
-.lede{font-size:clamp(17px,2vw,19px); max-width:56ch; margin:0; color:var(--text)}
-.cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:30px}
-.btn{display:inline-flex; align-items:center; gap:8px; padding:11px 18px; font-weight:500; font-size:15px; text-decoration:none; border:1.5px solid var(--navy); color:var(--navy)}
-.btn.primary{background:var(--navy); color:var(--bg)}
-.btn:hover{background:var(--navy-soft); border-color:var(--navy-soft); color:var(--bg)}
-.glance{background:var(--surface); border:1px solid var(--line); padding:22px 22px 8px}
-.glance h2{font:500 12px/1 var(--f-mono); letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 10px}
-.glance dl{margin:0; display:grid; grid-template-columns:auto minmax(0,1fr)}
-.glance dt,.glance dd{margin:0; padding:11px 0; border-top:1px solid var(--line)}
-.glance dt{font-size:13px; color:var(--muted); padding-right:18px}
-.glance dd{font-size:14.5px; text-align:right; font-variant-numeric:tabular-nums}
-@media (max-width:820px){ .hero{grid-template-columns:1fr; align-items:start} }
-
-/* sections */
-section{padding-block:clamp(48px,8vw,88px); border-top:1px solid var(--line)}
-.sec-head{display:flex; justify-content:space-between; align-items:baseline; gap:20px; flex-wrap:wrap; margin-bottom:28px}
-h2.title{font:400 clamp(30px,4vw,42px)/1.1 var(--f-display); margin:6px 0 0; color:var(--navy); letter-spacing:-.01em}
-.sec-head p{margin:0; color:var(--muted); max-width:46ch}
-
-/* projects */
-.grid{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:18px}
-@media (max-width:860px){ .grid{grid-template-columns:1fr} }
-.proj{display:flex; flex-direction:column; background:var(--surface); border:1px solid var(--line); text-decoration:none; color:inherit; min-width:0}
-a.proj:hover{border-color:var(--navy)}
-a.proj:hover .go{transform:translateX(3px)}
-.proj .art{aspect-ratio:16/9; max-width:100%; border-bottom:1px solid var(--line); display:grid; place-items:center; color:var(--navy)}
-.proj .art svg{width:72%; height:auto; max-height:80%}
-.proj .body{padding:18px 20px 20px; display:flex; flex-direction:column; gap:8px; flex:1}
-.proj h3{font:500 22px/1.2 var(--f-display); margin:0; color:var(--navy)}
-.proj p{margin:0; font-size:14.5px; color:var(--muted)}
-.proj .meta{margin-top:auto; padding-top:10px; display:flex; justify-content:space-between; align-items:center; font:500 11.5px/1 var(--f-mono); letter-spacing:.08em; text-transform:uppercase}
-.chip{padding:5px 8px; border:1px solid currentColor}
-.chip.live{color:var(--navy)}
-.chip.soon{color:var(--muted); border-style:dashed}
-.go{transition:transform .2s; color:var(--navy)}
-.proj.soon{opacity:.82}
-.proj.soon .art{color:var(--muted)}
-
-/* story band */
-html{overflow-x:clip}
-.band{background:var(--band); color:var(--band-text); border-top:none;
-  margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
-  padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
-.band .eyebrow{color:var(--band-muted)}
-.band h2.title{color:var(--band-text)}
-.band .story{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:clamp(28px,6vw,64px); align-items:center}
-@media (max-width:820px){ .band .story{grid-template-columns:1fr} }
-.band p{color:var(--band-muted); max-width:52ch}
-.route{list-style:none; margin:0; padding:0; display:grid; gap:0; border-left:1.5px solid var(--band-muted); margin-left:6px}
-.route li{position:relative; padding:9px 0 9px 22px; display:flex; justify-content:space-between; gap:16px; font-size:15px}
-.route li::before{content:""; position:absolute; left:-6px; top:16px; width:9px; height:9px; border-radius:50%; background:var(--band); border:1.5px solid var(--band-text)}
-.route li:last-child::before{background:#d63a45; border-color:#d63a45}
-.route span{font:12px/1.9 var(--f-mono); color:var(--band-muted); letter-spacing:.04em; white-space:nowrap}
-.band .btn{border-color:var(--band-text); color:var(--band-text); margin-top:22px}
-.band .btn:hover{background:var(--band-text); color:var(--band)}
-
-/* experience */
-.xp{display:grid; gap:0; border-top:1px solid var(--line)}
-.xp article{display:grid; grid-template-columns:200px minmax(0,1fr); gap:24px; padding:22px 0; border-bottom:1px solid var(--line)}
-.xp time{font:12.5px/1.6 var(--f-mono); color:var(--muted); font-variant-numeric:tabular-nums}
-.xp h3{margin:0; font-size:17px; font-weight:600; color:var(--navy)}
-.xp .org{color:var(--muted); font-size:14.5px; margin:2px 0 8px}
-.xp p{margin:0; font-size:15px; max-width:70ch}
-@media (max-width:640px){ .xp article{grid-template-columns:1fr; gap:6px} }
-
-/* contact */
-.contact{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; align-items:start}
-@media (max-width:720px){ .contact{grid-template-columns:1fr} }
-.copyrow{display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:var(--surface); border:1px solid var(--line); padding:12px 14px}
-.copyrow code{font:14px/1.4 var(--f-mono); user-select:all; overflow-wrap:anywhere; min-width:0; flex:1}
-.copyrow button{font:500 13px/1 var(--f-body); padding:8px 12px; border:1.5px solid var(--navy); color:var(--navy); background:transparent; cursor:pointer}
-.links{display:flex; flex-direction:column; gap:10px; margin-top:12px}
-.links a{color:var(--navy); text-underline-offset:3px}
-footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font:12px/1.5 var(--f-mono); color:var(--muted)}
-</style>
-
+<link rel="stylesheet" href="site.css">
+<style>*{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 </head>
 <body>
 <header>
   <nav class="wrap" aria-label="Main">
-    <a class="mark" href="#top"><b>LJ</b><span data-zh="巨龙飞">Longfei Ju</span></a>
+    <a class="mark" href="index.html"><b>LJ</b><span data-zh="巨龙飞">Longfei Ju</span></a>
     <div class="navr">
     <ul>
       <li><a href="story.html" data-zh="我的故事">My story</a></li>
-      <li><a href="#projects" data-zh="项目">Projects</a></li>
-      <li class="hide-s"><a href="#experience" data-zh="经历">Experience</a></li>
-      <li><a href="#contact" data-zh="联系">Contact</a></li>
+      <li class="hide-s"><a href="index.html#projects" data-zh="项目">Projects</a></li>
+      <li class="hide-m"><a href="index.html#experience" data-zh="经历">Experience</a></li>
+      <li><a href="photography.html" data-zh="摄影">Photography</a></li>
+      <li><a href="academic.html" data-zh="学术">Academic</a></li>
+      <li class="hide-m"><a href="index.html#contact" data-zh="联系">Contact</a></li>
     </ul>
     <button class="langbtn" type="button">中文</button>
     </div>
@@ -152,23 +35,17 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
 <main class="wrap" id="top">
   <div class="hero">
     <div>
-      <div class="eyebrow" data-zh="新加坡 · 金融与量化金融">Singapore · Finance &amp; Quantitative Finance</div>
-      <h1 data-zh="你好，我是巨龙飞。">Hi, I'm Longfei.</h1>
-      <p class="lede" data-zh="我是一名就读于新加坡管理大学的中国留学生。这是我的个人网站，展示我的一些项目，以及我关注的事情：大宗商品、它们如何在全球流动，以及如何定价。">I'm a Chinese international student at Singapore Management University. This is my personal website, where I show some of my projects and the things I care about: commodities, how they move around the world, and how they are priced.</p>
+      <div class="eyebrow" id="h-eyebrow"></div>
+      <h1 id="h-greeting">Hi, I'm Longfei.</h1>
+      <p class="lede" id="h-intro"></p>
       <div class="cta">
-        <a class="btn primary" href="story.html" data-zh="阅读我的故事 &lt;span aria-hidden=&quot;true&quot;&gt;→&lt;/span&gt;">Read my story <span aria-hidden="true">→</span></a>
+        <a class="btn primary" href="story.html" data-zh="阅读我的故事 →">Read my story →</a>
         <a class="btn" href="#projects" data-zh="查看项目">See projects</a>
       </div>
     </div>
     <aside class="glance" aria-label="At a glance">
       <h2 data-zh="概览">At a glance</h2>
-      <dl>
-        <dt data-zh="学校">University</dt><dd data-zh="新加坡管理大学">Singapore Management University</dd>
-        <dt data-zh="学位">Degree</dt><dd data-zh="工商管理学士：金融（国际贸易方向）+ 量化金融">BBM, Finance (International Trading) + Quantitative Finance</dd>
-        <dt>GPA</dt><dd data-zh="4.00 / 4.00 · 院长嘉许名单">4.00 / 4.00 · Dean's List</dd>
-        <dt data-zh="研究组">Desk</dt><dd data-zh="玉米组，SMU 海事商人协会">Corn, SMU Maritime Merchants Society</dd>
-        <dt data-zh="语言">Languages</dt><dd data-zh="英语、普通话">English, Mandarin</dd>
-      </dl>
+      <dl id="glance"></dl>
     </aside>
   </div>
 
@@ -179,60 +56,16 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
         <h2 class="title" id="projects-h" data-zh="追踪大宗商品">Follow the commodity</h2>
       </div>
     </div>
-    <div class="grid">
-      <a class="proj" href="corn.html">
-        <div class="art" aria-hidden="true">
-          <svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3">
-            <path d="M40 60c30-26 110-34 150-12 10 6 10 18 0 24-40 22-120 14-150-12z"/>
-            <path d="M60 50v20M75 45v30M90 42v36M105 40v40M120 40v40M135 41v38M150 43v34M165 46v28M178 50v20"/>
-            <path d="M48 54c40-6 100-6 140 2M48 66c40 6 100 6 140-2"/>
-            <path d="M40 60 18 52M40 60 16 66M40 60c-6-14-2-26 8-32"/>
-          </svg>
-        </div>
-        <div class="body">
-          <h3 data-zh="玉米：追踪一蒲式耳">Corn: Follow the Bushel</h3>
-          <p data-zh="从玉米秆到卡车、粮库、货轮和终端用途。涵盖基差、仓储价差、干散货船型和六大出口航线。">Stalk to truck, elevator, ship and end use. Covers basis, storage carry, dry bulk ship sizes and the six main export routes.</p>
-          <div class="meta"><span class="chip live" data-zh="已上线">Live</span><span class="go" aria-hidden="true" data-zh="打开 →">Open →</span></div>
-        </div>
-      </a>
-      <div class="proj soon">
-        <div class="art" aria-hidden="true">
-          <svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="0">
-            <ellipse cx="120" cy="26" rx="34" ry="9"/><path d="M86 26v68c0 5 15 9 34 9s34-4 34-9V26"/>
-            <path d="M86 48c0 5 15 9 34 9s34-4 34-9M86 72c0 5 15 9 34 9s34-4 34-9"/>
-            <path d="M24 98h60M156 98h60M40 98V78l14-10v30M190 98V70h10v28"/>
-          </svg>
-        </div>
-        <div class="body">
-          <h3 data-zh="原油">Crude oil</h3>
-          <p data-zh="从井口到炼厂：油品等级与价差、油轮船型、海上咽喉要道和裂解价差。">Wellhead to refinery: grades and differentials, tanker classes, chokepoints and the crack spread.</p>
-          <div class="meta"><span class="chip soon" data-zh="筹备中">Planned</span></div>
-        </div>
-      </div>
-      <div class="proj soon">
-        <div class="art" aria-hidden="true">
-          <svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3">
-            <path d="M70 92l40-14 60 10-40 16z"/><path d="M70 80l40-14 60 10-40 16zM70 80v12M130 92v12M170 76v12"/>
-            <path d="M70 68l40-14 60 10-40 16zM70 68v12M130 80v12M170 64v12"/>
-            <path d="M30 40l18-14 18 14M48 26v-8M180 30h40M200 30v-12"/>
-          </svg>
-        </div>
-        <div class="body">
-          <h3 data-zh="铜">Copper</h3>
-          <p data-zh="从矿山到阴极铜：精矿、加工费（TC/RC）、仓库库存，以及电网和电动车带来的需求。">Mine to cathode: concentrate, smelting charges (TC/RCs), warehouse stocks and demand from grids and EVs.</p>
-          <div class="meta"><span class="chip soon" data-zh="筹备中">Planned</span></div>
-        </div>
-      </div>
-    </div>
+    <div class="grid" id="projects-grid"></div>
   </section>
 
   <section class="band" aria-labelledby="story-h">
     <div class="wrap story">
       <div>
         <div class="eyebrow" data-zh="我的故事">My story</div>
-        <h2 class="title" id="story-h" data-zh="六个国家，一条路线">Six countries, one route</h2>
-        <p data-zh="我两岁离开中国，在东非和东南亚长大。我的故事在地球仪上沿着这条路线，一站一站展开。">I left China when I was two and grew up across East Africa and Southeast Asia. My story follows that route on a globe, one move at a time.</p>
-        <a class="btn" href="story.html" data-zh="沿路线出发 &lt;span aria-hidden=&quot;true&quot;&gt;→&lt;/span&gt;">Follow the route <span aria-hidden="true">→</span></a>
+        <h2 class="title" id="story-h"></h2>
+        <p id="story-text"></p>
+        <a class="btn" href="story.html" data-zh="沿路线出发 →">Follow the route →</a>
       </div>
       <ol class="route">
         <li data-zh="中国青岛 &lt;span&gt;出生&lt;/span&gt;">Qingdao, China <span>Born</span></li>
@@ -252,61 +85,65 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
         <h2 class="title" id="xp-h" data-zh="工作经历">Where I've worked</h2>
       </div>
     </div>
-    <div class="xp">
-      <article>
-        <time data-zh="2026年9月 – 至今">Sep 2026 – Present</time>
-        <div><h3 data-zh="研究分析师，农业与谷物（玉米组）">Research Analyst, Agriculture &amp; Grains (Corn Desk)</h3><div class="org" data-zh="SMU 海事商人协会">SMU Maritime Merchants Society</div>
-        <p data-zh="分析主要产地和消费市场的价格驱动因素、全球贸易流向和供需平衡表。">Analysing price drivers, global trade flows and supply-demand balance sheets across the main origin and destination markets.</p></div>
-      </article>
-      <article>
-        <time data-zh="2026年5月 – 2026年7月">May 2026 – Jul 2026</time>
-        <div><h3 data-zh="国际战略实习生">International Strategy Intern</h3><div class="org" data-zh="中国平安 · 金融壹账通">PingAn Group · OneConnect Financial Technology</div>
-        <p data-zh="为法国巴黎银行高管现场演示并翻译数字化产品，负责知鸟平台的路演材料，并协助与越南 Vingroup 的高层战略咨询。">Pitched and translated live product demos for BNP Paribas executives, owned the ZhiNiao platform's pitch materials, and supported C-level consultations with Vingroup Vietnam.</p></div>
-      </article>
-      <article>
-        <time data-zh="2025年10月 – 2026年8月">Oct 2025 – Aug 2026</time>
-        <div><h3 data-zh="项目负责人">Project Lead</h3><div class="org" data-zh="丰益国际（益海嘉里）">Wilmar International (Yihai Kerry)</div>
-        <p data-zh="带领 12 人志愿团队赴河北一所孤儿院开展项目，管理 15,000 新元预算，并向 SMU 和丰益汇报。">Led a 12-person volunteer mission to an orphanage in Hebei and managed a SGD 15,000 budget with reporting to SMU and Wilmar.</p></div>
-      </article>
-      <article>
-        <time data-zh="2025年5月 – 2025年8月">May 2025 – Aug 2025</time>
-        <div><h3 data-zh="投资分析实习生">Investment Analyst Intern</h3><div class="org">Reform Fund</div>
-        <p data-zh="为亚太地区的太阳能、风电和储能资产搭建估值与压力测试模型，并开发了一个 Java 工具，统一各团队的定价与敏感性模型。">Built valuation and stress-test models for APAC solar, wind and storage assets, and a Java tool that standardised pricing and sensitivity models across teams.</p></div>
-      </article>
-    </div>
+    <div class="xp" id="xp"></div>
   </section>
 
   <section id="contact" aria-labelledby="contact-h">
     <div class="contact">
       <div>
         <div class="eyebrow" data-zh="联系">Contact</div>
-        <h2 class="title" id="contact-h" data-zh="联系我">Get in touch</h2>
-        <p style="color:var(--muted);max-width:44ch" data-zh="欢迎和我聊大宗商品、交易、实习机会，或这里的任何项目。">I'm happy to talk about commodities, trading, internships or any of the projects here.</p>
+        <h2 class="title" id="contact-h"></h2>
+        <p id="contact-text" style="color:var(--muted);max-width:44ch"></p>
       </div>
       <div>
-        <a class="btn primary" href="https://www.linkedin.com/in/longfei-ju-b4a008168" target="_blank" rel="noopener" data-zh="在领英上联系我 &lt;span aria-hidden=&quot;true&quot;&gt;↗&lt;/span&gt;">Message me on LinkedIn <span aria-hidden="true">↗</span></a>
+        <a class="btn primary" id="linkedin" href="https://www.linkedin.com/in/longfei-ju-b4a008168" target="_blank" rel="noopener" data-zh="在领英上联系我 ↗">Message me on LinkedIn ↗</a>
       </div>
     </div>
   </section>
-
   <footer>
     <span data-zh="© 2026 巨龙飞">© 2026 Longfei Ju</span>
     <span data-zh="新加坡">Singapore</span>
   </footer>
 </main>
 
+<script src="site.js"></script>
 <script>
-/* language toggle: swaps every [data-zh] element and remembers the choice across pages */
-(function(){var KEY='lj-lang',lang='en';try{lang=localStorage.getItem(KEY)||'en'}catch(e){}
-var nodes=[].slice.call(document.querySelectorAll('[data-zh]'));nodes.forEach(function(n){n.setAttribute('data-en',n.innerHTML)});
-window.__lang={get:function(){return lang},subs:[]};
-function apply(){document.documentElement.lang=lang==='zh'?'zh-Hans':'en';
- nodes.forEach(function(n){n.innerHTML=lang==='zh'?n.getAttribute('data-zh'):n.getAttribute('data-en')});
- [].forEach.call(document.querySelectorAll('.langbtn'),function(b){b.textContent=lang==='zh'?'EN':'中文';b.setAttribute('aria-label',lang==='zh'?'Switch to English':'切换到中文')});
- window.__lang.subs.forEach(function(f){try{f(lang)}catch(e){}});}
-document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.langbtn');if(!b)return;lang=lang==='zh'?'en':'zh';try{localStorage.setItem(KEY,lang)}catch(e){}apply();});
-window.__lang.apply=apply;apply();})();
+(function () {
+  var T = site.T, esc = site.esc;
+  var ICON = {
+    corn: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M40 60c30-26 110-34 150-12 10 6 10 18 0 24-40 22-120 14-150-12z"/><path d="M60 50v20M75 45v30M90 42v36M105 40v40M120 40v40M135 41v38M150 43v34M165 46v28M178 50v20"/><path d="M48 54c40-6 100-6 140 2M48 66c40 6 100 6 140-2"/><path d="M40 60 18 52M40 60 16 66M40 60c-6-14-2-26 8-32"/></svg>',
+    oil: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3"><ellipse cx="120" cy="26" rx="34" ry="9"/><path d="M86 26v68c0 5 15 9 34 9s34-4 34-9V26"/><path d="M86 48c0 5 15 9 34 9s34-4 34-9M86 72c0 5 15 9 34 9s34-4 34-9"/><path d="M24 98h60M156 98h60M40 98V78l14-10v30M190 98V70h10v28"/></svg>',
+    copper: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M70 92l40-14 60 10-40 16z"/><path d="M70 80l40-14 60 10-40 16zM70 80v12M130 92v12M170 76v12"/><path d="M70 68l40-14 60 10-40 16zM70 68v12M130 80v12M170 64v12"/><path d="M30 40l18-14 18 14M48 26v-8M180 30h40M200 30v-12"/></svg>',
+    generic: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="70" y="24" width="100" height="72"/><path d="M70 72l30-24 26 20 18-14 26 22"/><circle cx="148" cy="44" r="8"/></svg>'
+  };
+  function set(id, html) { var el = document.getElementById(id); if (el) el.outerHTML = html; }
+  site.load('content/home.json').then(function (d) {
+    var h = d.hero || {};
+    set('h-eyebrow', T(h.eyebrow, 'div', 'class="eyebrow" id="h-eyebrow"'));
+    set('h-greeting', T(h.greeting, 'h1', 'id="h-greeting"'));
+    set('h-intro', T(h.intro, 'p', 'class="lede" id="h-intro"'));
+    document.getElementById('glance').innerHTML = (d.glance || []).map(function (g) { return T(g.label, 'dt') + T(g.value, 'dd'); }).join('');
+    document.getElementById('projects-grid').innerHTML = (d.projects || []).map(function (p) {
+      var live = (p.status || '').toLowerCase() === 'live' && p.link;
+      var tag = live ? 'a' : 'div', href = live ? ' href="' + esc(p.link) + '"' : '';
+      var chip = live ? '<span class="chip live" data-zh="已上线">Live</span><span class="go" aria-hidden="true" data-zh="打开 →">Open →</span>'
+                      : '<span class="chip soon" data-zh="筹备中">Planned</span>';
+      return '<' + tag + ' class="proj' + (live ? '' : ' soon') + '"' + href + '><div class="art" aria-hidden="true">' + (ICON[p.icon] || ICON.generic) + '</div>'
+        + '<div class="body">' + T(p.title, 'h3') + T(p.description, 'p') + '<div class="meta">' + chip + '</div></div></' + tag + '>';
+    }).join('');
+    var s = d.story || {};
+    set('story-h', T(s.title, 'h2', 'class="title" id="story-h"'));
+    set('story-text', T(s.text, 'p', 'id="story-text"'));
+    document.getElementById('xp').innerHTML = (d.experience || []).map(function (x) {
+      return '<article>' + T(x.dates, 'time') + '<div>' + T(x.role, 'h3') + T(x.org, 'div', 'class="org"') + T(x.description, 'p') + '</div></article>';
+    }).join('');
+    var c = d.contact || {};
+    set('contact-h', T(c.title, 'h2', 'class="title" id="contact-h"'));
+    set('contact-text', T(c.text, 'p', 'id="contact-text" style="color:var(--muted);max-width:44ch"'));
+    if (c.linkedin) document.getElementById('linkedin').href = c.linkedin;
+    site.scan();
+  }).catch(function () {});
+})();
 </script>
-
 </body>
 </html>

@@ -1,0 +1,353 @@
+media:
+  input: images
+  output: images
+content:
+  - name: home
+    label: "Home page"
+    type: file
+    path: content/home.json
+    format: json
+    fields:
+      - name: hero
+        label: "Intro (top of page)"
+        type: object
+        fields:
+          - name: eyebrow
+            label: "Small line above the greeting"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: greeting
+            label: "Greeting"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: intro
+            label: "Intro paragraph"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: text
+              - name: zh
+                label: "中文 (optional)"
+                type: text
+      - name: glance
+        label: "At a glance"
+        type: object
+        list: true
+        description: "Rows in the At a glance box. Drag to reorder."
+        fields:
+          - name: label
+            label: "Label"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: value
+            label: "Value"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+      - name: projects
+        label: "Projects"
+        type: object
+        list: true
+        description: "Project cards. A card only links when Status is Live and Link is filled in."
+        fields:
+          - name: title
+            label: "Title"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: description
+            label: "Description"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: text
+              - name: zh
+                label: "中文 (optional)"
+                type: text
+          - name: status
+            label: "Status"
+            type: select
+            options:
+              values: [Live, Planned]
+          - name: link
+            label: "Link (e.g. corn.html)"
+            type: string
+          - name: icon
+            label: "Drawing"
+            type: select
+            options:
+              values: [corn, oil, copper, generic]
+      - name: story
+        label: "My story teaser"
+        type: object
+        fields:
+          - name: title
+            label: "Title"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: text
+            label: "Text"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: text
+              - name: zh
+                label: "中文 (optional)"
+                type: text
+      - name: experience
+        label: "Experience"
+        type: object
+        list: true
+        description: "Newest first. Drag to reorder."
+        fields:
+          - name: dates
+            label: "Dates"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: role
+            label: "Role"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: org
+            label: "Organisation"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: description
+            label: "Description"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: text
+              - name: zh
+                label: "中文 (optional)"
+                type: text
+      - name: contact
+        label: "Contact"
+        type: object
+        fields:
+          - name: title
+            label: "Title"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: text
+            label: "Text"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: text
+              - name: zh
+                label: "中文 (optional)"
+                type: text
+          - name: linkedin
+            label: "LinkedIn URL"
+            type: string
+  - name: photos
+    label: "Photography"
+    type: file
+    path: content/photos.json
+    format: json
+    fields:
+      - name: intro
+        label: "Intro line under the title"
+        type: object
+        fields:
+          - name: en
+            label: "English"
+            type: text
+          - name: zh
+            label: "中文 (optional)"
+            type: text
+      - name: photos
+        label: "Photos"
+        type: object
+        list: true
+        description: "Tip: export photos at about 2000 px on the long side (under 1 MB) before uploading, so the page loads fast."
+        fields:
+          - name: image
+            label: "Photo"
+            type: image
+          - name: caption
+            label: "Caption"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: location
+            label: "Place"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+  - name: academic
+    label: "Academic"
+    type: file
+    path: content/academic.json
+    format: json
+    fields:
+      - name: intro
+        label: "Intro line under the title"
+        type: object
+        fields:
+          - name: en
+            label: "English"
+            type: text
+          - name: zh
+            label: "中文 (optional)"
+            type: text
+      - name: items
+        label: "Papers and projects"
+        type: object
+        list: true
+        fields:
+          - name: kind
+            label: "Type (small line above the title)"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: title
+            label: "Title"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: text
+              - name: zh
+                label: "中文 (optional)"
+                type: text
+          - name: question
+            label: "Research question"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: text
+              - name: zh
+                label: "中文 (optional)"
+                type: text
+          - name: summary
+            label: "Summary"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: text
+              - name: zh
+                label: "中文 (optional)"
+                type: text
+          - name: details
+            label: "Details"
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: "Label"
+                type: object
+                fields:
+                  - name: en
+                    label: "English"
+                    type: string
+                  - name: zh
+                    label: "中文 (optional)"
+                    type: string
+              - name: value
+                label: "Value"
+                type: object
+                fields:
+                  - name: en
+                    label: "English"
+                    type: string
+                  - name: zh
+                    label: "中文 (optional)"
+                    type: string
+          - name: note
+            label: "Note (e.g. Full essay available on request)"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: string
+              - name: zh
+                label: "中文 (optional)"
+                type: string
+          - name: file
+            label: "PDF (optional)"
+            type: file
+          - name: show_in_chinese
+            label: "Show on the Chinese version"
+            type: boolean

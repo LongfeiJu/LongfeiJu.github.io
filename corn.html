@@ -63,10 +63,13 @@ body{
 main{position:relative; z-index:3}
 section.ch{height:150vh; position:relative}
 .card{
-  position:sticky; top:18vh; width:min(372px, 100%); margin-left:clamp(0px, 3vw, 44px);
+  width:min(372px, 100%); margin-left:clamp(0px, 3vw, 44px);
   background:var(--card); border:1px solid var(--ink); padding:20px 22px 18px;
   display:flex; flex-direction:column; gap:12px;
 }
+/* chapter cards are fixed and shown one at a time, in step with the 3D scene */
+.ch .card{position:fixed; top:18vh; left:max(16px, env(safe-area-inset-left,0px)); width:min(372px, calc(100% - 32px)); opacity:0; visibility:hidden; will-change:opacity,transform}
+.hold{height:100vh}
 .card .eyebrow{font:500 10.5px/1.2 var(--f-mono); letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); display:flex; justify-content:space-between; gap:12px}
 .card h2{font:400 34px/1.05 var(--f-display); margin:0; text-wrap:balance; letter-spacing:-.01em}
 .card p{margin:0; max-width:62ch; color:var(--ink)}
@@ -81,7 +84,7 @@ section.ch{height:150vh; position:relative}
 .card ol li span{font:11px/1.6 var(--f-mono); color:var(--grain)}
 
 .hero{height:150vh; position:relative}
-.hero-in{position:sticky; top:14vh; margin-left:clamp(0px, 3vw, 44px); max-width:520px; display:flex; flex-direction:column; gap:18px}
+.hero-in{position:fixed; top:14vh; left:max(16px, env(safe-area-inset-left,0px)); margin-left:clamp(0px, 3vw, 44px); width:min(520px, calc(100% - 32px)); z-index:3; display:flex; flex-direction:column; gap:18px}
 .hero .eyebrow{font:500 11px/1.4 var(--f-mono); letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft)}
 .hero h1{font:400 clamp(56px, 9vw, 112px)/.9 var(--f-display); margin:0; letter-spacing:-.025em; text-wrap:balance}
 .hero h1 em{font-style:italic; color:var(--grain)}
@@ -107,7 +110,8 @@ section.ch{height:150vh; position:relative}
   body{font-size:14px}
   .frame{inset:6px}
   .ruler{display:none}
-  .card{top:auto; position:sticky; top:54vh; max-height:42vh; overflow:auto; margin-left:0; padding:16px 16px 14px; gap:10px}
+  .card{max-height:42vh; overflow:auto; margin-left:0; padding:16px 16px 14px; gap:10px}
+  .ch .card{top:auto; bottom:calc(14px + env(safe-area-inset-bottom,0px))}
   .card h2{font-size:27px}
   .hero-in{top:10vh}
   .hero p{font-size:15px}
@@ -257,6 +261,7 @@ section.ch{height:150vh; position:relative}
     </article>
   </section>
 
+  <div class="hold" aria-hidden="true"></div>
   <section class="outro">
     <article class="card">
       <div class="eyebrow"><span>End of set</span><span>Rev. A</span></div>
@@ -800,6 +805,10 @@ addEventListener('resize',resize);resize();
 const sections=[...document.querySelectorAll('main > section')];
 const titles=sections.map(s=>s.dataset.title).filter(Boolean);
 let Ut=0,U=0;
+const chCards=[...document.querySelectorAll('section.ch .card')],heroIn=document.querySelector('.hero-in');
+function updateCards(U){const show=(el,a)=>{el.style.opacity=a;el.style.visibility=a>.01?'visible':'hidden';el.style.transform=`translateY(${((1-a)*14).toFixed(1)}px)`;};
+  show(heroIn,1-seg(U,.7,.95));
+  chCards.forEach((el,i)=>{const k=i+1;show(el,k===8?Math.min(seg(U,k-.04,k+.08),1-seg(scrollY/(document.querySelector('main > section').offsetHeight||1),9.0,9.2)):Math.min(seg(U,k-.04,k+.08),1-seg(U,k+.9,k+.98)));});}
 function onScroll(){const S=sections[0].offsetHeight||innerHeight*1.5;Ut=clamp(scrollY/S,0,9);}
 addEventListener('scroll',onScroll,{passive:true});onScroll();U=Ut;
 
@@ -823,6 +832,7 @@ function frame(now){
   updateAnn(U,W,H,narrow);
   const sh=Math.min(8,Math.floor(U+.001));
   if(sh!==lastSheet){lastSheet=sh;tbSheet.textContent=String(sh).padStart(2,'0')+' / 08';tbTitle.textContent=titles[sh]||'';}
+  updateCards(U);
   rulerMk.style.top=(U/9*100)+'%';
   renderer.render(scene,camera);
   requestAnimationFrame(frame);

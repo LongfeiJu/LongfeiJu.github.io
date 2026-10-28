@@ -8,7 +8,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
 <style>
 /* Layout: one fixed WebGL drawing sheet framed like an engineering drawing; narrative cards scroll over it on the left; a drawing title block sits bottom-right. */
 :root{
@@ -18,9 +18,9 @@
   --grain:#a8730a;      /* corn gold, the one accent */
   --rule:#c3ccd3;
   --card:rgba(238,241,242,.93);
-  --f-display:"Newsreader", "Iowan Old Style", Georgia, serif;
-  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
-  --f-mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --f-display:"Newsreader", "Noto Serif SC", "Iowan Old Style", Georgia, serif;
+  --f-body:"IBM Plex Sans", "Noto Sans SC", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", "Noto Sans SC", ui-monospace, "Cascadia Mono", Consolas, monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -97,6 +97,12 @@ section.ch{height:150vh; position:relative}
 .outro a{color:var(--ink); text-underline-offset:3px; text-decoration-color:var(--grain)}
 .outro a:focus-visible{outline:2px solid var(--grain); outline-offset:2px}
 
+/* top-left bar: home link (site build) + language toggle */
+.cornbar{position:fixed; top:calc(18px + env(safe-area-inset-top,0px)); left:calc(18px + env(safe-area-inset-left,0px)); z-index:5; display:flex; gap:8px}
+.cornbar a,.cornbar .langbtn{font:500 12px/1 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; color:var(--ink); background:var(--card); border:1px solid var(--ink); padding:8px 11px; text-decoration:none; cursor:pointer}
+.cornbar .langbtn{color:var(--paper); background:var(--ink)}
+.cornbar a:focus-visible,.cornbar .langbtn:focus-visible{outline:2px solid var(--grain); outline-offset:2px}
+@media (max-width:760px){.cornbar{top:calc(10px + env(safe-area-inset-top,0px)); left:calc(10px + env(safe-area-inset-left,0px))}}
 /* title block */
 .tb{position:fixed; right:calc(10px + env(safe-area-inset-right,0px)); bottom:calc(10px + env(safe-area-inset-bottom,0px)); z-index:3; pointer-events:none;
   display:grid; grid-template-columns:auto auto auto auto; border-left:1px solid var(--ink); border-top:1px solid var(--ink); background:var(--card);
@@ -125,8 +131,7 @@ section.ch{height:150vh; position:relative}
 
 </head>
 <body>
-<style>.homelink{position:fixed;top:calc(18px + env(safe-area-inset-top,0px));left:calc(18px + env(safe-area-inset-left,0px));z-index:5;font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:var(--card);border:1px solid var(--ink);padding:8px 11px;text-decoration:none}.homelink:focus-visible{outline:2px solid var(--grain);outline-offset:2px}@media (max-width:760px){.homelink{top:calc(10px + env(safe-area-inset-top,0px));left:calc(10px + env(safe-area-inset-left,0px))}}</style>
-<a class="homelink" href="index.html">← Longfei Ju</a>
+<div class="cornbar"><a href="index.html" data-zh="← 主页">← Longfei Ju</a><button class="langbtn" type="button">中文</button></div>
 <canvas id="gl" aria-hidden="true"></canvas>
 <div id="ann" aria-hidden="true"><svg id="annsvg"></svg></div>
 <div class="frame" aria-hidden="true">
@@ -135,143 +140,155 @@ section.ch{height:150vh; position:relative}
 </div>
 <div class="ruler" aria-hidden="true" id="ruler"><div class="mk" id="rulerMk"></div></div>
 <aside class="tb" aria-hidden="true">
-  <div class="wide"><span class="k">Project</span><span class="big">Follow the Bushel</span></div>
-  <div><span class="k">Sheet</span><span id="tbSheet">00 / 08</span></div>
-  <div class="wide"><span class="k">Title</span><span id="tbTitle">Cover</span></div>
-  <div class="hide-s"><span class="k">Scale</span>NTS</div>
-  <div class="wide hide-s"><span class="k">Drawn</span>L. Ju · Corn Desk</div>
-  <div class="hide-s"><span class="k">Units</span>t · bu · m</div>
+  <div class="wide"><span class="k" data-zh="项目">Project</span><span class="big" data-zh="追踪一蒲式耳">Follow the Bushel</span></div>
+  <div><span class="k" data-zh="图号">Sheet</span><span id="tbSheet">00 / 08</span></div>
+  <div class="wide"><span class="k" data-zh="标题">Title</span><span id="tbTitle">Cover</span></div>
+  <div class="hide-s"><span class="k" data-zh="比例">Scale</span>NTS</div>
+  <div class="wide hide-s"><span class="k" data-zh="绘制">Drawn</span>L. Ju · Corn Desk</div>
+  <div class="hide-s"><span class="k" data-zh="单位">Units</span>t · bu · m</div>
 </aside>
 
 <main>
   <section class="hero" data-title="Cover">
     <div class="hero-in">
-      <div class="eyebrow">Longfei Ju · Corn Desk, SMU Maritime Merchants Society</div>
-      <h1>Follow the <em>Bushel</em></h1>
-      <p>A kernel's trip from a stalk in the field to a feed mill on the other side of the world, drawn in line. Scroll to follow it.</p>
-      <div class="cue">SCROLL</div>
+      <div class="eyebrow" data-zh="Longfei Ju · SMU 海事商人协会玉米组">Longfei Ju · Corn Desk, SMU Maritime Merchants Society</div>
+      <h1 data-zh="追踪一&lt;em&gt;蒲式耳&lt;/em&gt;">Follow the <em>Bushel</em></h1>
+      <p data-zh="一粒玉米从田间秸秆到地球另一端饲料厂的旅程，用线条绘成。向下滚动，跟随它出发。">A kernel's trip from a stalk in the field to a feed mill on the other side of the world, drawn in line. Scroll to follow it.</p>
+      <div class="cue" data-zh="向下滚动">SCROLL</div>
     </div>
   </section>
 
   <section class="ch" data-title="The field">
     <article class="card">
-      <div class="eyebrow"><span>Sheet 01 / 08</span><span>Origin</span></div>
-      <h2>The field</h2>
-      <p>Most corn traded between countries comes from four places: the US Corn Belt, Brazil, Argentina and Ukraine. The two hemispheres harvest at different times, so new supply reaches the market twice a year.</p>
+      <div class="eyebrow"><span data-zh="图 01 / 08">Sheet 01 / 08</span><span data-zh="产地">Origin</span></div>
+      <h2 data-zh="田间">The field</h2>
+      <p data-zh="国际贸易中的玉米大多来自四个地方：美国玉米带、巴西、阿根廷和乌克兰。南北半球收获时间不同，所以市场每年迎来两次新作供应。">Most corn traded between countries comes from four places: the US Corn Belt, Brazil, Argentina and Ukraine. The two hemispheres harvest at different times, so new supply reaches the market twice a year.</p>
       <dl>
-        <dt>World crop</dt><dd>≈ 1.2 bn t / yr</dd>
-        <dt>Crossing borders</dt><dd>≈ 15% of output</dd>
-        <dt>Brazil</dt><dd>2nd crop <em>safrinha</em>, planted after soy</dd>
+        <dt data-zh="全球产量">World crop</dt><dd data-zh="≈ 12 亿吨 / 年">≈ 1.2 bn t / yr</dd>
+        <dt data-zh="跨境贸易">Crossing borders</dt><dd data-zh="≈ 产量的 15%">≈ 15% of output</dd>
+        <dt data-zh="巴西">Brazil</dt><dd data-zh="二季玉米 &lt;em&gt;safrinha&lt;/em&gt;，在大豆收获后种植">2nd crop <em>safrinha</em>, planted after soy</dd>
       </dl>
     </article>
   </section>
 
   <section class="ch" data-title="The ear">
     <article class="card">
-      <div class="eyebrow"><span>Sheet 02 / 08</span><span>Harvest</span></div>
-      <h2>The ear</h2>
-      <p>Each plant usually carries one main ear. It is harvested once the kernels dry down in the field, then dried to about 15% moisture so it keeps in storage.</p>
+      <div class="eyebrow"><span data-zh="图 02 / 08">Sheet 02 / 08</span><span data-zh="收获">Harvest</span></div>
+      <h2 data-zh="玉米穗">The ear</h2>
+      <p data-zh="每株玉米通常结一个主穗。籽粒在田间自然脱水后收获，再烘干到约 15% 的水分，以便储存。">Each plant usually carries one main ear. It is harvested once the kernels dry down in the field, then dried to about 15% moisture so it keeps in storage.</p>
       <dl>
-        <dt>Per ear</dt><dd>≈ 16 rows · ≈ 800 kernels</dd>
-        <dt>1 bushel</dt><dd>56 lb = 25.4 kg</dd>
-        <dt>1 tonne</dt><dd>≈ 39.4 bu</dd>
+        <dt data-zh="每穗">Per ear</dt><dd data-zh="≈ 16 行 · ≈ 800 粒">≈ 16 rows · ≈ 800 kernels</dd>
+        <dt data-zh="1 蒲式耳">1 bushel</dt><dd data-zh="56 磅 = 25.4 公斤">56 lb = 25.4 kg</dd>
+        <dt data-zh="1 吨">1 tonne</dt><dd data-zh="≈ 39.4 蒲式耳">≈ 39.4 bu</dd>
       </dl>
     </article>
   </section>
 
   <section class="ch" data-title="Farm to elevator">
     <article class="card">
-      <div class="eyebrow"><span>Sheet 03 / 08</span><span>First mile</span></div>
-      <h2>Farm to elevator</h2>
-      <p>A combine strips and shells the ears in one pass. Trucks haul the grain to a local elevator, which pays a cash price quoted as a spread to futures. That spread is the basis.</p>
+      <div class="eyebrow"><span data-zh="图 03 / 08">Sheet 03 / 08</span><span data-zh="第一公里">First mile</span></div>
+      <h2 data-zh="从农场到粮库">Farm to elevator</h2>
+      <p data-zh="联合收割机一次完成摘穗和脱粒。卡车把粮食运到当地粮库，粮库以期货价格加减一个价差报出现货价，这个价差就是基差。">A combine strips and shells the ears in one pass. Trucks haul the grain to a local elevator, which pays a cash price quoted as a spread to futures. That spread is the basis.</p>
       <dl>
-        <dt>Cash price</dt><dd>futures + <em>basis</em></dd>
-        <dt>Benchmark</dt><dd>CBOT corn, ¢ / bu</dd>
-        <dt>One truck</dt><dd>≈ 25 t ≈ 1,000 bu</dd>
+        <dt data-zh="现货价">Cash price</dt><dd data-zh="期货 + &lt;em&gt;基差&lt;/em&gt;">futures + <em>basis</em></dd>
+        <dt data-zh="基准">Benchmark</dt><dd data-zh="CBOT 玉米，美分 / 蒲式耳">CBOT corn, ¢ / bu</dd>
+        <dt data-zh="一辆卡车">One truck</dt><dd data-zh="≈ 25 吨 ≈ 1,000 蒲式耳">≈ 25 t ≈ 1,000 bu</dd>
       </dl>
     </article>
   </section>
 
   <section class="ch" data-title="Storage">
     <article class="card">
-      <div class="eyebrow"><span>Sheet 04 / 08</span><span>Elevator</span></div>
-      <h2>Storage</h2>
-      <p>A bucket elevator lifts the grain and drops it into bins. Storage lets the owner pick when to sell. If later futures pay more than storage costs (a carry), the grain waits. If nearby prices are higher (an inverse), it moves now.</p>
+      <div class="eyebrow"><span data-zh="图 04 / 08">Sheet 04 / 08</span><span data-zh="粮库">Elevator</span></div>
+      <h2 data-zh="仓储">Storage</h2>
+      <p data-zh="斗式提升机把粮食提升后卸入筒仓。仓储让货主可以选择出售时机：如果远期期货的溢价高于仓储成本（正向市场），粮食就继续存放；如果近期价格更高（反向市场），就立即出货。">A bucket elevator lifts the grain and drops it into bins. Storage lets the owner pick when to sell. If later futures pay more than storage costs (a carry), the grain waits. If nearby prices are higher (an inverse), it moves now.</p>
       <dl>
-        <dt>Key ratio</dt><dd>stocks-to-use</dd>
-        <dt>Balance sheet</dt><dd>USDA WASDE, monthly</dd>
+        <dt data-zh="关键指标">Key ratio</dt><dd data-zh="库存消费比">stocks-to-use</dd>
+        <dt data-zh="平衡表">Balance sheet</dt><dd data-zh="USDA WASDE，每月发布">USDA WASDE, monthly</dd>
       </dl>
     </article>
   </section>
 
   <section class="ch" data-title="To port">
     <article class="card">
-      <div class="eyebrow"><span>Sheet 05 / 08</span><span>Export terminal</span></div>
-      <h2>To port</h2>
-      <p>Grain reaches export terminals by barge, rail or truck. Most US Gulf exports come down the Mississippi on barges. At the terminal, conveyor galleries feed a shiploader that fills each hold in turn, and the ship settles deeper as it loads.</p>
+      <div class="eyebrow"><span data-zh="图 05 / 08">Sheet 05 / 08</span><span data-zh="出口码头">Export terminal</span></div>
+      <h2 data-zh="运往港口">To port</h2>
+      <p data-zh="粮食通过驳船、铁路或卡车运抵出口码头。美湾的大部分出口粮经密西西比河由驳船运来。在码头，输送廊道把粮食送到装船机，逐舱装货，船随着装载吃水逐渐加深。">Grain reaches export terminals by barge, rail or truck. Most US Gulf exports come down the Mississippi on barges. At the terminal, conveyor galleries feed a shiploader that fills each hold in turn, and the ship settles deeper as it loads.</p>
       <dl>
-        <dt>FOB</dt><dd>price loaded on board</dd>
-        <dt>CIF / CFR</dt><dd>FOB + freight (+ insurance)</dd>
+        <dt>FOB</dt><dd data-zh="船上交货价">price loaded on board</dd>
+        <dt>CIF / CFR</dt><dd data-zh="FOB + 运费（+ 保险）">FOB + freight (+ insurance)</dd>
       </dl>
     </article>
   </section>
 
   <section class="ch" data-title="Ship sizes">
     <article class="card">
-      <div class="eyebrow"><span>Sheet 06 / 08</span><span>Dry bulk</span></div>
-      <h2>Ship sizes</h2>
-      <p>Corn moves in dry bulk carriers, sized in deadweight tonnes (dwt). Bigger ships cost less per tonne, but not every port or canal can take them.</p>
+      <div class="eyebrow"><span data-zh="图 06 / 08">Sheet 06 / 08</span><span data-zh="干散货">Dry bulk</span></div>
+      <h2 data-zh="船型">Ship sizes</h2>
+      <p data-zh="玉米由干散货船运输，船型按载重吨（dwt）划分。船越大，每吨运费越低，但并非所有港口和运河都能容纳。">Corn moves in dry bulk carriers, sized in deadweight tonnes (dwt). Bigger ships cost less per tonne, but not every port or canal can take them.</p>
       <dl>
-        <dt>Handysize</dt><dd>25–40k dwt · ≈ 180 m</dd>
-        <dt>Supramax</dt><dd>50–65k dwt · ≈ 200 m</dd>
-        <dt>Panamax</dt><dd>65–82k dwt · ≈ 229 m</dd>
+        <dt>Handysize</dt><dd data-zh="2.5–4 万载重吨 · ≈ 180 米">25–40k dwt · ≈ 180 m</dd>
+        <dt>Supramax</dt><dd data-zh="5–6.5 万载重吨 · ≈ 200 米">50–65k dwt · ≈ 200 m</dd>
+        <dt>Panamax</dt><dd data-zh="6.5–8.2 万载重吨 · ≈ 229 米">65–82k dwt · ≈ 229 m</dd>
       </dl>
-      <p class="note">Panamax beam (32.3 m) was set by the old Panama Canal locks. Most deep-sea corn sails on Supramax and Panamax ships.</p>
+      <p class="note" data-zh="巴拿马型船宽（32.3 米）由巴拿马运河旧船闸决定。远洋玉米大多由超灵便型和巴拿马型船运输。">Panamax beam (32.3 m) was set by the old Panama Canal locks. Most deep-sea corn sails on Supramax and Panamax ships.</p>
     </article>
   </section>
 
   <section class="ch" data-title="Main routes">
     <article class="card">
-      <div class="eyebrow"><span>Sheet 07 / 08</span><span>Trade flows</span></div>
-      <h2>Main routes</h2>
+      <div class="eyebrow"><span data-zh="图 07 / 08">Sheet 07 / 08</span><span data-zh="贸易流向">Trade flows</span></div>
+      <h2 data-zh="主要航线">Main routes</h2>
       <ol>
-        <li><span>A</span>US Gulf → Panama Canal → Japan, Korea, China</li>
-        <li><span>B</span>US Gulf → Mexico, the largest US buyer</li>
-        <li><span>C</span>US Pacific Northwest → North Asia</li>
-        <li><span>D</span>Santos / Paranaguá → Cape of Good Hope → Singapore → China</li>
-        <li><span>E</span>Argentina Up-River → Southeast Asia</li>
-        <li><span>F</span>Black Sea → Bosphorus → Egypt, Spain</li>
+        <li data-zh="&lt;span&gt;A&lt;/span&gt;美湾 → 巴拿马运河 → 日本、韩国、中国"><span>A</span>US Gulf → Panama Canal → Japan, Korea, China</li>
+        <li data-zh="&lt;span&gt;B&lt;/span&gt;美湾 → 墨西哥（美国玉米最大买家）"><span>B</span>US Gulf → Mexico, the largest US buyer</li>
+        <li data-zh="&lt;span&gt;C&lt;/span&gt;美国太平洋西北 → 北亚"><span>C</span>US Pacific Northwest → North Asia</li>
+        <li data-zh="&lt;span&gt;D&lt;/span&gt;桑托斯 / 巴拉那瓜 → 好望角 → 新加坡 → 中国"><span>D</span>Santos / Paranaguá → Cape of Good Hope → Singapore → China</li>
+        <li data-zh="&lt;span&gt;E&lt;/span&gt;阿根廷上河港口 → 东南亚"><span>E</span>Argentina Up-River → Southeast Asia</li>
+        <li data-zh="&lt;span&gt;F&lt;/span&gt;黑海 → 博斯普鲁斯海峡 → 埃及、西班牙"><span>F</span>Black Sea → Bosphorus → Egypt, Spain</li>
       </ol>
-      <p class="note">Low water in the Panama Canal (2023) pushed US cargo onto longer routes and raised freight.</p>
+      <p class="note" data-zh="2023 年巴拿马运河水位偏低，迫使美国货物改走更长航线，推高了运费。">Low water in the Panama Canal (2023) pushed US cargo onto longer routes and raised freight.</p>
     </article>
   </section>
 
   <section class="ch" data-title="What it becomes">
     <article class="card">
-      <div class="eyebrow"><span>Sheet 08 / 08</span><span>End use · US</span></div>
-      <h2>What it becomes</h2>
-      <p>About a third of the US crop becomes fuel ethanol, and the leftover grain solids (DDGS) go back into feed. Wet mills split the kernel into starch, sweeteners such as HFCS, and corn oil.</p>
+      <div class="eyebrow"><span data-zh="图 08 / 08">Sheet 08 / 08</span><span data-zh="终端用途 · 美国">End use · US</span></div>
+      <h2 data-zh="最终用途">What it becomes</h2>
+      <p data-zh="美国约三分之一的玉米被加工成燃料乙醇，剩下的酒糟（DDGS）又回到饲料中。湿法加工厂把籽粒分离成淀粉、高果糖浆等甜味剂和玉米油。">About a third of the US crop becomes fuel ethanol, and the leftover grain solids (DDGS) go back into feed. Wet mills split the kernel into starch, sweeteners such as HFCS, and corn oil.</p>
       <dl>
-        <dt>Feed &amp; residual</dt><dd>≈ 37%</dd>
-        <dt>Fuel ethanol</dt><dd>≈ 35%</dd>
-        <dt>Exports</dt><dd>≈ 17%</dd>
-        <dt>Food, seed, industrial</dt><dd>≈ 9%</dd>
+        <dt data-zh="饲料及其他">Feed &amp; residual</dt><dd>≈ 37%</dd>
+        <dt data-zh="燃料乙醇">Fuel ethanol</dt><dd>≈ 35%</dd>
+        <dt data-zh="出口">Exports</dt><dd>≈ 17%</dd>
+        <dt data-zh="食品、种子、工业">Food, seed, industrial</dt><dd>≈ 9%</dd>
       </dl>
-      <p class="note">Rounded shares of recent US marketing years.</p>
+      <p class="note" data-zh="近年美国市场年度的约数占比。">Rounded shares of recent US marketing years.</p>
     </article>
   </section>
 
   <div class="hold" aria-hidden="true"></div>
   <section class="outro">
     <article class="card">
-      <div class="eyebrow"><span>End of set</span><span>Rev. A</span></div>
+      <div class="eyebrow"><span data-zh="全套完">End of set</span><span>Rev. A</span></div>
       <h2>Longfei Ju</h2>
-      <p>Finance and Quantitative Finance at Singapore Management University. Research analyst on the corn desk at the SMU Maritime Merchants Society.</p>
+      <p data-zh="新加坡管理大学金融与量化金融专业。SMU 海事商人协会玉米组研究分析师。">Finance and Quantitative Finance at Singapore Management University. Research analyst on the corn desk at the SMU Maritime Merchants Society.</p>
       <p class="note"><a href="https://www.linkedin.com/in/longfei-ju-b4a008168" target="_blank" rel="noopener">linkedin.com/in/longfei-ju-b4a008168</a></p>
     </article>
   </section>
 </main>
 
+<script>
+/* language toggle: swaps every [data-zh] element and remembers the choice across pages */
+(function(){var KEY='lj-lang',lang='en';try{lang=localStorage.getItem(KEY)||'en'}catch(e){}
+var nodes=[].slice.call(document.querySelectorAll('[data-zh]'));nodes.forEach(function(n){n.setAttribute('data-en',n.innerHTML)});
+window.__lang={get:function(){return lang},subs:[]};
+function apply(){document.documentElement.lang=lang==='zh'?'zh-Hans':'en';
+ nodes.forEach(function(n){n.innerHTML=lang==='zh'?n.getAttribute('data-zh'):n.getAttribute('data-en')});
+ [].forEach.call(document.querySelectorAll('.langbtn'),function(b){b.textContent=lang==='zh'?'EN':'中文';b.setAttribute('aria-label',lang==='zh'?'Switch to English':'切换到中文')});
+ window.__lang.subs.forEach(function(f){try{f(lang)}catch(e){}});}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.langbtn');if(!b)return;lang=lang==='zh'?'en':'zh';try{localStorage.setItem(KEY,lang)}catch(e){}apply();});
+window.__lang.apply=apply;apply();})();
+</script>
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -674,11 +691,13 @@ function cameraAt(U,time){
    ========================================================= */
 const annRoot=document.getElementById('ann'),svg=document.getElementById('annsvg'),NS='http://www.w3.org/2000/svg';
 const ANN=[];
+const TAGZH={"Tassel · pollen": "雄穗 · 花粉", "Ear shoot": "雌穗", "Stalk ≈ 2.5–3 m": "秸秆 ≈ 2.5–3 米", "Husk": "苞叶", "Shank": "穗柄", "≈ 16 rows · ≈ 800 kernels": "≈ 16 行 · ≈ 800 粒", "Hopper trailer · ≈ 25 t": "漏斗拖车 · ≈ 25 吨", "Cash = futures + basis": "现货 = 期货 + 基差", "Receiving pit": "卸粮坑", "Bucket elevator leg": "斗式提升机", "Storage bins": "储粮筒仓", "Fill level": "料位", "Gallery conveyor": "廊道输送机", "Shiploader": "装船机", "Bulk carrier · 7 holds": "散货船 · 7 个货舱", "Loaded · sits deeper": "满载 · 吃水更深", "Handysize · 25–40k dwt": "灵便型 · 2.5–4 万载重吨", "Supramax · 50–65k dwt": "超灵便型 · 5–6.5 万载重吨", "Panamax / Kamsarmax · 65–82k dwt": "巴拿马型 / 卡姆萨型 · 6.5–8.2 万载重吨", "32.3 m beam · old Panama locks": "船宽 32.3 米 · 巴拿马旧船闸", "0 — 100 m": "0 — 100 米", "US Gulf": "美湾", "Pacific NW": "太平洋西北", "Panama Canal": "巴拿马运河", "Santos / Paranaguá": "桑托斯 / 巴拉那瓜", "Rosario · Up-River": "罗萨里奥 · 上河港", "Black Sea · Odesa": "黑海 · 敖德萨", "Cape of Good Hope": "好望角", "Singapore · Malacca": "新加坡 · 马六甲", "Japan": "日本", "China": "中国", "Mexico": "墨西哥", "Vietnam": "越南", "Egypt": "埃及", "Spain": "西班牙", "Pericarp · ≈ 5% · bran": "果皮 · ≈ 5% · 麸皮", "Endosperm · ≈ 82% · starch": "胚乳 · ≈ 82% · 淀粉", "Germ · ≈ 11% · oil": "胚芽 · ≈ 11% · 油脂", "Animal feed · ≈ 37%": "动物饲料 · ≈ 37%", "Fuel ethanol · ≈ 35% + DDGS": "燃料乙醇 · ≈ 35% + DDGS", "Food, seed & industrial · ≈ 9%": "食品、种子与工业 · ≈ 9%", "Exports · ≈ 17%": "出口 · ≈ 17%"};
+const TT=en=>{if(!(window.__lang&&window.__lang.get()==='zh'))return en;if(TAGZH[en])return TAGZH[en];const m=/^≈ (\d+) m LOA$/.exec(en);return m?'总长 ≈ '+m[1]+' 米':en;};
 function tag(text,pos,u0,u1,dx=40,dy=-36,o={}){
-  const el=document.createElement('div');el.className='tag'+(dx<0?' left':'')+(o.acc?' acc':'');el.innerHTML='<span></span>';el.style.display='none';el.firstChild.textContent=text;annRoot.appendChild(el);
+  const el=document.createElement('div');el.className='tag'+(dx<0?' left':'')+(o.acc?' acc':'');el.innerHTML='<span></span>';el.style.display='none';el.firstChild.textContent=TT(text);annRoot.appendChild(el);
   const g=document.createElementNS(NS,'g');if(o.acc)g.setAttribute('class','acc');
   const ln=document.createElementNS(NS,'line'),c=document.createElementNS(NS,'circle');c.setAttribute('r','2.4');g.append(ln,c);g.style.display='none';svg.appendChild(g);
-  ANN.push({el,g,ln,c,pos,u0,u1,dx,dy,on:false,...o});
+  ANN.push({el,g,ln,c,pos,u0,u1,dx,dy,on:false,en:text,...o});
 }
 const earPt=(x,y,z)=>()=>ear.localToWorld(V(x,y,z));
 const truckPt=(x,y,z)=>()=>truck.localToWorld(V(x,y,z));
@@ -718,6 +737,8 @@ tag('Germ · ≈ 11% · oil',kgPt(-.2,-.7,0),8.3,9.5,-48,40,{acc:true});
 const PRODT=['Animal feed · ≈ 37%','Fuel ethanol · ≈ 35% + DDGS','Food, seed & industrial · ≈ 9%','Exports · ≈ 17%'];
 PRODT.forEach((t,i)=>tag(t,procPt(PX0+.55,PRODY[i],0),8.45+i*.05,9.5,30,-14,{acc:i===1}));
 
+const TITLES_ZH=['封面','田间','玉米穗','从农场到粮库','仓储','运往港口','船型','主要航线','最终用途'];
+window.__lang&&window.__lang.subs.push(()=>{ANN.forEach(a=>{a.el.firstChild.textContent=TT(a.en);});if(typeof lastSheet!=='undefined')lastSheet=-1;});
 const vtmp=V(),gc=V(),cdir=V();
 function updateAnn(U,W,H,narrow){
   globe.getWorldPosition(gc);
@@ -830,7 +851,7 @@ function frame(now){
   scene.updateMatrixWorld();
   updateAnn(U,W,H,narrow);
   const sh=Math.min(8,Math.floor(U+.001));
-  if(sh!==lastSheet){lastSheet=sh;tbSheet.textContent=String(sh).padStart(2,'0')+' / 08';tbTitle.textContent=titles[sh]||'';}
+  if(sh!==lastSheet){lastSheet=sh;tbSheet.textContent=String(sh).padStart(2,'0')+' / 08';tbTitle.textContent=((window.__lang&&window.__lang.get()==='zh')?TITLES_ZH:titles)[sh]||'';}
   updateCards(U);
   rulerMk.style.top=(U/9*100)+'%';
   renderer.render(scene,camera);

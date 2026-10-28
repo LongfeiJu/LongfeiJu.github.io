@@ -8,7 +8,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
 <style>
 /* Layout: single column, 1080px measure; sticky nav; hero with an at-a-glance panel; sections separated by hairlines; one full-width navy band for the story teaser. */
 :root{
@@ -20,9 +20,9 @@
   --muted:#5d6878;
   --line:#e1e6ee;
   --band:#13294b; --band-text:#eef0f4; --band-muted:#a9b6cc;
-  --f-display:"Source Serif 4", "Iowan Old Style", Georgia, serif;
-  --f-body:"Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
-  --f-mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --f-display:"Source Serif 4", "Noto Serif SC", "Iowan Old Style", Georgia, serif;
+  --f-body:"Schibsted Grotesk", "Noto Sans SC", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", "Noto Sans SC", ui-monospace, Consolas, monospace;
   color-scheme:light;
 }
 html{background:var(--bg)}
@@ -44,6 +44,9 @@ nav ul{display:flex; gap:clamp(12px, 3vw, 28px); list-style:none; margin:0; padd
 nav ul a{text-decoration:none; color:var(--muted)}
 nav ul a:hover{color:var(--navy)}
 @media (max-width:560px){ .hide-s{display:none} .mark span{display:none} }
+.navr{display:flex; align-items:center; gap:clamp(12px,3vw,28px)}
+.langbtn{font:500 13px/1 var(--f-body); padding:7px 10px; border:1.5px solid var(--navy); background:transparent; color:var(--navy); cursor:pointer}
+.langbtn:hover{background:var(--navy); color:var(--bg)}
 
 /* hero */
 .hero{display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:clamp(28px,6vw,72px); align-items:end; padding-block:clamp(56px,10vw,112px) clamp(48px,7vw,80px)}
@@ -131,34 +134,37 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
 <header>
   <nav class="wrap" aria-label="Main">
     <a class="mark" href="#top"><b>LJ</b><span>Longfei Ju</span></a>
+    <div class="navr">
     <ul>
-      <li><a href="story.html">My story</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li class="hide-s"><a href="#experience">Experience</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="story.html" data-zh="我的故事">My story</a></li>
+      <li><a href="#projects" data-zh="项目">Projects</a></li>
+      <li class="hide-s"><a href="#experience" data-zh="经历">Experience</a></li>
+      <li><a href="#contact" data-zh="联系">Contact</a></li>
     </ul>
+    <button class="langbtn" type="button">中文</button>
+    </div>
   </nav>
 </header>
 
 <main class="wrap" id="top">
   <div class="hero">
     <div>
-      <div class="eyebrow">Singapore · Finance &amp; Quantitative Finance</div>
-      <h1>Hi, I'm Longfei.</h1>
-      <p class="lede">I'm a Chinese international student at Singapore Management University. This is my personal website, where I show some of my projects and the things I care about: commodities, how they move around the world, and how they are priced.</p>
+      <div class="eyebrow" data-zh="新加坡 · 金融与量化金融">Singapore · Finance &amp; Quantitative Finance</div>
+      <h1 data-zh="你好，我是 Longfei。">Hi, I'm Longfei.</h1>
+      <p class="lede" data-zh="我是一名就读于新加坡管理大学的中国留学生。这是我的个人网站，展示我的一些项目，以及我关注的事情：大宗商品、它们如何在全球流动，以及如何定价。">I'm a Chinese international student at Singapore Management University. This is my personal website, where I show some of my projects and the things I care about: commodities, how they move around the world, and how they are priced.</p>
       <div class="cta">
-        <a class="btn primary" href="story.html">Read my story <span aria-hidden="true">→</span></a>
-        <a class="btn" href="#projects">See projects</a>
+        <a class="btn primary" href="story.html" data-zh="阅读我的故事 &lt;span aria-hidden=&quot;true&quot;&gt;→&lt;/span&gt;">Read my story <span aria-hidden="true">→</span></a>
+        <a class="btn" href="#projects" data-zh="查看项目">See projects</a>
       </div>
     </div>
     <aside class="glance" aria-label="At a glance">
-      <h2>At a glance</h2>
+      <h2 data-zh="概览">At a glance</h2>
       <dl>
-        <dt>University</dt><dd>Singapore Management University</dd>
-        <dt>Degree</dt><dd>BBM, Finance (International Trading) + Quantitative Finance</dd>
-        <dt>GPA</dt><dd>4.00 / 4.00 · Dean's List</dd>
-        <dt>Desk</dt><dd>Corn, SMU Maritime Merchants Society</dd>
-        <dt>Languages</dt><dd>English, Mandarin</dd>
+        <dt data-zh="学校">University</dt><dd data-zh="新加坡管理大学">Singapore Management University</dd>
+        <dt data-zh="学位">Degree</dt><dd data-zh="工商管理学士：金融（国际贸易方向）+ 量化金融">BBM, Finance (International Trading) + Quantitative Finance</dd>
+        <dt>GPA</dt><dd data-zh="4.00 / 4.00 · 院长嘉许名单">4.00 / 4.00 · Dean's List</dd>
+        <dt data-zh="研究组">Desk</dt><dd data-zh="玉米组，SMU 海事商人协会">Corn, SMU Maritime Merchants Society</dd>
+        <dt data-zh="语言">Languages</dt><dd data-zh="英语、普通话">English, Mandarin</dd>
       </dl>
     </aside>
   </div>
@@ -166,10 +172,9 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
   <section id="projects" aria-labelledby="projects-h">
     <div class="sec-head">
       <div>
-        <div class="eyebrow">Projects · Commodity journeys</div>
-        <h2 class="title" id="projects-h">Follow the commodity</h2>
+        <div class="eyebrow" data-zh="项目 · 大宗商品之旅">Projects · Commodity journeys</div>
+        <h2 class="title" id="projects-h" data-zh="追踪大宗商品">Follow the commodity</h2>
       </div>
-      <p>Scroll-driven line drawings that trace one commodity from where it is produced to where it is used, with the market numbers along the way.</p>
     </div>
     <div class="grid">
       <a class="proj" href="corn.html">
@@ -182,9 +187,9 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
           </svg>
         </div>
         <div class="body">
-          <h3>Corn: Follow the Bushel</h3>
-          <p>Stalk to truck, elevator, ship and end use. Covers basis, storage carry, dry bulk ship sizes and the six main export routes.</p>
-          <div class="meta"><span class="chip live">Live</span><span class="go" aria-hidden="true">Open →</span></div>
+          <h3 data-zh="玉米：追踪一蒲式耳">Corn: Follow the Bushel</h3>
+          <p data-zh="从玉米秆到卡车、粮库、货轮和终端用途。涵盖基差、仓储价差、干散货船型和六大出口航线。">Stalk to truck, elevator, ship and end use. Covers basis, storage carry, dry bulk ship sizes and the six main export routes.</p>
+          <div class="meta"><span class="chip live" data-zh="已上线">Live</span><span class="go" aria-hidden="true" data-zh="打开 →">Open →</span></div>
         </div>
       </a>
       <div class="proj soon">
@@ -196,9 +201,9 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
           </svg>
         </div>
         <div class="body">
-          <h3>Crude oil</h3>
-          <p>Wellhead to refinery: grades and differentials, tanker classes, chokepoints and the crack spread.</p>
-          <div class="meta"><span class="chip soon">Planned</span></div>
+          <h3 data-zh="原油">Crude oil</h3>
+          <p data-zh="从井口到炼厂：油品等级与价差、油轮船型、海上咽喉要道和裂解价差。">Wellhead to refinery: grades and differentials, tanker classes, chokepoints and the crack spread.</p>
+          <div class="meta"><span class="chip soon" data-zh="筹备中">Planned</span></div>
         </div>
       </div>
       <div class="proj soon">
@@ -210,9 +215,9 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
           </svg>
         </div>
         <div class="body">
-          <h3>Copper</h3>
-          <p>Mine to cathode: concentrate, smelting charges (TC/RCs), warehouse stocks and demand from grids and EVs.</p>
-          <div class="meta"><span class="chip soon">Planned</span></div>
+          <h3 data-zh="铜">Copper</h3>
+          <p data-zh="从矿山到阴极铜：精矿、加工费（TC/RC）、仓库库存，以及电网和电动车带来的需求。">Mine to cathode: concentrate, smelting charges (TC/RCs), warehouse stocks and demand from grids and EVs.</p>
+          <div class="meta"><span class="chip soon" data-zh="筹备中">Planned</span></div>
         </div>
       </div>
     </div>
@@ -221,18 +226,18 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
   <section class="band" aria-labelledby="story-h">
     <div class="wrap story">
       <div>
-        <div class="eyebrow">My story</div>
-        <h2 class="title" id="story-h">Six countries, one route</h2>
-        <p>I left China when I was two and grew up across East Africa and Southeast Asia. My story follows that route on a globe, one move at a time.</p>
-        <a class="btn" href="story.html">Follow the route <span aria-hidden="true">→</span></a>
+        <div class="eyebrow" data-zh="我的故事">My story</div>
+        <h2 class="title" id="story-h" data-zh="六个国家，一条路线">Six countries, one route</h2>
+        <p data-zh="我两岁离开中国，在东非和东南亚长大。我的故事在地球仪上沿着这条路线，一站一站展开。">I left China when I was two and grew up across East Africa and Southeast Asia. My story follows that route on a globe, one move at a time.</p>
+        <a class="btn" href="story.html" data-zh="沿路线出发 &lt;span aria-hidden=&quot;true&quot;&gt;→&lt;/span&gt;">Follow the route <span aria-hidden="true">→</span></a>
       </div>
       <ol class="route">
-        <li>Qingdao, China <span>Born</span></li>
-        <li>Kampala, Uganda <span>Kindergarten</span></li>
-        <li>Nairobi, Kenya <span>Braeside · to P4</span></li>
-        <li>Kuala Lumpur, Malaysia <span>BSKL · P5–S1</span></li>
-        <li>Manila, Philippines <span>SSM · IB Diploma</span></li>
-        <li>Singapore <span>SMU · now</span></li>
+        <li data-zh="中国青岛 &lt;span&gt;出生&lt;/span&gt;">Qingdao, China <span>Born</span></li>
+        <li data-zh="乌干达坎帕拉 &lt;span&gt;幼儿园&lt;/span&gt;">Kampala, Uganda <span>Kindergarten</span></li>
+        <li data-zh="肯尼亚内罗毕 &lt;span&gt;Braeside · 至小学四年级&lt;/span&gt;">Nairobi, Kenya <span>Braeside · to P4</span></li>
+        <li data-zh="马来西亚吉隆坡 &lt;span&gt;BSKL · 小五至中一&lt;/span&gt;">Kuala Lumpur, Malaysia <span>BSKL · P5–S1</span></li>
+        <li data-zh="菲律宾马尼拉 &lt;span&gt;SSM · IB 文凭&lt;/span&gt;">Manila, Philippines <span>SSM · IB Diploma</span></li>
+        <li data-zh="新加坡 &lt;span&gt;SMU · 现在&lt;/span&gt;">Singapore <span>SMU · now</span></li>
       </ol>
     </div>
   </section>
@@ -240,30 +245,30 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
   <section id="experience" aria-labelledby="xp-h">
     <div class="sec-head">
       <div>
-        <div class="eyebrow">Experience</div>
-        <h2 class="title" id="xp-h">Where I've worked</h2>
+        <div class="eyebrow" data-zh="经历">Experience</div>
+        <h2 class="title" id="xp-h" data-zh="工作经历">Where I've worked</h2>
       </div>
     </div>
     <div class="xp">
       <article>
-        <time>Sep 2026 – Present</time>
-        <div><h3>Research Analyst, Agriculture &amp; Grains (Corn Desk)</h3><div class="org">SMU Maritime Merchants Society</div>
-        <p>Analysing price drivers, global trade flows and supply-demand balance sheets across the main origin and destination markets.</p></div>
+        <time data-zh="2026年9月 – 至今">Sep 2026 – Present</time>
+        <div><h3 data-zh="研究分析师，农业与谷物（玉米组）">Research Analyst, Agriculture &amp; Grains (Corn Desk)</h3><div class="org" data-zh="SMU 海事商人协会">SMU Maritime Merchants Society</div>
+        <p data-zh="分析主要产地和消费市场的价格驱动因素、全球贸易流向和供需平衡表。">Analysing price drivers, global trade flows and supply-demand balance sheets across the main origin and destination markets.</p></div>
       </article>
       <article>
-        <time>May 2026 – Jul 2026</time>
-        <div><h3>International Strategy Intern</h3><div class="org">PingAn Group · OneConnect Financial Technology</div>
-        <p>Pitched and translated live product demos for BNP Paribas executives, owned the ZhiNiao platform's pitch materials, and supported C-level consultations with Vingroup Vietnam.</p></div>
+        <time data-zh="2026年5月 – 2026年7月">May 2026 – Jul 2026</time>
+        <div><h3 data-zh="国际战略实习生">International Strategy Intern</h3><div class="org" data-zh="中国平安 · 金融壹账通">PingAn Group · OneConnect Financial Technology</div>
+        <p data-zh="为法国巴黎银行高管现场演示并翻译数字化产品，负责 ZhiNiao 平台的路演材料，并协助与越南 Vingroup 的高层战略咨询。">Pitched and translated live product demos for BNP Paribas executives, owned the ZhiNiao platform's pitch materials, and supported C-level consultations with Vingroup Vietnam.</p></div>
       </article>
       <article>
-        <time>Oct 2025 – Aug 2026</time>
-        <div><h3>Project Lead</h3><div class="org">Wilmar International (Yihai Kerry)</div>
-        <p>Led a 12-person volunteer mission to an orphanage in Hebei and managed a SGD 15,000 budget with reporting to SMU and Wilmar.</p></div>
+        <time data-zh="2025年10月 – 2026年8月">Oct 2025 – Aug 2026</time>
+        <div><h3 data-zh="项目负责人">Project Lead</h3><div class="org" data-zh="丰益国际（益海嘉里）">Wilmar International (Yihai Kerry)</div>
+        <p data-zh="带领 12 人志愿团队赴河北一所孤儿院开展项目，管理 15,000 新元预算，并向 SMU 和丰益汇报。">Led a 12-person volunteer mission to an orphanage in Hebei and managed a SGD 15,000 budget with reporting to SMU and Wilmar.</p></div>
       </article>
       <article>
-        <time>May 2025 – Aug 2025</time>
-        <div><h3>Investment Analyst Intern</h3><div class="org">Reform Fund</div>
-        <p>Built valuation and stress-test models for APAC solar, wind and storage assets, and a Java tool that standardised pricing and sensitivity models across teams.</p></div>
+        <time data-zh="2025年5月 – 2025年8月">May 2025 – Aug 2025</time>
+        <div><h3 data-zh="投资分析实习生">Investment Analyst Intern</h3><div class="org">Reform Fund</div>
+        <p data-zh="为亚太地区的太阳能、风电和储能资产搭建估值与压力测试模型，并开发了一个 Java 工具，统一各团队的定价与敏感性模型。">Built valuation and stress-test models for APAC solar, wind and storage assets, and a Java tool that standardised pricing and sensitivity models across teams.</p></div>
       </article>
     </div>
   </section>
@@ -271,22 +276,34 @@ footer{border-top:1px solid var(--line); padding-block:28px 40px; display:flex; 
   <section id="contact" aria-labelledby="contact-h">
     <div class="contact">
       <div>
-        <div class="eyebrow">Contact</div>
-        <h2 class="title" id="contact-h">Get in touch</h2>
-        <p style="color:var(--muted);max-width:44ch">I'm happy to talk about commodities, trading, internships or any of the projects here.</p>
+        <div class="eyebrow" data-zh="联系">Contact</div>
+        <h2 class="title" id="contact-h" data-zh="联系我">Get in touch</h2>
+        <p style="color:var(--muted);max-width:44ch" data-zh="欢迎和我聊大宗商品、交易、实习机会，或这里的任何项目。">I'm happy to talk about commodities, trading, internships or any of the projects here.</p>
       </div>
       <div>
-        <a class="btn primary" href="https://www.linkedin.com/in/longfei-ju-b4a008168" target="_blank" rel="noopener">Message me on LinkedIn <span aria-hidden="true">↗</span></a>
+        <a class="btn primary" href="https://www.linkedin.com/in/longfei-ju-b4a008168" target="_blank" rel="noopener" data-zh="在领英上联系我 &lt;span aria-hidden=&quot;true&quot;&gt;↗&lt;/span&gt;">Message me on LinkedIn <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
 
   <footer>
     <span>© 2026 Longfei Ju</span>
-    <span>Singapore</span>
+    <span data-zh="新加坡">Singapore</span>
   </footer>
 </main>
 
+<script>
+/* language toggle: swaps every [data-zh] element and remembers the choice across pages */
+(function(){var KEY='lj-lang',lang='en';try{lang=localStorage.getItem(KEY)||'en'}catch(e){}
+var nodes=[].slice.call(document.querySelectorAll('[data-zh]'));nodes.forEach(function(n){n.setAttribute('data-en',n.innerHTML)});
+window.__lang={get:function(){return lang},subs:[]};
+function apply(){document.documentElement.lang=lang==='zh'?'zh-Hans':'en';
+ nodes.forEach(function(n){n.innerHTML=lang==='zh'?n.getAttribute('data-zh'):n.getAttribute('data-en')});
+ [].forEach.call(document.querySelectorAll('.langbtn'),function(b){b.textContent=lang==='zh'?'EN':'中文';b.setAttribute('aria-label',lang==='zh'?'Switch to English':'切换到中文')});
+ window.__lang.subs.forEach(function(f){try{f(lang)}catch(e){}});}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.langbtn');if(!b)return;lang=lang==='zh'?'en':'zh';try{localStorage.setItem(KEY,lang)}catch(e){}apply();});
+window.__lang.apply=apply;apply();})();
+</script>
 
 </body>
 </html>

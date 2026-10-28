@@ -7,15 +7,15 @@
 <title>My Story · Longfei Ju</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
 <style>
 /* Layout: fixed WebGL scene over a soft blue sheet; one navy chapter card at a time, driven by scroll; a route rail on the right; tall empty spacers set the pace. Single theme by design. */
 :root{
   --paper:#e2eaf4; --bg-top:#eef3f9; --bg-bot:#cfdcec; --ink:#13294b; --soft:#4f6283; --blue:#2c5fae; --green:#2f7046; --red:#cc2936; --rule:#c3d0e1;
   --card:rgba(19,41,75,.95); --card-text:#eef2f8; --card-soft:#a3b5d1; --card-rule:rgba(238,242,248,.16);
-  --f-display:"Source Serif 4", "Iowan Old Style", Georgia, serif;
-  --f-body:"Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
-  --f-mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --f-display:"Source Serif 4", "Noto Serif SC", "Iowan Old Style", Georgia, serif;
+  --f-body:"Schibsted Grotesk", "Noto Sans SC", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", "Noto Sans SC", ui-monospace, Consolas, monospace;
   color-scheme:light;
 }
 *{box-sizing:border-box}
@@ -44,6 +44,9 @@ body{margin:0; background:linear-gradient(180deg,var(--bg-top),var(--bg-bot)) fi
   padding:16px max(16px, env(safe-area-inset-right,0px)) 16px max(16px, env(safe-area-inset-left,0px)); pointer-events:none}
 .top a{pointer-events:auto; font:500 13px/1 var(--f-body); color:var(--ink); text-decoration:none; background:var(--card); border:1px solid var(--rule); padding:9px 12px}
 .top a:hover{border-color:var(--ink)}
+.topr{display:flex; gap:8px; align-items:center}
+.langbtn{pointer-events:auto; font:500 13px/1 var(--f-body); color:var(--card-text); background:var(--ink); border:1px solid var(--ink); padding:9px 12px; cursor:pointer}
+.langbtn:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
 .top a:focus-visible, .btns a:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
 .prog{font:500 11px/1 var(--f-mono); letter-spacing:.1em; color:var(--soft); background:var(--card); border:1px solid var(--rule); padding:9px 12px; font-variant-numeric:tabular-nums}
 
@@ -100,60 +103,60 @@ main{position:relative; z-index:3; pointer-events:none}
 <body>
 <div class="sheet" aria-hidden="true"></div>
 <canvas id="gl" aria-hidden="true"></canvas>
-<ol class="rail" id="rail" aria-hidden="true"><li data-s="1">Qingdao</li><li data-s="2">Kampala</li><li data-s="3">Nairobi</li><li data-s="4">Kuala Lumpur</li><li data-s="6">Manila</li><li data-s="7">Singapore</li></ol>
+<ol class="rail" id="rail" aria-hidden="true"><li data-s="1" data-zh="青岛">Qingdao</li><li data-s="2" data-zh="坎帕拉">Kampala</li><li data-s="3" data-zh="内罗毕">Nairobi</li><li data-s="4" data-zh="吉隆坡">Kuala Lumpur</li><li data-s="6" data-zh="马尼拉">Manila</li><li data-s="7" data-zh="新加坡">Singapore</li></ol>
 <div id="veil" aria-hidden="true"></div>
 <div id="ann" aria-hidden="true"><svg id="annsvg"></svg></div>
-<div class="top"><a href="index.html">← Longfei Ju</a><span class="prog" id="prog" aria-hidden="true">00 / 07</span></div>
+<div class="top"><a href="index.html" data-zh="← 主页">← Longfei Ju</a><div class="topr"><button class="langbtn" type="button">中文</button><span class="prog" id="prog" aria-hidden="true">00 / 07</span></div></div>
 
 <div class="stage" id="stage">
   <div class="hero-in" data-k="0">
-    <div class="eyebrow">Longfei Ju · My story</div>
-    <h1>Qingdao to <em>Singapore</em></h1>
-    <p>Born in China, raised across East Africa and Southeast Asia. Six countries so far. Scroll to follow the route.</p>
-    <div class="cue">SCROLL</div>
+    <div class="eyebrow" data-zh="Longfei Ju · 我的故事">Longfei Ju · My story</div>
+    <h1 data-zh="从青岛到&lt;em&gt;新加坡&lt;/em&gt;">Qingdao to <em data-zh="新加坡">Singapore</em></h1>
+    <p data-zh="生于中国，在东非和东南亚长大，到目前为止住过六个国家。向下滚动，沿路线出发。">Born in China, raised across East Africa and Southeast Asia. Six countries so far. Scroll to follow the route.</p>
+    <div class="cue" data-zh="向下滚动">SCROLL</div>
   </div>
   <article class="card" data-k="1">
-    <div class="eyebrow"><span>01 · China</span><span>Age 0–2</span></div>
-    <h2>Where it starts</h2>
-    <p>I was born in Qingdao, a port city on China's east coast. My family's hometown, our 老家, is in Shanxi. We moved abroad when I was two.</p>
+    <div class="eyebrow"><span data-zh="01 · 中国">01 · China</span><span data-zh="0–2 岁">Age 0–2</span></div>
+    <h2 data-zh="一切的起点">Where it starts</h2>
+    <p data-zh="我出生在中国东部沿海的港口城市青岛，老家在山西。两岁那年，我们举家迁往海外。">I was born in Qingdao, a port city on China's east coast. My family's hometown, our 老家, is in Shanxi. We moved abroad when I was two.</p>
   </article>
   <article class="card" data-k="2">
-    <div class="eyebrow"><span>02 · Uganda</span><span>Age 2</span></div>
-    <h2>First move: Uganda</h2>
-    <p>Our first stop was Uganda, where I started kindergarten.</p>
+    <div class="eyebrow"><span data-zh="02 · 乌干达">02 · Uganda</span><span data-zh="2 岁">Age 2</span></div>
+    <h2 data-zh="第一站：乌干达">First move: Uganda</h2>
+    <p data-zh="我们的第一站是乌干达，我在那里开始上幼儿园。">Our first stop was Uganda, where I started kindergarten.</p>
   </article>
   <article class="card" data-k="3">
-    <div class="eyebrow"><span>03 · Kenya</span><span>Kindergarten – P4</span></div>
-    <h2>Next stop: Nairobi</h2>
-    <p>From Uganda we moved east to Nairobi, Kenya. I went to Braeside School from kindergarten to Primary 4, until I was nine.</p>
+    <div class="eyebrow"><span data-zh="03 · 肯尼亚">03 · Kenya</span><span data-zh="幼儿园 – 小学四年级">Kindergarten – P4</span></div>
+    <h2 data-zh="下一站：内罗毕">Next stop: Nairobi</h2>
+    <p data-zh="离开乌干达后，我们向东搬到肯尼亚内罗毕。我在 Braeside School 从幼儿园读到小学四年级，直到九岁。">From Uganda we moved east to Nairobi, Kenya. I went to Braeside School from kindergarten to Primary 4, until I was nine.</p>
   </article>
   <article class="card" data-k="4">
-    <div class="eyebrow"><span>04 · Malaysia</span><span>Age 9</span></div>
-    <h2>Across the Indian Ocean</h2>
-    <p>At nine we moved to Kuala Lumpur, my first home in Southeast Asia.</p>
+    <div class="eyebrow"><span data-zh="04 · 马来西亚">04 · Malaysia</span><span data-zh="9 岁">Age 9</span></div>
+    <h2 data-zh="跨越印度洋">Across the Indian Ocean</h2>
+    <p data-zh="九岁时，我们搬到吉隆坡，这是我在东南亚的第一个家。">At nine we moved to Kuala Lumpur, my first home in Southeast Asia.</p>
   </article>
   <article class="card" data-k="5">
-    <div class="eyebrow"><span>05 · Kuala Lumpur</span><span>P5 – S2</span></div>
-    <h2>Kuala Lumpur</h2>
-    <p>I joined the British School of Kuala Lumpur (BSKL) from Primary 5 to Secondary 1, then spent about a year at Mutiara International Grammar School.</p>
-    <dl><dt>BSKL</dt><dd>Primary 5 – Secondary 1</dd><dt>Mutiara</dt><dd>Secondary 2</dd></dl>
+    <div class="eyebrow"><span data-zh="05 · 吉隆坡">05 · Kuala Lumpur</span><span data-zh="小五 – 中二">P5 – S2</span></div>
+    <h2 data-zh="吉隆坡">Kuala Lumpur</h2>
+    <p data-zh="我在吉隆坡英国国际学校（BSKL）从小学五年级读到中学一年级，之后在 Mutiara International Grammar School 读了大约一年。">I joined the British School of Kuala Lumpur (BSKL) from Primary 5 to Secondary 1, then spent about a year at Mutiara International Grammar School.</p>
+    <dl><dt>BSKL</dt><dd data-zh="小五 – 中一">Primary 5 – Secondary 1</dd><dt>Mutiara</dt><dd data-zh="中二">Secondary 2</dd></dl>
   </article>
   <article class="card" data-k="6">
-    <div class="eyebrow"><span>06 · Philippines</span><span>S2 – graduation</span></div>
-    <h2>Manila and the IB</h2>
-    <p>In Secondary 2 we moved to Manila. I finished school at Singapore School Manila with the IB Diploma.</p>
+    <div class="eyebrow"><span data-zh="06 · 菲律宾">06 · Philippines</span><span data-zh="中二 – 毕业">S2 – graduation</span></div>
+    <h2 data-zh="马尼拉与 IB">Manila and the IB</h2>
+    <p data-zh="中二那年我们搬到马尼拉。我在 Singapore School Manila 完成中学学业，获得 IB 文凭。">In Secondary 2 we moved to Manila. I finished school at Singapore School Manila with the IB Diploma.</p>
     <dl>
-      <dt>HL</dt><dd>Maths AA · Business Mgmt · Computer Science</dd>
-      <dt>SL</dt><dd>Film · Chinese B · English Lang &amp; Lit</dd>
-      <dt>Extended essay</dt><dd>World Studies</dd>
+      <dt>HL</dt><dd data-zh="数学 AA · 商业管理 · 计算机科学">Maths AA · Business Mgmt · Computer Science</dd>
+      <dt>SL</dt><dd data-zh="电影 · 中文 B · 英语语言与文学">Film · Chinese B · English Lang &amp; Lit</dd>
+      <dt data-zh="拓展论文">Extended essay</dt><dd data-zh="世界研究">World Studies</dd>
     </dl>
   </article>
   <article class="card" data-k="7">
-    <div class="eyebrow"><span>07 · Singapore</span><span>Now</span></div>
-    <h2>Singapore, for now</h2>
-    <p>I'm at Singapore Management University, majoring in Finance (International Trading Track) and Quantitative Finance.</p>
-    <dl><dt>cGPA</dt><dd>4.00 / 4.00</dd><dt>Dean's List</dt><dd>AY24/25 · AY25/26</dd><dt>Teaching assistant</dt><dd>Finance · Business Law</dd></dl>
-    <p>Growing up between ports and airports got me curious about how goods move. I want to work on trade and supply chains, and on the financial thinking behind them: pricing, valuation and risk.</p>
+    <div class="eyebrow"><span data-zh="07 · 新加坡">07 · Singapore</span><span data-zh="现在">Now</span></div>
+    <h2 data-zh="新加坡">Singapore</h2>
+    <p data-zh="我目前就读于新加坡管理大学，主修金融（国际贸易方向）和量化金融。">I'm at Singapore Management University, majoring in Finance (International Trading Track) and Quantitative Finance.</p>
+    <dl><dt>cGPA</dt><dd>4.00 / 4.00</dd><dt data-zh="院长嘉许名单">Dean's List</dt><dd>AY24/25 · AY25/26</dd><dt data-zh="助教">Teaching assistant</dt><dd data-zh="金融 · 商法">Finance · Business Law</dd></dl>
+    <p data-zh="在港口和机场之间长大，让我对货物如何流动产生了好奇。贸易、供应链，以及背后的金融逻辑，比如定价、估值和风险，都是我的兴趣所在。">Growing up between ports and airports got me curious about how goods move. Trade, supply chains and the financial thinking behind them, like pricing, valuation and risk, are interests of mine.</p>
   </article>
 </div>
 
@@ -164,14 +167,26 @@ main{position:relative; z-index:3; pointer-events:none}
   <div class="spacer hold"></div>
   <section class="outro">
     <article class="card">
-      <div class="eyebrow"><span>What's next</span><span>2026</span></div>
-      <h2>Thanks for following along</h2>
-      <p>My projects follow the same idea: trace a commodity from where it's made to where it's used.</p>
-      <div class="btns"><a class="pri" href="corn.html">Corn: Follow the Bushel →</a><a href="index.html">Back to home</a></div>
+      <div class="eyebrow"><span data-zh="接下来">What's next</span><span>2026</span></div>
+      <h2 data-zh="感谢一路同行">Thanks for following along</h2>
+      <p data-zh="我的项目延续同样的思路：追踪一种大宗商品从生产到使用的全过程。">My projects follow the same idea: trace a commodity from where it's made to where it's used.</p>
+      <div class="btns"><a class="pri" href="corn.html" data-zh="玉米：追踪一蒲式耳 →">Corn: Follow the Bushel →</a><a href="index.html" data-zh="返回主页">Back to home</a></div>
     </article>
   </section>
 </main>
 
+<script>
+/* language toggle: swaps every [data-zh] element and remembers the choice across pages */
+(function(){var KEY='lj-lang',lang='en';try{lang=localStorage.getItem(KEY)||'en'}catch(e){}
+var nodes=[].slice.call(document.querySelectorAll('[data-zh]'));nodes.forEach(function(n){n.setAttribute('data-en',n.innerHTML)});
+window.__lang={get:function(){return lang},subs:[]};
+function apply(){document.documentElement.lang=lang==='zh'?'zh-Hans':'en';
+ nodes.forEach(function(n){n.innerHTML=lang==='zh'?n.getAttribute('data-zh'):n.getAttribute('data-en')});
+ [].forEach.call(document.querySelectorAll('.langbtn'),function(b){b.textContent=lang==='zh'?'EN':'中文';b.setAttribute('aria-label',lang==='zh'?'Switch to English':'切换到中文')});
+ window.__lang.subs.forEach(function(f){try{f(lang)}catch(e){}});}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.langbtn');if(!b)return;lang=lang==='zh'?'en':'zh';try{localStorage.setItem(KEY,lang)}catch(e){}apply();});
+window.__lang.apply=apply;apply();})();
+</script>
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -616,10 +631,12 @@ function sgView(U){const f=es(U,7.6,8.1),r=lerp(17,21,f)*fitK();camPos.set(S.x,l
 
 /* callouts */
 const annRoot=document.getElementById('ann'),svg=document.getElementById('annsvg'),NS='http://www.w3.org/2000/svg';const ANN=[];
+const TAGZH={"Qingdao · born here": "青岛 · 出生地", "Shanxi · 老家": "山西 · 老家", "Entebbe · Uganda": "恩德培 · 乌干达", "Kampala": "坎帕拉", "Nairobi · Braeside School": "内罗毕 · Braeside School", "Nairobi": "内罗毕", "Kuala Lumpur": "吉隆坡", "Petronas Twin Towers": "双子塔", "Manila": "马尼拉", "Maths AA · HL": "数学 AA · HL", "Business Management · HL": "商业管理 · HL", "Computer Science · HL": "计算机科学 · HL", "Film · SL": "电影 · SL", "Chinese B · SL": "中文 B · SL", "English Lang & Lit A · SL": "英语语言与文学 A · SL", "Core · EE (World Studies) · TOK · CAS": "核心 · 拓展论文（世界研究）· TOK · CAS", "Singapore": "新加坡", "Marina Bay Sands": "滨海湾金沙", "ArtScience Museum": "艺术科学博物馆", "Merlion": "鱼尾狮", "Esplanade": "滨海艺术中心", "Singapore Flyer": "新加坡摩天观景轮", "Gardens by the Bay": "滨海湾花园", "SMU · now": "SMU · 现在"};
+const TT=en=>(window.__lang&&window.__lang.get()==='zh'&&TAGZH[en])||en;
 function tag(text,pos,u0,u1,dx=40,dy=-36,o={}){
-  const el=document.createElement('div');el.className='tag'+(dx<0?' left':'')+(o.cls?' '+o.cls:'');el.innerHTML='<span></span>';el.firstChild.textContent=text;el.style.display='none';annRoot.appendChild(el);
+  const el=document.createElement('div');el.className='tag'+(dx<0?' left':'')+(o.cls?' '+o.cls:'');el.innerHTML='<span></span>';el.firstChild.textContent=TT(text);el.style.display='none';annRoot.appendChild(el);
   const g=document.createElementNS(NS,'g');if(o.cls)g.setAttribute('class',o.cls);const ln=document.createElementNS(NS,'line'),c=document.createElementNS(NS,'circle');c.setAttribute('r','2.4');g.append(ln,c);g.style.display='none';svg.appendChild(g);
-  ANN.push({el,g,ln,c,pos,u0,u1,dx,dy,on:false,...o});}
+  ANN.push({el,g,ln,c,pos,u0,u1,dx,dy,on:false,en:text,...o});}
 const gp=(lat,lon)=>()=>spin.localToWorld(ll(lat,lon,GR*1.01));
 const sgp=(x,y,z)=>()=>sgS.localToWorld(V(x,y,z));
 tag('Qingdao · born here',gp(...C.qd),1.15,2.12,44,-30,{cls:'red',scene:'globe'});
@@ -642,6 +659,7 @@ tag('Singapore Flyer',sgp(4.9,3.9,-5.9),7.86,8.6,30,-24,{scene:'sg',face:true});
 tag('Gardens by the Bay',sgp(7.3,2.2,2.6),7.9,8.6,30,-20,{scene:'sg',face:true,minor:true});
 tag('SMU · now',sgp(-3.4,.1,-4.7),7.7,8.6,-34,-40,{cls:'red',scene:'sg'});
 
+window.__lang&&window.__lang.subs.push(()=>ANN.forEach(a=>{a.el.firstChild.textContent=TT(a.en);}));
 const vt=V(),cd=V(),SC=V();
 function updateAnn(U,W,H,narrow,mode){
   for(const a of ANN){

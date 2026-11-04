@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="site.css?v=c3d038fa">
 <style>*{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -46,7 +46,7 @@
   </footer>
 </main>
 
-<script src="site.js"></script>
+<script src="site.js?v=5e02573d"></script>
 <script>
 (function () {
   var T = site.T, esc = site.esc, items = [];
@@ -65,10 +65,8 @@
       var n = wordsOf(x.body), mins = Math.max(1, Math.round(n / 230));
       var href = x.body ? 'essay.html?e=' + encodeURIComponent(x.slug || String(i)) : '';
       var meta = (x.year ? '<span>' + esc(x.year) + '</span>' : '') + (n ? '<span>' + fmt(n) + ' <span data-zh="词">words</span></span><span>' + mins + ' <span data-zh="分钟阅读">min read</span></span>' : '');
-      var inner = '<div class="toc-num">' + String(i + 1).padStart(2, '0') + '</div><div class="toc-body">'
-        + (site.has(x.kind) ? T(x.kind, 'div', 'class="eyebrow"') : '') + T(x.title, 'h2')
-        + (site.has(x.summary) ? T(x.summary, 'p') : '')
-        + '<div class="toc-meta">' + meta + (href ? '<span class="toc-go" data-zh="阅读全文 →">Read the essay →</span>' : '') + '</div></div>';
+      var inner = '<div class="toc-body">' + T(x.title, 'h2') + (site.has(x.summary) ? T(x.summary, 'p') : '') + '</div>'
+        + (href ? '<span class="toc-arrow" aria-hidden="true">→</span>' : '');
       return '<li class="' + (x.show_in_chinese ? '' : 'en-only') + '">' + (href ? '<a class="toc-item" href="' + href + '">' + inner + '</a>' : '<div class="toc-item">' + inner + '</div>') + '</li>';
     }).join('');
     site.scan(); check();

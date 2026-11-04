@@ -169,18 +169,19 @@ nav ul a[aria-current="page"]{color:var(--navy); text-decoration:underline; text
 #photography{border-top:1px solid var(--line)}
 
 /* academic: table-of-contents menu */
-.toc{list-style:none; margin:0; padding:0 0 clamp(48px,8vw,88px); border-top:1px solid var(--line)}
-.toc li{border-bottom:1px solid var(--line)}
-.toc-item{display:grid; grid-template-columns:64px minmax(0,1fr); gap:clamp(12px,3vw,28px); padding:clamp(22px,3vw,32px) 0; text-decoration:none; color:inherit}
-a.toc-item:hover h2{text-decoration:underline; text-underline-offset:5px; text-decoration-thickness:1px}
-a.toc-item:hover .toc-go{transform:translateX(3px)}
-.toc-num{font:400 34px/1 "Times New Roman", Times, "Noto Serif SC", serif; color:var(--muted); padding-top:4px}
-.toc-body{display:flex; flex-direction:column; gap:10px; min-width:0}
-.toc-body h2{font:400 clamp(22px,2.6vw,29px)/1.25 "Times New Roman", Times, "Noto Serif SC", serif; color:var(--navy); margin:0; text-wrap:balance}
-.toc-body p{margin:0; color:var(--muted); max-width:72ch; font-size:15.5px}
-.toc-meta{display:flex; flex-wrap:wrap; gap:6px 18px; align-items:center; font:500 11.5px/1.4 var(--f-mono); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-top:4px}
-.toc-go{margin-left:auto; color:var(--navy); transition:transform .2s}
-@media (max-width:560px){ .toc-item{grid-template-columns:1fr} .toc-num{font-size:24px} .toc-go{margin-left:0} }
+.toc{list-style:none; margin:0; padding:0 0 clamp(48px,8vw,88px); display:grid; gap:14px; max-width:860px}
+.toc-item{display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:24px; padding:20px 24px; border:1px solid var(--line); background:var(--surface); text-decoration:none; color:inherit;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background-color .18s ease}
+a.toc-item:hover, a.toc-item:focus-visible{transform:translateY(-2px); border-color:var(--navy); background:var(--bg); box-shadow:0 12px 28px -16px rgba(19,41,75,.45); outline:none}
+a.toc-item:active{transform:translateY(0); box-shadow:0 4px 12px -8px rgba(19,41,75,.4)}
+.toc-body{display:flex; flex-direction:column; gap:6px; min-width:0}
+.toc-body h2{font:400 clamp(18px,2vw,21px)/1.3 "Times New Roman", Times, "Noto Serif SC", serif; color:var(--navy); margin:0; text-wrap:balance}
+.toc-body p{margin:0; color:var(--muted); font-size:14px; line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.toc-arrow{width:38px; height:38px; border:1.5px solid var(--navy); border-radius:50%; display:grid; place-items:center; color:var(--navy); font-size:17px; flex:none;
+  transition:transform .18s ease, background-color .18s ease, color .18s ease}
+a.toc-item:hover .toc-arrow, a.toc-item:focus-visible .toc-arrow{transform:translateX(4px); background:var(--navy); color:var(--bg)}
+@media (max-width:560px){ .toc-item{padding:16px 18px; gap:14px} .toc-arrow{width:32px; height:32px} }
+@media (prefers-reduced-motion: reduce){ .toc-item, .toc-arrow{transition:none} a.toc-item:hover{transform:none} a.toc-item:hover .toc-arrow{transform:none} }
 :root[lang="zh-Hans"] li.en-only{display:none}
 
 /* essay reader: classic Times layout */

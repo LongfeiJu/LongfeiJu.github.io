@@ -1,74 +1,27 @@
 {
   "intro": {
-    "en": "Research and academic work.",
-    "zh": "研究与学术作品。"
+    "en": "Essays and research from school and university. Select a title to read it in full.",
+    "zh": "中学和大学期间的论文与研究。点击标题阅读全文。"
   },
   "items": [
     {
+      "slug": "tok-subjectivity",
       "kind": {
-        "en": "IB Diploma · World Studies Extended Essay",
-        "zh": ""
+        "en": "IB Diploma · Theory of Knowledge Essay",
+        "zh": "IB 文凭 · 认识论（TOK）论文"
       },
       "title": {
-        "en": "Aligning Narratives to State Interests: Deciphering State-Driven Censorship in the Portrayal of China's Zero-Covid Policy on Online News Articles",
-        "zh": ""
-      },
-      "question": {
-        "en": "To what extent did censorship legislation, particularly the Provisions for the Administration of Internet News Information Service, ensure language used in portraying China's Zero-Covid policy on online news articles aligned with China's state interests?",
+        "en": "Is subjectivity overly celebrated in the arts but unfairly condemned in history? Discuss with reference to the arts and history.",
         "zh": ""
       },
       "summary": {
-        "en": "An interdisciplinary study combining English Language & Literature with Global Politics. It applies Fairclough's three-dimensional critical discourse analysis to English-language articles from China Daily and Xinhua, reads them through postcolonial theory, and compares China's internet news regulations with Singapore's POFMA using Mill's method of difference.",
-        "zh": ""
+        "en": "How much should personal feeling count as a way of knowing? This essay weighs subjectivity in two areas of knowledge, drawing on Félix González-Torres’s “Untitled (Perfect Lovers)” and Abstract Expressionism in the arts, and on the documentary Cleopatra (2023) and Howard Zinn’s people’s history in history.",
+        "zh": "个人情感应在多大程度上成为认识世界的方式？本文以艺术与历史两个知识领域为例，通过冈萨雷斯-托雷斯的《无题（完美恋人）》、抽象表现主义、纪录片《埃及艳后》（2023）和霍华德·津恩的人民史，探讨主观性的价值与局限。"
       },
-      "details": [
-        {
-          "label": {
-            "en": "Theme",
-            "zh": ""
-          },
-          "value": {
-            "en": "Culture, Language and Identity",
-            "zh": ""
-          }
-        },
-        {
-          "label": {
-            "en": "Subjects",
-            "zh": ""
-          },
-          "value": {
-            "en": "Global Politics · English Language & Literature",
-            "zh": ""
-          }
-        },
-        {
-          "label": {
-            "en": "Methods",
-            "zh": ""
-          },
-          "value": {
-            "en": "Critical discourse analysis · Postcolonial theory · Comparative politics",
-            "zh": ""
-          }
-        },
-        {
-          "label": {
-            "en": "Length",
-            "zh": ""
-          },
-          "value": {
-            "en": "3,999 words",
-            "zh": ""
-          }
-        }
-      ],
-      "note": {
-        "en": "Full essay available on request.",
-        "zh": ""
-      },
-      "file": "",
-      "show_in_chinese": false
+      "year": "2024",
+      "body": "Different areas of knowledge (AOK) often have different perspectives on the valuation of subjectivity, defined as the influence of personal feelings as cognitive tools affecting knowledge acquisition. In the Arts, subjectivity is commonly seen as a synonymous concept in its knowledge acquisition. Individualistic expression/interpretation plays a huge role in its knowledge acquisition and creation, celebrating uniqueness in artists’ expressions and meanings derived from artworks. However, increasing focus on subjectivity raises concerns about whether it is overly-celebrated in the arts, where the importance of personal expression overshadows the appreciation of technical skill, and aesthetic beauty. Contrastingly, in a subject focused on recreating the past as accurately as possible, the personal biases introduced with subjectivity is often critiqued in the Histories due to risks in distorting factual accuracy. On the other hand, condemnation of subjectivity within the Histories may be unfair due to its role in diversifying interpretations and recordings of historical events, which allows previously marginalised voices/perspectives to be acknowledged and integrated into history.\n\nDue to subjectivity’s role in knowledge creation and acquisition in the Arts, allowing for artists to express themselves and the audience to derive their own interpretations of the artwork, it is widely celebrated within the discipline. This celebration of subjectivity leads to greater focus on abstraction and conceptual themes, allowing works like those of Félix González-Torres to transcend just aesthetic beauty and represent deeper, personal themes that invite audiences to relate with them and from it, create different individual interpretations. Despite subjectivity in his own experiences that drive and contextualise his works, Torres’s focus on universal themes such as “love”, “loss” and “time”, allows him to effectively connect with all audiences through his artwork, allowing each individual to derive unique meanings from his art. The abstraction present in Torres’ work gives greater leeway in how audiences are able to subjectively interpret his work. In his “Untitled (Perfect Lovers)”, audiences are met with two synchronised clocks side by side. Torres’ had mentioned how the work reflects him and his lover Ross Laycock, with both having died of AIDs 5 years apart from each other, mirroring how the clocks eventually stop ticking due to running out of battery, falling out of sync by the end of their lifetimes. However, Torres’ explicitly mentions the presence of no “correct” interpretation, encouraging audiences to interpret the work in any way they like, and relate to the themes being presented in “Perfect Lovers”, to their own relationships and passage of time. The work has also been interpreted as representing the LGBTQ movement in addressing the impact of the AIDS crisis, done subtly through the lack of explicit imagery. The subtlety and openness to interpretation of subjectivity in The Arts allows for navigation within restrictive societal contexts, and by choosing to present these sensitive themes through subjective interpretation over explicit representations, Torres not only evades censorship but is also able to engage a broader audience (Smee, 2023), allowing knowledge to be created through subjectivity, while leaving his original message uncompromised. Therefore, it can be said that subjectivity is not overly-celebrated within the discipline of the Arts when it allows interpretations and artworks to go beyond language and social barriers, inherently allowing for the Artist to communicate with their audiences through artwork by relating universal themes to personal experience.\n\nContrasting its role in inviting unique interpretations and the creation of knowledge in the Arts, subjectivity may also result in the opposite effect, alienating concepts to the audience by being too personal and reliant on contextual knowledge to be meaningfully interpreted. The over-celebration of subjectivity, particularly within movements such as Abstract Expressionism, which share similar characteristics in depicting spontaneous, emotional expression through abstract and non-objective forms (Britannica, 2024) is especially critiqued for its focus on subjectivity through individual expression and theme. This allows greater creative and interpretive freedom, yet risks neglect of foundational artistic skills and universal themes. Art critic Lincoln Kirstein claims that modern art, particularly within the abstract expressionism movement, often lacks \"adequate intellectual capacity and manual skill,\" showing scepticism at the movement's validity and its contribution to the AOK (Wesleyan University, 2024). This argument addresses risks alienating audiences through the loss of knowledge in technical mastery of the Arts and objective standards traditionally used in critiquing quality of art, such as anatomy, perspectives, and colour theory- results of over-celebration of subjectivity. When art focuses heavily on subjective interpretation, it shifts attention away from mastering technical skills to prioritising personal expression. Indeed, a study conducted by Paasschen et al. (2015) showed that novices, those that are less experienced in The Arts, have been shown to favour representational (art that imitates and is recognisable to objects or scenes from real life (Merriam-Webster Dictionary, 2024)) over abstract artworks. Here, it is seen that over-celebration of subjectivity in the Arts has the potential to dilate the communicative value of art, making it less relatable to wider audiences. When personal expression overshadows technical skill and universal themes, art risks becoming a gatekept discipline among a select few, rather than its role as a universal language that can allow for communication between artists and audiences of different backgrounds.\n\nUnlike the Arts, where subjectivity is often celebrated as a medium that enriches knowledge creation, in history, it potentially results in inaccuracies and misinterpretations. As such, subjectivity is often met with rightful condemnation when it obstructs factual/historical accuracy that is preached within the discipline of History. This is due to History's role in discovering truth and ensuring knowledge of the past is backed up by evidence. Cleopatra (2023), a documentary aimed at informing audiences of the life of the ancient Egyptian pharaoh, faced criticism from historians and audiences alike for its heavy reliance on anecdotal evidence and subjective interpretations. The main point of critique faced by the documentary is the casting of Adele James, a black actress, as Cleopatra, and claims that her skin tone was historically accurate. This portrayal contradicts historical evidence of Cleopatra's Macedonian Greek background (OUPblog, 2010) and has prompted critical responses from historians, including Egyptian archaeologist Zahi Hawass to emphasise her Greek heritage. The film also relies on anecdotal evidence, like professor Shelley Haley's personal stories about Cleopatra's race; though concludes that Cleopatra’s racial heritage remains uncertain (Butler, 2023). As a result, subjective approaches are condemned for potential to distort historical facts, resulting in misrepresenting historical figures and events, as seen in Cleopatra. The AOK of History holds responsibility in preserving authenticity of history and when subjectivity infringes upon this, it threatens reliability and trustworthiness of the discipline. As a documentary, this is particularly relevant to Cleoptra, being advertised as historically accurate works aimed at informing audiences, where subjective representation and evidence carries high risk in leading to untruthful portrayals and manipulated perceptions of historical figures, ultimately compromising the discipline’s aim in providing reliable records of the past. As such, subjectivity is not unfairly condemned in history when doing so ensures historical accuracy, and that records of the pasts remain unbiased as possible.\n\nOn the other hand, when applied in a way that enriches understanding of the past, subjectivity offers value to the AOK of Histories by providing a voice for marginalised voices in history. Howard Zinn’s book “A People’s History of America”, uses personal stories from marginalised social groups to construct a more inclusive record of American history. Zinn presents subjective, personal accounts from women and people of colour that have lived through historical events of America like the civil war, and the arrival of Christopher Collumbus (Howard Zinn.org, n.d.). These allow experiences of people who are often left out of conventional historical records, such as native and African Americans, to be heard; enriching conventional historical knowledge, and offers more diverse understandings of the past. This contrasts Cleopatra’s reliance on anecdotal evidence, given that these individuals have directly experienced the historical events in question, thereby providing first-hand accounts, much like the perspective presented in Anne Frank’s diary in providing insight into the lives of persecuted Jewish individuals during Nazi occupation in Germany. Being able to access subjective personal stories, historians are able to interpret a more complete history and understanding of life during certain historical events and periods, directly resulting in a more accurate portrayal of the past. From this perspective, subjectivity becomes a valuable tool that is unfairly condemned due to its potential in allowing marginalised histories to be heard, ultimately benefiting the AOK’s aim in uncovering an accurate version of the past.\n\nAs such, it can be seen that subjectivity plays distinct roles in both AOKs. Whether it is deemed over-celebrated or unfairly condemned can be determined through a risk-benefit analysis, ultimately coming down to the extent it enriches knowledge of the AOK by providing different perspectives or when it threatens its integrity. In the Arts, subjectivity is relied upon for the artists to communicate their message to their audiences. Its openness to interpretation and deviation from standardised explicit representation is a key element that separates artwork from eg: graphs and diagrams. However, art must still be grounded by universalism through objective standards to ensure integrity within the discipline in providing meaningful messages through artwork to avoid over-celebration of subjectivity. Meanwhile, despite the biases that come with subjective interpretation, it is inevitable in the discipline of History, where the interpretation of even objective facts is influenced by unconscious subjective reasoning, and plays a huge part in how historians understand facts and records presented to them. Both Arts and Histories are human-centric AOKs, and subjectivity is an essential lens to look at and interpret human experiences. Therefore, recognising when subjectivity becomes over-celebrated or unfairly condemned becomes important in achieving balance towards subjectivity to ensure it is maximised in enriching knowledge creation/acquisition while not imposing on objective standards of each discipline.",
+      "bibliography": "Britannica. (2024). Abstract Expressionism | Definition, History, Facts, & Artists | Britannica. In Encyclopædia Britannica. https://www.britannica.com/art/Abstract-Expressionism\nButler, B. (2023, May 12). Was Cleopatra Black? We’re asking the wrong question. Washington Post; The Washington Post. https://www.washingtonpost.com/arts-entertainment/2023/05/12/queen-cleopatra-looks-netflix-controversy/\nHoward Zinn.org. (n.d.). A People’s History of the United States: 1492 – Present - Howard Zinn. Howard Zinn. Retrieved March 7, 2024, from https://www.howardzinn.org/collection/peoples-history/\nMerriam-Webster Dictionary. (2024). Merriam-Webster.com. https://www.merriam-webster.com/dictionary/representative%20art\nOUPblog. (2010, December 6). Cleopatra’s true racial background (and does it really matter?). OUPblog. https://blog.oup.com/2010/12/cleopatra-2/\nPaasschen, J. van, Bacci, F., & Melcher, D. P. (2015). The Influence of Art Expertise and Training on Emotion and Preference Ratings for Representational and Abstract Artworks. PLOS ONE, 10(8), e0134241–e0134241. https://doi.org/10.1371/journal.pone.0134241\nSmee, S. (2023, May 12). Gonzalez-Torres’s two clocks are profound meditation on love and death. Washington Post; The Washington Post. https://www.washingtonpost.com/arts-entertainment/interactive/2023/felix-gonazalez-torres-perfect-lovers/\nSyed, A. (2023, April 20). Was Cleopatra Black? A New Netflix Series Is Reviving an Old Controversy. TIME; Time. https://time.com/6273435/cleopatra-race-debate-netflix/\nWesleyan University. (2024). Reactions to the Rise of Abstract Expressionism – New York City in the ’40s. Wesleyan.edu. https://chum338.blogs.wesleyan.edu/reactions-to-the-rise-of-abstract-expressionism/",
+      "show_in_chinese": true
     }
   ]
 }

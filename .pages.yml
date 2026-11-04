@@ -282,10 +282,14 @@ content:
             label: "中文 (optional)"
             type: text
       - name: items
-        label: "Papers and projects"
+        label: "Essays and papers"
         type: object
         list: true
+        description: "Each entry appears in the Academic menu; it opens as a full essay page when the essay text is filled in."
         fields:
+          - name: slug
+            label: "Link name (short, no spaces, e.g. tok-subjectivity)"
+            type: string
           - name: kind
             label: "Type (small line above the title)"
             type: object
@@ -306,18 +310,8 @@ content:
               - name: zh
                 label: "中文 (optional)"
                 type: text
-          - name: question
-            label: "Research question"
-            type: object
-            fields:
-              - name: en
-                label: "English"
-                type: text
-              - name: zh
-                label: "中文 (optional)"
-                type: text
           - name: summary
-            label: "Summary"
+            label: "Short blurb for the menu"
             type: object
             fields:
               - name: en
@@ -326,44 +320,15 @@ content:
               - name: zh
                 label: "中文 (optional)"
                 type: text
-          - name: details
-            label: "Details"
-            type: object
-            list: true
-            fields:
-              - name: label
-                label: "Label"
-                type: object
-                fields:
-                  - name: en
-                    label: "English"
-                    type: string
-                  - name: zh
-                    label: "中文 (optional)"
-                    type: string
-              - name: value
-                label: "Value"
-                type: object
-                fields:
-                  - name: en
-                    label: "English"
-                    type: string
-                  - name: zh
-                    label: "中文 (optional)"
-                    type: string
-          - name: note
-            label: "Note (e.g. Full essay available on request)"
-            type: object
-            fields:
-              - name: en
-                label: "English"
-                type: string
-              - name: zh
-                label: "中文 (optional)"
-                type: string
-          - name: file
-            label: "PDF (optional)"
-            type: file
+          - name: year
+            label: "Year"
+            type: string
+          - name: body
+            label: "Full essay text (separate paragraphs with a blank line; *italic*, **bold**)"
+            type: text
+          - name: bibliography
+            label: "Bibliography (one source per line)"
+            type: text
           - name: show_in_chinese
             label: "Show on the Chinese version"
             type: boolean

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projects · Longfei Ju</title>
+<meta name="description" content="Projects by Longfei Ju, starting with commodity flows.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
+<link rel="stylesheet" href="site.css?v=929be585">
+<style>*{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+</head>
+<body>
+<header>
+  <nav class="wrap" aria-label="Main">
+    <a class="mark" href="index.html"><b>LJ</b><span data-zh="巨龙飞">Longfei Ju</span></a>
+    <div class="navr">
+    <ul>
+      <li class="hide-s"><a href="story.html" data-zh="我的故事">My story</a></li>
+      <li><a href="projects.html" aria-current="page" data-zh="项目">Projects</a></li>
+      <li class="hide-m"><a href="index.html#experience" data-zh="经历">Experience</a></li>
+      <li><a href="hobbies.html" data-zh="爱好">Hobbies</a></li>
+      <li><a href="academic.html" data-zh="学术">Academic</a></li>
+      <li class="hide-m"><a href="index.html#contact" data-zh="联系">Contact</a></li>
+    </ul>
+    <button class="langbtn" type="button">中文</button>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <div class="eyebrow" data-zh="项目">Projects</div>
+    <h1 data-zh="项目">Projects</h1>
+    <p id="page-intro"></p>
+  </div>
+  <section id="commodity-flows" aria-labelledby="cf-h">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow" data-zh="项目 · 01">Project · 01</div>
+        <h2 class="title" id="cf-h" data-zh="大宗商品流向">Commodity flows</h2>
+      </div>
+      <p id="cf-intro"></p>
+    </div>
+    <div class="grid" id="cf-grid"></div>
+  </section>
+  <footer>
+    <span data-zh="© 2026 巨龙飞">© 2026 Longfei Ju</span>
+    <span data-zh="新加坡">Singapore</span>
+  </footer>
+</main>
+
+<script src="site.js?v=6447d337"></script>
+<script>
+(function () {
+  var T = site.T;
+  site.load('content/projects.json').then(function (d) {
+    if (site.has(d.intro)) document.getElementById('page-intro').outerHTML = T(d.intro, 'p', 'id="page-intro"');
+    if (site.has(d.flows_intro)) document.getElementById('cf-intro').outerHTML = T(d.flows_intro, 'p', 'id="cf-intro"');
+    site.scan();
+  }).catch(function () {});
+  site.load('content/home.json').then(function (d) {
+    document.getElementById('cf-grid').innerHTML = (d.projects || []).map(site.projectCard).join('');
+    site.scan();
+  }).catch(function () {});
+})();
+</script>
+</body>
+</html>

@@ -209,3 +209,36 @@ a.toc-item:hover .toc-arrow, a.toc-item:focus-visible .toc-arrow{transform:trans
 .essay-bib a{color:var(--navy-soft); text-decoration:none; border-bottom:1px solid #c8d1e0}
 .essay-foot{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; border-top:1px solid var(--line); padding-block:24px 40px; margin-top:40px; font:12px/1.5 var(--f-mono); color:var(--muted)}
 .essay-foot a{color:var(--navy)}
+
+/* commodity flows: rotating home banner */
+#flows .sec-head{align-items:end}
+.flows{position:relative; border:1px solid var(--line); background:var(--surface); overflow:hidden}
+.flows-viewport{overflow:hidden}
+.flows-track{display:flex; transition:transform .65s cubic-bezier(.2,.7,.2,1); will-change:transform}
+.flow-slide{flex:0 0 100%; min-width:0; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; gap:clamp(20px,4vw,56px);
+  padding:clamp(32px,5vw,60px) clamp(64px,8vw,104px) clamp(48px,6vw,72px); min-height:clamp(280px,30vw,360px)}
+.flow-text{display:flex; flex-direction:column; gap:14px; min-width:0}
+.flow-text h3{font:400 clamp(28px,3.4vw,40px)/1.1 var(--f-display); color:var(--navy); margin:0; text-wrap:balance}
+.flow-text p{margin:0; color:var(--muted); font-size:clamp(15px,1.4vw,17px); max-width:46ch}
+.flow-cta{margin-top:6px}
+.flow-art{color:var(--navy); display:grid; place-items:center}
+.flow-art svg{width:100%; max-width:420px; height:auto}
+.flow-art.soon{color:var(--muted)}
+.flows-nav{position:absolute; top:50%; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; border:1.5px solid var(--navy); background:var(--bg); color:var(--navy);
+  font:500 18px/1 var(--f-body); cursor:pointer; display:grid; place-items:center; transition:background-color .18s, color .18s, transform .18s; z-index:2}
+.flows-nav.prev{left:clamp(10px,1.6vw,22px)} .flows-nav.next{right:clamp(10px,1.6vw,22px)}
+.flows-nav:hover{background:var(--navy); color:var(--bg)}
+.flows-nav.prev:hover{transform:translate(-2px,-50%)} .flows-nav.next:hover{transform:translate(2px,-50%)}
+.flows-dots{position:absolute; left:0; right:0; bottom:18px; display:flex; justify-content:center; gap:10px; z-index:2}
+.flows-dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--navy); background:transparent; padding:0; cursor:pointer; transition:background-color .2s, width .2s}
+.flows-dot[aria-current="true"]{background:var(--navy); width:26px; border-radius:6px}
+.flows.single .flows-nav,.flows.single .flows-dots{display:none}
+@media (max-width:760px){
+  .flow-slide{grid-template-columns:1fr; padding:28px 22px 84px; min-height:0; gap:18px}
+  .flow-art{order:-1} .flow-art svg{max-width:260px}
+  .flows-nav{top:auto; bottom:12px; transform:none; width:40px; height:40px}
+  .flows-nav.prev:hover,.flows-nav.next:hover{transform:none}
+  .flows-nav.prev{left:14px} .flows-nav.next{right:14px}
+  .flows-dots{bottom:27px}
+}
+@media (prefers-reduced-motion: reduce){ .flows-track{transition:none} }

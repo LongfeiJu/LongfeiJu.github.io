@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
-<link rel="stylesheet" href="site.css?v=b2f127e4">
+<link rel="stylesheet" href="site.css?v=929be585">
 <style>*{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -20,8 +20,8 @@
     <a class="mark" href="index.html"><b>LJ</b><span data-zh="巨龙飞">Longfei Ju</span></a>
     <div class="navr">
     <ul>
-      <li><a href="story.html" data-zh="我的故事">My story</a></li>
-      <li class="hide-s"><a href="index.html#projects" data-zh="项目">Projects</a></li>
+      <li class="hide-s"><a href="story.html" data-zh="我的故事">My story</a></li>
+      <li><a href="projects.html" data-zh="项目">Projects</a></li>
       <li class="hide-m"><a href="index.html#experience" data-zh="经历">Experience</a></li>
       <li><a href="hobbies.html" data-zh="爱好">Hobbies</a></li>
       <li><a href="academic.html" data-zh="学术">Academic</a></li>
@@ -40,7 +40,7 @@
       <p class="lede" id="h-intro"></p>
       <div class="cta">
         <a class="btn primary" href="story.html" data-zh="阅读我的故事 →">Read my story →</a>
-        <a class="btn" href="#projects" data-zh="查看项目">See projects</a>
+        <a class="btn" href="projects.html" data-zh="查看项目">See projects</a>
       </div>
     </div>
     <aside class="glance" aria-label="At a glance">
@@ -49,14 +49,20 @@
     </aside>
   </div>
 
-  <section id="projects" aria-labelledby="projects-h">
+  <section id="flows" aria-labelledby="flows-h">
     <div class="sec-head">
       <div>
-        <div class="eyebrow" data-zh="项目 · 大宗商品之旅">Projects · Commodity journeys</div>
-        <h2 class="title" id="projects-h" data-zh="追踪大宗商品">Follow the commodity</h2>
+        <div class="eyebrow" data-zh="大宗商品流向">Commodity flows</div>
+        <h2 class="title" id="flows-h" data-zh="追踪大宗商品">Follow the commodity</h2>
       </div>
+      <a class="btn" href="projects.html" data-zh="所有项目 →">All projects →</a>
     </div>
-    <div class="grid" id="projects-grid"></div>
+    <div class="flows" id="flows-banner" role="region" aria-roledescription="carousel" aria-labelledby="flows-h">
+      <div class="flows-viewport"><div class="flows-track"></div></div>
+      <button class="flows-nav prev" type="button" aria-label="Previous commodity">←</button>
+      <button class="flows-nav next" type="button" aria-label="Next commodity">→</button>
+      <div class="flows-dots"></div>
+    </div>
   </section>
 
   <section class="band" aria-labelledby="story-h">
@@ -106,16 +112,10 @@
   </footer>
 </main>
 
-<script src="site.js?v=5e02573d"></script>
+<script src="site.js?v=6447d337"></script>
 <script>
 (function () {
   var T = site.T, esc = site.esc;
-  var ICON = {
-    corn: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M40 60c30-26 110-34 150-12 10 6 10 18 0 24-40 22-120 14-150-12z"/><path d="M60 50v20M75 45v30M90 42v36M105 40v40M120 40v40M135 41v38M150 43v34M165 46v28M178 50v20"/><path d="M48 54c40-6 100-6 140 2M48 66c40 6 100 6 140-2"/><path d="M40 60 18 52M40 60 16 66M40 60c-6-14-2-26 8-32"/></svg>',
-    oil: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3"><ellipse cx="120" cy="26" rx="34" ry="9"/><path d="M86 26v68c0 5 15 9 34 9s34-4 34-9V26"/><path d="M86 48c0 5 15 9 34 9s34-4 34-9M86 72c0 5 15 9 34 9s34-4 34-9"/><path d="M24 98h60M156 98h60M40 98V78l14-10v30M190 98V70h10v28"/></svg>',
-    copper: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M70 92l40-14 60 10-40 16z"/><path d="M70 80l40-14 60 10-40 16zM70 80v12M130 92v12M170 76v12"/><path d="M70 68l40-14 60 10-40 16zM70 68v12M130 80v12M170 64v12"/><path d="M30 40l18-14 18 14M48 26v-8M180 30h40M200 30v-12"/></svg>',
-    generic: '<svg viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="70" y="24" width="100" height="72"/><path d="M70 72l30-24 26 20 18-14 26 22"/><circle cx="148" cy="44" r="8"/></svg>'
-  };
   function set(id, html) { var el = document.getElementById(id); if (el) el.outerHTML = html; }
   site.load('content/home.json').then(function (d) {
     var h = d.hero || {};
@@ -123,14 +123,7 @@
     set('h-greeting', T(h.greeting, 'h1', 'id="h-greeting"'));
     set('h-intro', T(h.intro, 'p', 'class="lede" id="h-intro"'));
     document.getElementById('glance').innerHTML = (d.glance || []).map(function (g) { return T(g.label, 'dt') + T(g.value, 'dd'); }).join('');
-    document.getElementById('projects-grid').innerHTML = (d.projects || []).map(function (p) {
-      var live = (p.status || '').toLowerCase() === 'live' && p.link;
-      var tag = live ? 'a' : 'div', href = live ? ' href="' + esc(p.link) + '"' : '';
-      var chip = live ? '<span class="chip live" data-zh="已上线">Live</span><span class="go" aria-hidden="true" data-zh="打开 →">Open →</span>'
-                      : '<span class="chip soon" data-zh="筹备中">Planned</span>';
-      return '<' + tag + ' class="proj' + (live ? '' : ' soon') + '"' + href + '><div class="art" aria-hidden="true">' + (ICON[p.icon] || ICON.generic) + '</div>'
-        + '<div class="body">' + T(p.title, 'h3') + T(p.description, 'p') + '<div class="meta">' + chip + '</div></div></' + tag + '>';
-    }).join('');
+    site.flowsBanner(document.getElementById('flows-banner'), d.projects || []);
     var s = d.story || {};
     set('story-h', T(s.title, 'h2', 'class="title" id="story-h"'));
     set('story-text', T(s.text, 'p', 'id="story-text"'));

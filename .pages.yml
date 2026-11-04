@@ -69,10 +69,10 @@ content:
                 label: "中文 (optional)"
                 type: string
       - name: projects
-        label: "Projects"
+        label: "Commodity flows"
         type: object
         list: true
-        description: "Project cards. A card only links when Status is Live and Link is filled in."
+        description: "Commodity flows: shown in the rotating home banner and on the Projects page. A card only links when Status is Live and Link is filled in."
         fields:
           - name: title
             label: "Title"
@@ -204,6 +204,32 @@ content:
           - name: linkedin
             label: "LinkedIn URL"
             type: string
+  - name: projects_page
+    label: "Projects page"
+    type: file
+    path: content/projects.json
+    format: json
+    fields:
+      - name: intro
+        label: "Intro line under the title"
+        type: object
+        fields:
+          - name: en
+            label: "English"
+            type: text
+          - name: zh
+            label: "中文 (optional)"
+            type: text
+      - name: flows_intro
+        label: "Commodity flows intro"
+        type: object
+        fields:
+          - name: en
+            label: "English"
+            type: text
+          - name: zh
+            label: "中文 (optional)"
+            type: text
   - name: hobbies
     label: "Hobbies page"
     type: file

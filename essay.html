@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
-<link rel="stylesheet" href="site.css?v=c3d038fa">
+<link rel="stylesheet" href="site.css?v=b2f127e4">
 <style>*{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -70,10 +70,10 @@
     var n = wordsOf(x.body), mins = Math.max(1, Math.round(n / 230));
     var bib = (x.bibliography || '').split(/\n/).map(function (l) { return l.replace(/^\s*[-•]\s*/, '').trim(); }).filter(Boolean);
     box.innerHTML = '<a class="essay-back" href="academic.html" data-zh="← 学术">← Academic</a>'
-      + '<header class="essay-head">' + (site.has(x.kind) ? T(x.kind, 'div', 'class="essay-kind"') : '')
+      + '<div class="essay-head">' + (site.has(x.kind) ? T(x.kind, 'div', 'class="essay-kind"') : '')
       + '<h1 class="essay-title">' + esc(x.title.en || '') + '</h1>'
       + '<div class="essay-by"><span data-zh="巨龙飞">Longfei Ju</span>' + (x.year ? '<span>' + esc(x.year) + '</span>' : '') + '<span>' + fmt(n) + ' <span data-zh="词">words</span></span><span>' + mins + ' <span data-zh="分钟阅读">min read</span></span></div>'
-      + '<div class="essay-rule" aria-hidden="true">❦</div></header>'
+      + '<div class="essay-rule" aria-hidden="true">❦</div></div>'
       + '<div class="essay-body">' + paras.map(function (p) { return '<p>' + inline(p) + '</p>'; }).join('') + '</div>'
       + (bib.length ? '<section class="essay-bib"><h2 data-zh="参考文献">Bibliography</h2><ol>' + bib.map(function (b) { return '<li>' + linkify(b) + '</li>'; }).join('') + '</ol></section>' : '');
     site.scan();

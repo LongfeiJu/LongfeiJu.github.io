@@ -6,5 +6,16 @@
   "flows_intro": {
     "en": "Follow a commodity from where it is produced to where it is used.",
     "zh": "追踪一种大宗商品从产地到终端用途的全过程。"
+  },
+  "ledger": {
+    "intro": {
+      "en": "A personalised news summary, written for me every morning.",
+      "zh": "每天早上为我生成的个性化新闻摘要。"
+    },
+    "description": {
+      "en": "A morning briefing I built that lands every day before the markets open. It sums up overnight moves in stocks, rates, commodities and crypto, and explains why each story matters.",
+      "zh": "一份我亲手搭建、每天开盘前送达的晨间简报。它总结隔夜股市、利率、大宗商品和加密货币的变动，并解释每条新闻为什么重要。"
+    },
+    "link": "https://claude.ai/artifact/Ngd3gssUosM8tuTW7UN4r3"
   }
 }

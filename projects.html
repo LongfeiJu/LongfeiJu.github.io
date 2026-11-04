@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Projects · Longfei Ju</title>
-<meta name="description" content="Projects by Longfei Ju, starting with commodity flows.">
+<meta name="description" content="Projects by Longfei Ju: commodity flows and The Overnight Ledger.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap">
-<link rel="stylesheet" href="site.css?v=929be585">
+<link rel="stylesheet" href="site.css?v=1daa5d44">
 <style>*{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -48,6 +48,32 @@
     </div>
     <div class="grid" id="cf-grid"></div>
   </section>
+  <section id="overnight-ledger" aria-labelledby="ol-h">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow" data-zh="项目 · 02">Project · 02</div>
+        <h2 class="title" id="ol-h" data-zh="隔夜账本">The Overnight Ledger</h2>
+      </div>
+      <p id="ol-intro" data-zh="每天早上为我生成的个性化新闻摘要。">A personalised news summary, written for me every morning.</p>
+    </div>
+    <a class="ledger" id="ol-card" href="https://claude.ai/artifact/Ngd3gssUosM8tuTW7UN4r3" target="_blank" rel="noopener">
+      <div class="ledger-mast" aria-hidden="true">
+        <div class="ledger-top"><span data-zh="晨间版">Morning edition</span><span data-zh="新加坡时间 6:30">6:30am SGT</span></div>
+        <div class="ledger-name">The Overnight Ledger</div>
+        <div class="ledger-sub" data-zh="市场、利率、大宗商品与全球新闻，用大白话讲清楚">Markets, rates, commodities and world news, explained in plain words</div>
+        <div class="ledger-desks"><span data-zh="市场">Markets</span><span data-zh="利率">Rates</span><span data-zh="大宗商品">Commodities</span><span data-zh="全球">World</span></div>
+      </div>
+      <div class="ledger-body">
+        <p id="ol-desc" data-zh="一份我亲手搭建、每天开盘前送达的晨间简报。它总结隔夜股市、利率、大宗商品和加密货币的变动，并解释每条新闻为什么重要。">A morning briefing I built that lands every day before the markets open. It sums up overnight moves in stocks, rates, commodities and crypto, and explains why each story matters.</p>
+        <ul class="ledger-feats">
+          <li data-zh="每天早上更新，附完整往期存档">New edition every morning, with a full archive</li>
+          <li data-zh="英文与中文两个版本">In English and 中文</li>
+          <li data-zh="5分钟语音简报">A 5-minute audio briefing</li>
+        </ul>
+        <span class="btn primary ledger-go" data-zh="阅读今天的一期 ↗">Read today's edition ↗</span>
+      </div>
+    </a>
+  </section>
   <footer>
     <span data-zh="© 2026 巨龙飞">© 2026 Longfei Ju</span>
     <span data-zh="新加坡">Singapore</span>
@@ -61,6 +87,10 @@
   site.load('content/projects.json').then(function (d) {
     if (site.has(d.intro)) document.getElementById('page-intro').outerHTML = T(d.intro, 'p', 'id="page-intro"');
     if (site.has(d.flows_intro)) document.getElementById('cf-intro').outerHTML = T(d.flows_intro, 'p', 'id="cf-intro"');
+    var L = d.ledger || {};
+    if (site.has(L.intro)) document.getElementById('ol-intro').outerHTML = T(L.intro, 'p', 'id="ol-intro"');
+    if (site.has(L.description)) document.getElementById('ol-desc').outerHTML = T(L.description, 'p', 'id="ol-desc"');
+    if (L.link) document.getElementById('ol-card').href = L.link;
     site.scan();
   }).catch(function () {});
   site.load('content/home.json').then(function (d) {

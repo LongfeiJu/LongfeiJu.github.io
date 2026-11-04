@@ -242,3 +242,24 @@ a.toc-item:hover .toc-arrow, a.toc-item:focus-visible .toc-arrow{transform:trans
   .flows-dots{bottom:27px}
 }
 @media (prefers-reduced-motion: reduce){ .flows-track{transition:none} }
+
+/* projects page: The Overnight Ledger */
+#overnight-ledger{padding-top:clamp(40px,6vw,72px)}
+.ledger{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); border:1px solid var(--line); background:var(--surface); color:inherit; text-decoration:none;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
+.ledger:hover,.ledger:focus-visible{transform:translateY(-2px); border-color:var(--navy); box-shadow:0 12px 28px -16px rgba(19,41,75,.45); outline:none}
+.ledger-mast{background:#f6f5f1; color:#1b1d22; padding:clamp(24px,3.4vw,40px); text-align:center; display:flex; flex-direction:column; justify-content:center; gap:12px; border-right:1px solid var(--line);
+  font-family:"Times New Roman", Times, "Noto Serif SC", serif}
+.ledger-top{display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; font:600 11px/1.4 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; color:#5d6068; border-bottom:1px solid #cfccc3; padding-bottom:8px}
+.ledger-name{font-size:clamp(30px,3.8vw,46px); line-height:1.02; border-bottom:3px double #1b1d22; padding-bottom:12px}
+.ledger-sub{font-style:italic; color:#5d6068; font-size:clamp(14px,1.3vw,16px)}
+.ledger-desks{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:#cfccc3; border:1px solid #cfccc3; font:500 11px/1 var(--f-mono); letter-spacing:.06em; text-transform:uppercase; color:#1f4e79}
+.ledger-desks span{background:#f6f5f1; padding:9px 4px}
+.ledger-body{padding:clamp(24px,3.4vw,40px); display:flex; flex-direction:column; gap:16px; justify-content:center}
+.ledger-body p{margin:0; color:var(--muted); font-size:clamp(15px,1.4vw,17px)}
+.ledger-feats{margin:0; padding:0; list-style:none; display:grid; gap:8px; font-size:15px; color:var(--ink)}
+.ledger-feats li{padding-left:20px; position:relative}
+.ledger-feats li::before{content:""; position:absolute; left:0; top:.6em; width:9px; height:1.5px; background:var(--navy)}
+.ledger-go{align-self:flex-start}
+@media (max-width:760px){ .ledger{grid-template-columns:1fr} .ledger-mast{border-right:0; border-bottom:1px solid var(--line)} .ledger-desks{grid-template-columns:repeat(2,1fr)} }
+@media (prefers-reduced-motion: reduce){ .ledger{transition:none} .ledger:hover{transform:none} }

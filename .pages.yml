@@ -230,6 +230,33 @@ content:
           - name: zh
             label: "中文 (optional)"
             type: text
+      - name: ledger
+        label: "The Overnight Ledger"
+        type: object
+        fields:
+          - name: intro
+            label: "Line next to the heading"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: text
+              - name: zh
+                label: "中文 (optional)"
+                type: text
+          - name: description
+            label: "Description on the card"
+            type: object
+            fields:
+              - name: en
+                label: "English"
+                type: text
+              - name: zh
+                label: "中文 (optional)"
+                type: text
+          - name: link
+            label: "Link to the Ledger"
+            type: string
   - name: hobbies
     label: "Hobbies page"
     type: file

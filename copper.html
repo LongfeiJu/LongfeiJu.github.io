@@ -210,11 +210,12 @@ section.ch{height:150vh; position:relative}
     <article class="card">
       <div class="eyebrow"><span data-zh="图 03 / 09">Sheet 03 / 09</span><span data-zh="选矿">Mill</span></div>
       <h2 data-zh="选矿厂">The concentrator</h2>
-      <p data-zh="矿石被破碎并磨得像面粉一样细，再与水和药剂一起进入浮选槽。硫化铜颗粒附着在气泡上，浮成泡沫被刮出；剩下的几乎全部岩石进入尾矿库。">Ore is crushed and ground as fine as flour, then mixed with water and reagents in flotation cells. Copper sulphide grains cling to air bubbles and rise into a froth that is skimmed off. Nearly all the rock left behind goes to a tailings dam.</p>
+      <p data-zh="矿石是从矿坑运来的岩石，含铜不到 1%；精矿是选矿后的产品，含铜约四分之一，才是真正装船出口的货物。矿石被破碎并磨得像面粉一样细，再与水和药剂一起进入浮选槽。硫化铜颗粒附着在气泡上，浮成泡沫被刮出；剩下的几乎全部岩石进入尾矿库。">Ore is the rock trucked out of the pit, under 1% copper. Concentrate is what the mill makes from it, about a quarter copper, and it is what actually gets shipped. The ore is crushed and ground as fine as flour, then mixed with water and reagents in flotation cells. Copper sulphide grains cling to air bubbles and rise into a froth that is skimmed off. Nearly all the rock left behind goes to a tailings dam.</p>
       <dl>
-        <dt data-zh="精矿品位">Concentrate</dt><dd data-zh="&lt;em&gt;≈ 25–30% 铜&lt;/em&gt;"><em>≈ 25–30% Cu</em></dd>
+        <dt data-zh="进：矿石">In: ore</dt><dd data-zh="≈ 0.6% 铜 · 碎石块">≈ 0.6% Cu · broken rock</dd>
+        <dt data-zh="出：精矿">Out: concentrate</dt><dd data-zh="&lt;em&gt;≈ 25–30% 铜 · 潮湿粉末&lt;/em&gt;"><em>≈ 25–30% Cu · damp powder</em></dd>
+        <dt data-zh="富集">Upgrade</dt><dd data-zh="≈ 40–50 倍">≈ 40–50×</dd>
         <dt data-zh="尾矿">Tailings</dt><dd data-zh="≈ 矿石的 97–99%">≈ 97–99% of the ore</dd>
-        <dt data-zh="用水">Water</dt><dd data-zh="智利矿山越来越多使用淡化海水">Chile pumps desalinated seawater uphill</dd>
       </dl>
       <p class="note" data-zh="氧化矿则在矿山用浸出-萃取-电积（SX-EW）工艺直接产出阴极铜。">Oxide ores skip this step: they are leached and plated into cathode at the mine (SX-EW).</p>
     </article>
@@ -224,7 +225,7 @@ section.ch{height:150vh; position:relative}
     <article class="card">
       <div class="eyebrow"><span data-zh="图 04 / 09">Sheet 04 / 09</span><span data-zh="液化风险">Liquefaction risk</span></div>
       <h2 data-zh="海运">At sea</h2>
-      <p data-zh="铜精矿是潮湿的粉末，以散货方式海运。按照《国际海运固体散装货物规则》（IMSBC），它属于 A 类货物：一旦含水率超过适运水分限（TML），船体摇晃就可能把它变成泥浆。泥浆流向一侧，船舶倾侧，几分钟内就可能倾覆。">Concentrate is a damp powder shipped in bulk. Under the IMSBC Code it is a Group A cargo: if its moisture rises above the Transportable Moisture Limit (TML), the ship's rolling can turn it into slurry. The slurry slides to one side, the ship lists, and it can capsize within minutes.</p>
+      <p data-zh="海运的是精矿而不是矿石：一种以散货方式运输的潮湿粉末。按照《国际海运固体散装货物规则》（IMSBC），它属于 A 类货物：一旦含水率超过适运水分限（TML），船体摇晃就可能把它变成泥浆。泥浆流向一侧，船舶倾侧，几分钟内就可能倾覆。">What sails is concentrate, not ore: a damp powder shipped in bulk. Under the IMSBC Code it is a Group A cargo: if its moisture rises above the Transportable Moisture Limit (TML), the ship's rolling can turn it into slurry. The slurry slides to one side, the ship lists, and it can capsize within minutes.</p>
       <dl>
         <dt data-zh="规则">Rule</dt><dd data-zh="含水率 &lt;em&gt;&amp;lt; TML&lt;/em&gt;">moisture <em>&lt; TML</em></dd>
         <dt>TML</dt><dd data-zh="流动水分点的 90%">90% of the flow moisture point</dd>
@@ -499,7 +500,9 @@ const truck=haulTruck();truck.scale.setScalar(1.15);mine.add(truck);
    ========================================================= */
 const conc=new THREE.Group();conc.position.set(83,0,0);scene.add(conc);
 const cParts=[];const cAdd=o=>{conc.add(o);cParts.push(o);return o;};
-{const pile=jitter(clean(new THREE.ConeGeometry(2.1,1.7,22,3)),.06);pile.translate(-9,.85,0);cAdd(ink(pile,{wire:true,base:.32}));}
+{const g=new THREE.Group();for(let i=0;i<34;i++){const a=R(0,6.283),r=Math.sqrt(rnd())*1.9,h=Math.max(0,1.5*(1-r/2.0)),sz=R(.22,.42);
+   const rk=jitter(clean(new THREE.IcosahedronGeometry(sz,0)),sz*.25);rk.translate(-9+Math.cos(a)*r,sz*.6+R(0,h),Math.sin(a)*r*.7);g.add(ink(rk,{thresh:1,base:.85}));}
+ cAdd(g);}
 {const g=new THREE.Group();const A=V(-8.2,1.2,0),B=V(-4.9,3.6,0);g.add(ink(beam(A,B,.18,4)));
  const tr=[];for(let i=0;i<9;i++){const a=A.clone().lerp(B,i/9),b=A.clone().lerp(B,(i+1)/9);tr.push(a.x,a.y-.18,a.z,b.x,b.y+.18,b.z);}g.add(segs(tr,'ink',.5));
  g.add(ink(beam(V(-6.5,0,0),A.clone().lerp(B,.5),.08,4)));cAdd(g);}
@@ -517,7 +520,9 @@ const CELLX=[4.4,5.95,7.5,9.05,10.6];
    const rr=[];poly(circlePts(.86,40,1.62).map(p=>V(p.x+x,p.y,p.z)),rr);g.add(segs(rr,'grain',.95));
    g.add(segs([x,1.55,0,x,2.2,0, x-.25,2.2,0,x+.25,2.2,0],'ink',.7));}
  const l=[];l.push(CELLX[0]-.9,1.62,.95,CELLX[4]+.9,1.62,.95);g.add(segs(l,'grain',.8));cAdd(g);}
-{const p=jitter(clean(new THREE.ConeGeometry(1.0,.9,16,2)),.04);p.translate(13,.45,0);cAdd(ink(p,{wire:true,role:'grain',base:.7}));}
+{const g=new THREE.Group();const p=clean(new THREE.ConeGeometry(1.2,1.0,24,1));p.translate(13,.5,0);g.add(ink(p,{thresh:30,role:'grain'}));
+ const n=700,a=new Float32Array(n*3);for(let i=0;i<n;i++){const ang=R(0,6.283),r=Math.sqrt(rnd())*1.15,y=R(0,1)*(1-r/1.2);a[i*3]=13+Math.cos(ang)*r;a[i*3+1]=.02+y;a[i*3+2]=Math.sin(ang)*r;}
+ const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(a,3));g.add(new THREE.Points(pg,pmat('grain',.05)));cAdd(g);}
 const tail=new THREE.Group();conc.add(tail);cParts.push(tail);
 {const t=[];const e=[];for(let i=0;i<=60;i++){const a=i/60*Math.PI*2;e.push(V(7+Math.cos(a)*4.2,0,-8+Math.sin(a)*2.2));}dashed(e,t);
  dashed(Array.from({length:21},(_,i)=>V(lerp(10.6,8.5,i/20),.25,lerp(-.7,-6,i/20))),t);tail.add(segs(t,'ink',.55));}
@@ -812,11 +817,11 @@ tag(['Haul truck · up to ≈ 400 t','矿卡 · 载重可达约 400 吨'],()=>tr
 tag(['Porphyry ore body · ≈ 0.6% Cu','斑岩矿体 · 品位约 0.6%'],at(mine,-3.4,-NB*BH-.9,0),2.15,2.9,-50,30,{acc:true});
 tag(['≈ 150+ t of ore → 1 t Cu','约 150 吨以上矿石 → 1 吨铜'],at(mine,1.5,-NB*BH-3.3,0),2.2,2.9,40,34,{acc:true,minor:true});
 // 3 concentrator
-tag(['Run-of-mine ore','原矿'],at(conc,-9,1.7,0),3.0,3.9,-36,-30,{minor:true});
-tag(['SAG mill · grinds to powder','半自磨机 · 磨成粉末'],at(conc,-3,4.1,0),3.0,3.9,-40,-34);
+tag(['Ore in · ≈ 0.6% Cu · broken rock','进：矿石 · 含铜约 0.6% · 碎石块'],at(conc,-9,1.9,0),3.0,3.9,10,-80);
+tag(['SAG mill · grinds to powder','半自磨机 · 磨成粉末'],at(conc,-3,4.1,0),3.0,3.9,20,-90);
 tag(['Ball mill','球磨机'],at(conc,1.1,2.65,0),3.05,3.9,30,-40,{minor:true});
 tag(['Flotation cells · Cu sulphides ride the bubbles','浮选槽 · 硫化铜随气泡上浮'],at(conc,7.5,2.2,0),3.05,3.9,30,-52,{acc:true});
-tag(['Concentrate · ≈ 25–30% Cu','精矿 · 含铜约 25–30%'],at(conc,13,.95,0),3.1,3.9,30,30,{acc:true});
+tag(['Concentrate out · ≈ 25–30% Cu · damp powder','出：精矿 · 含铜约 25–30% · 潮湿粉末'],at(conc,13,.05,.6),3.1,3.9,-10,58,{acc:true});
 tag(['Tailings dam · ≈ 97–99% of the rock','尾矿库 · 约占矿石 97–99%'],at(conc,7,0,-10.2),3.15,3.9,40,-20);
 // 4 at sea
 tag(['Bulk carrier · section A–A','散货船 · A–A 剖面'],at(sideShip,AAx,2.5,0),4.0,4.9,44,-26);

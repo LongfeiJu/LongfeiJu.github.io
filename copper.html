@@ -840,22 +840,22 @@ const PORTTAGS=[[['Antofagasta','安托法加斯塔'],-23.65,-70.4,-44,26],[['Ca
 for(const[t,la,lo,dx,dy]of PORTTAGS)tag(t,globePt(la,lo),6.15,6.95,dx,dy,{facing:true,acc:['Antofagasta','Callao','Copperbelt','Grasberg'].includes(t[0])});
 // 7 risks
 RISKS.forEach(([la,lo,t,dx,dy])=>tag(t,globePt(la,lo),7.05,7.95,dx,dy,{facing:true,acc:true}));
-// 8 uses
+// 8 uses: labels in lanes above and below the ground line
 tag(['Cathode','阴极铜'],at(usesA,-5,1.35,.55),8.0,8.9,-40,-30,{acc:true});
-tag(['Building wire','建筑电线'],at(usesA,PRODX[0],1.05,.6),8.05,8.9,-30,40);
-tag(['Plumbing & cooling tube','水管与制冷铜管'],at(usesA,PRODX[1]+.55,1.4,0),8.1,8.9,30,-40,{minor:true});
-tag(['Motors & equipment','电机与设备'],at(usesA,PRODX[2],1.7,0),8.1,8.9,30,40);
-tag(['ICE car · ≈ 23 kg Cu','燃油车 · 约 23 公斤铜'],at(usesA,PRODX[3]-.4,.6,.85),8.15,8.9,-14,62);
-tag(['Battery EV · ≈ 83 kg Cu · ~4×','纯电动车 · 约 83 公斤铜 · 约 4 倍'],at(usesA,PRODX[4]+.6,1.5,.85),8.15,8.9,-10,-78,{acc:true});
-tag(['Battery pack & motor windings','电池包与电机绕组'],at(usesA,PRODX[4]-.2,.5,.65),8.2,8.9,24,58,{acc:true,minor:true});
+tag(['Building wire','建筑电线'],at(usesA,PRODX[0],.05,.6),8.05,8.9,-12,52);
+tag(['Plumbing & cooling tube','水管与制冷铜管'],at(usesA,PRODX[1]-1.0,.1,.25),8.1,8.9,10,94,{minor:true});
+tag(['Motors & equipment','电机与设备'],at(usesA,PRODX[2],.02,.55),8.1,8.9,12,52);
+tag(['ICE car · ≈ 23 kg Cu','燃油车 · 约 23 公斤铜'],at(usesA,PRODX[3]-.3,1.5,.85),8.15,8.9,-14,-64);
+tag(['Battery EV · ≈ 83 kg Cu · ~4×','纯电动车 · 约 83 公斤铜 · 约 4 倍'],at(usesA,PRODX[4]+.3,1.5,.85),8.15,8.9,14,-64,{acc:true});
+tag(['Battery pack & motor windings','电池包与电机绕组'],at(usesA,PRODX[4],.5,.65),8.2,8.9,14,60,{acc:true,minor:true});
 // 9 new demand
-tag(['AI data centre · servers & cooling','AI 数据中心 · 服务器与散热'],at(usesB,-7.6,2.2,.6),9.0,10,-30,-60);
-tag(['Copper busbars & power cables','铜母线与电力电缆'],at(usesB,-6.7,2.96,0),9.0,10,40,-46,{acc:true});
-tag(['Transformer','变压器'],at(usesB,-3.0,1.45,.55),9.05,10,30,36,{minor:true});
-tag(['Grid · lines & transformers','电网 · 线路与变压器'],at(usesB,1.2,6.5,0),9.05,10,-30,-40);
-tag(['Wind ≈ 3.5–9.5 t Cu / MW','风电 · 每兆瓦约 3.5–9.5 吨铜'],at(usesB,6.55,8.45,0),9.1,10,-50,-40,{acc:true});
-tag(['Generator windings','发电机绕组'],at(usesB,5.85,8.45,0),9.1,10,-40,30,{minor:true});
-tag(['Solar PV ≈ 5 t Cu / MW','光伏 · 每兆瓦约 5 吨铜'],at(usesB,12.5,1.5,0),9.15,10,-30,-60,{acc:true});
+tag(['AI data centre · servers & cooling','AI 数据中心 · 服务器与散热'],at(usesB,-8.4,2.15,.58),9.0,10,-16,-56);
+tag(['Copper busbars & power cables','铜母线与电力电缆'],at(usesB,-7.6,2.96,0),9.0,10,-16,-100,{acc:true});
+tag(['Transformer','变压器'],at(usesB,-3.0,.02,.55),9.05,10,12,52,{minor:true});
+tag(['Grid · lines & transformers','电网 · 线路与变压器'],at(usesB,1.2,7.2,0),9.05,10,-20,-46);
+tag(['Generator windings','发电机绕组'],at(usesB,6.2,8.6,0),9.1,10,-30,-84,{minor:true});
+tag(['Wind ≈ 3.5–9.5 t Cu / MW','风电 · 每兆瓦约 3.5–9.5 吨铜'],at(usesB,6.8,.02,0),9.1,10,12,52,{acc:true});
+tag(['Solar PV ≈ 5 t Cu / MW','光伏 · 每兆瓦约 5 吨铜'],at(usesB,11.2,.02,.35),9.15,10,12,94,{acc:true});
 
 const TITLES_ZH=['封面','元素','矿山','选矿厂','海运','冶炼与精炼','主要航线','供应风险','最终用途','新需求'];
 window.__lang&&window.__lang.subs.push(()=>{ANN.forEach(a=>{a.el.firstChild.textContent=TT(a.txt);});if(typeof lastSheet!=='undefined')lastSheet=-1;});

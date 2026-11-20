@@ -261,5 +261,8 @@ a.toc-item:hover .toc-arrow, a.toc-item:focus-visible .toc-arrow{transform:trans
 .ledger-feats li{padding-left:20px; position:relative}
 .ledger-feats li::before{content:""; position:absolute; left:0; top:.6em; width:9px; height:1.5px; background:var(--navy)}
 .ledger-go{align-self:flex-start}
-@media (max-width:760px){ .ledger{grid-template-columns:1fr} .ledger-mast{border-right:0; border-bottom:1px solid var(--line)} .ledger-desks{grid-template-columns:repeat(2,1fr)} }
+#shipping{padding-top:clamp(40px,6vw,72px); padding-bottom:clamp(24px,4vw,48px)}
+.ship-art{position:relative; min-height:220px; border-right:1px solid var(--line); overflow:hidden}
+.ship-art svg{position:absolute; inset:0; width:100%; height:100%; display:block}
+@media (max-width:760px){ .ledger{grid-template-columns:1fr} .ship-art{border-right:0; border-bottom:1px solid var(--line)} .ledger-mast{border-right:0; border-bottom:1px solid var(--line)} .ledger-desks{grid-template-columns:repeat(2,1fr)} }
 @media (prefers-reduced-motion: reduce){ .ledger{transition:none} .ledger:hover{transform:none} }

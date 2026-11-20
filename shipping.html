@@ -412,8 +412,7 @@ function makeSmall({L=32,B=11,D=5.5,T=3.6,top=0xb23a2e,hc=mat.white,house=true}=
   g.userData={L,B,D,T,deckY:y};return g;}
 const PCOL=[0x3b3f2c,0x25303d,0x4a3a2a,0x5a5f66,0x2d2d2d];
 function pirate(i){const g=new THREE.Group();const c=M(PCOL[i%PCOL.length],{roughness:.85});const body=new THREE.Mesh(new THREE.CapsuleGeometry(.28,.8,4,8),c);body.position.y=.9;
-  const head=new THREE.Mesh(new THREE.SphereGeometry(.2,10,8),mat.skin);head.position.y=1.65;const wrap=new THREE.Mesh(new THREE.SphereGeometry(.21,10,6,0,6.3,0,1.3),M(0x8a8f96));wrap.position.y=1.68;
-  const legs=new THREE.Mesh(new THREE.CapsuleGeometry(.22,.6,3,6),c);legs.position.y=.35;g.add(body,head,wrap,legs);return shadowAll(g);}
+  const head=new THREE.Mesh(new THREE.SphereGeometry(.2,10,8),mat.skin);head.position.y=1.65;  const legs=new THREE.Mesh(new THREE.CapsuleGeometry(.22,.6,3,6),c);legs.position.y=.35;g.add(body,head,legs);return shadowAll(g);}
 function makeSkiff(col){const g=makeSmall({L:9.5,B:2.5,D:1.2,T:.45,top:col,house:false});g.add(build([box(.7,1.1,.6,-4.9,.8,0,mat.black),box(.25,1.2,.2,-5.1,-.2,0,mat.black),box(1,.25,2.2,-1,.95,0,mat.steel)]));
   const crew=[];for(let i=0;i<4;i++){const p=pirate(i);p.position.set(-3+i*1.7,.8,(i%2?.5:-.5));g.add(p);crew.push(p);}g.userData.crew=crew;return g;}
 

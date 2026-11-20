@@ -94,15 +94,15 @@
     },
     {
       "title": {
-        "en": "Copper",
-        "zh": "铜"
+        "en": "Copper: Follow the Cathode",
+        "zh": "铜：追踪一块阴极铜"
       },
       "description": {
-        "en": "Mine to cathode: concentrate, smelting charges (TC/RCs), warehouse stocks and demand from grids and EVs.",
-        "zh": "从矿山到阴极铜：精矿、加工费（TC/RC）、仓库库存，以及电网和电动车带来的需求。"
+        "en": "From a porphyry pit in the Andes to AI data centres: mining, concentrate shipping and liquefaction risk, smelting, trade routes, where supply breaks, and the new demand from EVs and green energy.",
+        "zh": "从安第斯山脉的斑岩矿坑到 AI 数据中心：采矿、精矿海运与液化风险、冶炼、贸易航线、供应风险，以及电动车和绿色能源带来的新需求。"
       },
-      "status": "Planned",
-      "link": "",
+      "status": "Live",
+      "link": "copper.html",
       "icon": "copper"
     }
   ],

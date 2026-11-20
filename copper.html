@@ -677,8 +677,14 @@ const uA=[];const uAdd=o=>{usesA.add(o);uA.push(o);return o;};
 const cath=new THREE.Group();for(let i=0;i<9;i++)cath.add(ink(box(1.1,.04,1.1,-5,.06+i*.085,0),{role:'grain'}));
 cath.add(ink(box(.95,.2,.7,-5,1.2,0),{role:'grain',base:.6}));usesA.add(cath);
 const PRODX=[0,3.2,6.4,10.6,16.2],PRODTOP=[1.25,1.3,1.4,1.65,1.65];
-const branches=[];PRODX.forEach((px,i)=>{const c=new THREE.CubicBezierCurve3(V(-4.6,1.3,0),V(-3,3.4+i*.55,0),V(px-1.4,3.4+i*.55,0),V(px,PRODTOP[i]+.25,0));
-  const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(c.getPoints(70)),lmat('grain',.85));usesA.add(ln);branches.push(ln);});
+const branches=[];
+function buildBranches(prods){
+  for(const b of branches){usesA.remove(b);b.geometry.dispose();}branches.length=0;
+  const src=V(-4.6,1.3,0).add(cath.position);
+  prods.forEach((o,i)=>{const end=V(0,PRODTOP[i]+.25,0).add(o.position),lift=Math.max(src.y,end.y)+2.1+i*.55;
+    const c=new THREE.CubicBezierCurve3(src,V(src.x+1.6,lift,0),V(end.x-1.4,lift,0),end);
+    const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(c.getPoints(70)),lmat('grain',.85));usesA.add(ln);branches.push(ln);});
+}
 {const g=new THREE.Group();const h=[];for(let i=0;i<=400;i++){const a=i/400*Math.PI*2*9,y=.15+i/400*.85;h.push(V(Math.cos(a)*.62,y,Math.sin(a)*.62));}
  g.add(segs(poly(h),'grain',.8));for(const y of[.1,1.05])g.add(segs(poly(circlePts(.9,40,y)),'ink',1));g.add(ink(cylY(.3,.3,1.0,0,.58,0,16),{thresh:12}));
  g.position.x=PRODX[0];uAdd(g);}
@@ -753,6 +759,43 @@ const rotor=new THREE.Group();
 {const s=[];s.push(-9.6,0,0,14.6,0,0);for(let x=-9.4;x<=14.6;x+=.8)s.push(x,0,0,x-.25,0,-.25);bAdd(segs(s,'ink',.3));}
 
 /* =========================================================
+   PHONE LAYOUT: wide scenes stack top-to-bottom in rows
+   ========================================================= */
+const [cPile,cConv,cSag,cBall,cCells,cConc,cTail]=cParts;
+conc.remove(bubbles);cCells.add(bubbles);
+const [smF,smConv,smAnode,smTanks,smCath]=smParts;
+const [uCoil,uPipe,uMotor]=uA,groundA=uA[5];
+const [bDC,bPylon,bTurb,bSolar,groundB]=uB;
+buildBranches([uCoil,uPipe,uMotor,iceCar,evCar]);
+const STACK=[
+  {grp:conc,key:3,rows:[[cPile,cConv,cSag,cBall],[cCells,cConc,cTail]],skip:[cTail]},
+  {grp:sm,key:5,rows:[[smF,smConv,smAnode],[smTanks,smCath]]},
+  {grp:usesA,key:8,rows:[[cath,uCoil,uPipe,uMotor],[iceCar,evCar]]},
+  {grp:usesB,key:9,rows:[[bDC,bPylon],[bTurb,bSolar]]},
+];
+const _bx=new THREE.Box3();
+function rowBox(objs,grp){
+  grp.updateMatrixWorld(true);const b=new THREE.Box3();
+  for(const o of objs)o.traverse(c=>{if((c.isMesh||c.isLine)&&c.geometry){if(!c.geometry.boundingBox)c.geometry.computeBoundingBox();_bx.copy(c.geometry.boundingBox).applyMatrix4(c.matrixWorld);b.union(_bx);}});
+  b.min.sub(grp.position);b.max.sub(grp.position);return b;
+}
+let portrait=null;
+function layout(p){
+  if(p===portrait)return;portrait=p;
+  for(const S of STACK){
+    for(const r of S.rows)for(const o of r){if(!o.userData.base)o.userData.base=o.position.clone();o.position.copy(o.userData.base);}
+    S.box=null;if(!p)continue;
+    const boxes=S.rows.map(r=>rowBox(r.filter(o=>!(S.skip||[]).includes(o)),S.grp));
+    const cx=(boxes[0].min.x+boxes[0].max.x)/2,tot=boxes[0].clone();let top=boxes[0].min.y-1.8;
+    for(let i=1;i<S.rows.length;i++){const b=boxes[i],d=V(cx-(b.min.x+b.max.x)/2,top-b.max.y,0);
+      for(const o of S.rows[i])o.position.add(d);
+      tot.union(new THREE.Box3(b.min.clone().add(d),b.max.clone().add(d)));top=b.min.y+d.y-1.8;}
+    S.box=tot;
+  }
+  buildBranches([uCoil,uPipe,uMotor,iceCar,evCar]);
+}
+
+/* =========================================================
    CAMERA PATH (U = sheet units, 0..10)
    ========================================================= */
 const KEYS=[
@@ -779,6 +822,18 @@ const KEYS=[
   [10,  [292.8,11.6,47.5], [292.4,3.6,0]],
 ].map(([u,p,t])=>({u,p:V(...p),t:V(...t)}));
 const camPos=V(),camTgt=V();
+for(const K of KEYS){K.p0=K.p.clone();K.t0=K.t.clone();}
+function camFit(){
+  const k=Math.pow(clamp(1/camera.aspect,1,2.1),.85);
+  for(const K of KEYS){K.p.copy(K.p0);K.t.copy(K.t0);}
+  if(!portrait)return;
+  for(const S of STACK){if(!S.box)continue;
+    const c=S.box.getCenter(V()).add(S.grp.position),sz=S.box.getSize(V());
+    const d=Math.max(sz.y/(.689*.37),sz.x/(.689*camera.aspect*.88))+2;
+    for(const K of KEYS){if(K.u<S.key-.01||K.u>S.key+.6)continue;
+      const dir=K.p0.clone().sub(K.t0).normalize();K.t.copy(c);K.p.copy(c).addScaledVector(dir,d/k);}
+  }
+}
 function cameraAt(U,time){
   let i=0;while(i<KEYS.length-2&&KEYS[i+1].u<=U)i++;
   const a=KEYS[i],b=KEYS[i+1],f=ease(seg(U,a.u,b.u));
@@ -807,24 +862,24 @@ const globePt=(lat,lon)=>()=>spin.localToWorld(ll(lat,lon,GR*1.01));
 // 1 element
 tag(['Cu atom · 29 electrons','铜原子 · 29 个电子'],at(latSpin,HL,HL,HL),.95,1.9,40,-40,{acc:true});
 tag(['Metallic bond · 12 neighbours','金属键 · 12 个近邻'],at(latSpin,0,HL*.5,HL*1.5),1.0,1.9,-52,-36);
-tag(['Face-centred cubic cell','面心立方晶胞'],at(latSpin,-HL,HL,-HL),1.05,1.9,-44,-30);
+tag(['Face-centred cubic cell','面心立方晶胞'],at(latSpin,-HL,HL,-HL),1.05,1.9,-44,-30,{minor:true});
 tag(['a = 361.5 pm','晶格常数 a = 361.5 皮米'],at(latSpin,latDimMid.x,latDimMid.y,latDimMid.z),1.1,1.9,0,34,{minor:true});
 tag(['Free electrons carry the current →','自由电子传导电流 →'],at(LAT,-1.5,-2.6,1.5),1.15,1.9,-30,44,{acc:true});
 // 2 mine
-tag(['Benches · ≈ 15 m high','台阶 · 高约 15 米'],at(mine,-8.3,-1.1,4.0),2.0,2.9,-50,30);
+tag(['Benches · ≈ 15 m high','台阶 · 高约 15 米'],at(mine,-8.3,-1.1,4.0),2.0,2.9,-50,30,{minor:true});
 tag(['Haul road','运输道路'],()=>mine.localToWorld(roadP(.32)),2.05,2.9,-40,-34,{minor:true});
 tag(['Haul truck · up to ≈ 400 t','矿卡 · 载重可达约 400 吨'],()=>truck.localToWorld(V(0,1.1,0)),2.1,2.9,46,-40);
 tag(['Porphyry ore body · ≈ 0.6% Cu','斑岩矿体 · 品位约 0.6%'],at(mine,-3.4,-NB*BH-.9,0),2.15,2.9,-50,30,{acc:true});
 tag(['≈ 150+ t of ore → 1 t Cu','约 150 吨以上矿石 → 1 吨铜'],at(mine,1.5,-NB*BH-3.3,0),2.2,2.9,40,34,{acc:true,minor:true});
 // 3 concentrator
-tag(['Ore in · ≈ 0.6% Cu · broken rock','进：矿石 · 含铜约 0.6% · 碎石块'],at(conc,-9,1.9,0),3.0,3.9,10,-80);
-tag(['SAG mill · grinds to powder','半自磨机 · 磨成粉末'],at(conc,-3,4.1,0),3.0,3.9,20,-90);
-tag(['Ball mill','球磨机'],at(conc,1.1,2.65,0),3.05,3.9,30,-40,{minor:true});
-tag(['Flotation cells · Cu sulphides ride the bubbles','浮选槽 · 硫化铜随气泡上浮'],at(conc,7.5,2.2,0),3.05,3.9,30,-52,{acc:true});
-tag(['Concentrate out · ≈ 25–30% Cu · damp powder','出：精矿 · 含铜约 25–30% · 潮湿粉末'],at(conc,13,.05,.6),3.1,3.9,-10,58,{acc:true});
-tag(['Tailings dam · ≈ 97–99% of the rock','尾矿库 · 约占矿石 97–99%'],at(conc,7,0,-10.2),3.15,3.9,40,-20);
+tag(['Ore in · ≈ 0.6% Cu · broken rock','进：矿石 · 含铜约 0.6% · 碎石块'],at(cPile,-9,1.9,0),3.0,3.9,10,-80);
+tag(['SAG mill · grinds to powder','半自磨机 · 磨成粉末'],at(cSag,-3,4.1,0),3.0,3.9,20,-90,{minor:true});
+tag(['Ball mill','球磨机'],at(cBall,1.1,2.65,0),3.05,3.9,30,-40,{minor:true});
+tag(['Flotation cells · Cu sulphides ride the bubbles','浮选槽 · 硫化铜随气泡上浮'],at(cCells,7.5,2.2,0),3.05,3.9,30,-52,{acc:true,m:[-10,-30],minor:true});
+tag(['Concentrate out · ≈ 25–30% Cu · damp powder','出：精矿 · 含铜约 25–30% · 潮湿粉末'],at(cConc,13,.05,.6),3.1,3.9,-10,58,{acc:true,m:[-10,92]});
+tag(['Tailings dam · ≈ 97–99% of the rock','尾矿库 · 约占矿石 97–99%'],at(cTail,7,0,-10.2),3.15,3.9,40,-20,{minor:true});
 // 4 at sea
-tag(['Bulk carrier · section A–A','散货船 · A–A 剖面'],at(sideShip,AAx,2.5,0),4.0,4.9,44,-26);
+tag(['Bulk carrier · section A–A','散货船 · A–A 剖面'],at(sideShip,AAx,2.5,0),4.0,4.9,44,-26,{minor:true});
 tag(['Concentrate · Group A cargo','铜精矿 · A 类货物'],at(hullG,.6,3.0,0),4.0,4.4,44,-42,{acc:true});
 tag(['Hopper tank','底边舱'],at(hullG,3.2,.95,0),4.05,4.9,40,32,{minor:true});
 tag(['Topside tank','顶边舱'],at(hullG,-3.6,5.7,0),4.05,4.9,-40,-28,{minor:true});
@@ -833,37 +888,37 @@ tag(['Moisture content','含水率'],()=>gauge.localToWorld(V(.35,moist*GH,0)),4
 tag(['Too wet → slurry slides → ship lists','过湿 → 货物泥浆化流向一侧 → 船舶倾侧'],at(hullG,-1.2,1.6,0),4.5,4.9,40,72,{acc:true});
 tag(['Free water on top','表面析出游离水'],at(hullG,1.6,3.6,0),4.55,4.9,46,-46,{minor:true});
 // 5 smelter
-tag(['Flash furnace · matte ≈ 60%','闪速炉 · 冰铜约 60%'],at(sm,-7.9,4.9,0),5.0,5.9,26,-56);
-tag(['Acid plant · H₂SO₄ by-product','制酸 · 副产硫酸'],at(sm,-1.6,10.5,-3),5.05,5.9,34,-20,{minor:true});
-tag(['Converter · blister ≈ 98.5%','转炉 · 粗铜约 98.5%'],at(sm,-.6,2.8,1.2),5.05,5.9,30,-50);
-tag(['Anode ≈ 99.5%','阳极板 · 约 99.5%'],at(sm,2.6,1.85,0),5.1,5.9,30,-40,{minor:true});
-tag(['Electrolytic cells · ≈ 3 weeks','电解槽 · 约 3 周'],at(sm,8.4,1.5,.7),5.1,5.9,0,-60);
-tag(['Cathode · 99.99% · LME Grade A','阴极铜 · 99.99% · LME A 级'],at(sm,15.2,.95,0),5.15,5.9,-20,-56,{acc:true});
+tag(['Flash furnace · matte ≈ 60%','闪速炉 · 冰铜约 60%'],at(smF,-7.9,4.9,0),5.0,5.9,26,-56);
+tag(['Acid plant · H₂SO₄ by-product','制酸 · 副产硫酸'],at(smF,-1.6,10.5,-3),5.05,5.9,34,-20,{minor:true});
+tag(['Converter · blister ≈ 98.5%','转炉 · 粗铜约 98.5%'],at(smConv,-.6,2.8,1.2),5.05,5.9,30,-50,{minor:true});
+tag(['Anode ≈ 99.5%','阳极板 · 约 99.5%'],at(smAnode,2.6,1.85,0),5.1,5.9,30,-40,{minor:true});
+tag(['Electrolytic cells · ≈ 3 weeks','电解槽 · 约 3 周'],at(smTanks,8.4,1.5,.7),5.1,5.9,0,-60,{m:[0,50]});
+tag(['Cathode · 99.99% · LME Grade A','阴极铜 · 99.99% · LME A 级'],at(smCath,15.2,.95,0),5.15,5.9,-20,-56,{acc:true,m:[-10,-48]});
 // 6 routes
 const PORTTAGS=[[['Antofagasta','安托法加斯塔'],-23.65,-70.4,-44,26],[['Callao','卡亚俄'],-12.05,-77.15,-40,-26],[['Copperbelt','铜带'],-10.7,25.5,40,-30],[['Durban','德班'],-29.87,31.03,40,30],[['Lobito','洛比托'],-12.35,13.55,-40,30],[['Rotterdam','鹿特丹'],51.95,4.1,-40,-24],
   [['Singapore · Malacca','新加坡 · 马六甲'],1.2,104,-40,34],[['China','中国'],31,122.6,-34,-34],[['Japan','日本'],35.3,139.8,40,-24],[['Grasberg','格拉斯伯格'],-4.06,137.1,40,24],[['Gresik','格雷西克'],-7.15,112.65,-40,30]];
 for(const[t,la,lo,dx,dy]of PORTTAGS)tag(t,globePt(la,lo),6.15,6.95,dx,dy,{facing:true,acc:['Antofagasta','Callao','Copperbelt','Grasberg'].includes(t[0])});
 // 7 risks
-RISKS.forEach(([la,lo,t,dx,dy])=>tag(t,globePt(la,lo),7.05,7.95,dx,dy,{facing:true,acc:true}));
+RISKS.forEach(([la,lo,t,dx,dy])=>tag(t,globePt(la,lo),7.05,7.95,dx,dy,{facing:true,acc:true,m:t[0].startsWith('Grasberg')?[-30,-74]:t[0].startsWith('Zambia')?[30,46]:null}));
 // 8 uses: labels in lanes above and below the ground line
-tag(['Cathode','阴极铜'],at(usesA,-5,1.35,.55),8.0,8.9,-40,-30,{acc:true});
-tag(['Building wire','建筑电线'],at(usesA,PRODX[0],.05,.6),8.05,8.9,-12,52);
-tag(['Plumbing & cooling tube','水管与制冷铜管'],at(usesA,PRODX[1]-1.0,.1,.25),8.1,8.9,10,94,{minor:true});
-tag(['Motors & equipment','电机与设备'],at(usesA,PRODX[2],.02,.55),8.1,8.9,12,52);
-tag(['ICE car · ≈ 23 kg Cu','燃油车 · 约 23 公斤铜'],at(usesA,PRODX[3]-.3,1.5,.85),8.15,8.9,-14,-64);
-tag(['Battery EV · ≈ 83 kg Cu · ~4×','纯电动车 · 约 83 公斤铜 · 约 4 倍'],at(usesA,PRODX[4]+.3,1.5,.85),8.15,8.9,14,-64,{acc:true});
-tag(['Battery pack & motor windings','电池包与电机绕组'],at(usesA,PRODX[4],.5,.65),8.2,8.9,14,60,{acc:true,minor:true});
+tag(['Cathode','阴极铜'],at(cath,-5,1.35,.55),8.0,8.9,-40,-30,{acc:true,minor:true});
+tag(['Building wire','建筑电线'],at(uCoil,0,.05,.6),8.05,8.9,-12,52,{m:[-12,-56]});
+tag(['Plumbing & cooling tube','水管与制冷铜管'],at(uPipe,-1.0,.1,.25),8.1,8.9,10,94,{minor:true});
+tag(['Motors & equipment','电机与设备'],at(uMotor,0,.02,.55),8.1,8.9,12,52,{minor:true});
+tag(['ICE car · ≈ 23 kg Cu','燃油车 · 约 23 公斤铜'],at(iceCar,-.3,1.5,.85),8.15,8.9,-14,-64,{m:[-10,50]});
+tag(['Battery EV · ≈ 83 kg Cu · ~4×','纯电动车 · 约 83 公斤铜 · 约 4 倍'],at(evCar,.3,1.5,.85),8.15,8.9,14,-64,{acc:true,m:[10,86]});
+tag(['Battery pack & motor windings','电池包与电机绕组'],at(evCar,0,.5,.65),8.2,8.9,14,60,{acc:true,minor:true});
 // 9 new demand
-tag(['AI data centre · servers & cooling','AI 数据中心 · 服务器与散热'],at(usesB,-8.4,2.15,.58),9.0,10,-16,-56);
-tag(['Copper busbars & power cables','铜母线与电力电缆'],at(usesB,-7.6,2.96,0),9.0,10,-16,-100,{acc:true});
-tag(['Transformer','变压器'],at(usesB,-3.0,.02,.55),9.05,10,12,52,{minor:true});
-tag(['Grid · lines & transformers','电网 · 线路与变压器'],at(usesB,1.2,7.2,0),9.05,10,-20,-46);
-tag(['Generator windings','发电机绕组'],at(usesB,6.2,8.6,0),9.1,10,-30,-84,{minor:true});
-tag(['Wind ≈ 3.5–9.5 t Cu / MW','风电 · 每兆瓦约 3.5–9.5 吨铜'],at(usesB,6.8,.02,0),9.1,10,12,52,{acc:true});
-tag(['Solar PV ≈ 5 t Cu / MW','光伏 · 每兆瓦约 5 吨铜'],at(usesB,11.2,.02,.35),9.15,10,12,94,{acc:true});
+tag(['AI data centre · servers & cooling','AI 数据中心 · 服务器与散热'],at(bDC,-8.4,2.15,.58),9.0,10,-16,-56);
+tag(['Copper busbars & power cables','铜母线与电力电缆'],at(bDC,-7.6,2.96,0),9.0,10,-16,-100,{acc:true,minor:true});
+tag(['Transformer','变压器'],at(bDC,-3.0,.02,.55),9.05,10,12,52,{minor:true});
+tag(['Grid · lines & transformers','电网 · 线路与变压器'],at(bPylon,1.2,7.2,0),9.05,10,-20,-46,{minor:true});
+tag(['Generator windings','发电机绕组'],at(bTurb,6.2,8.6,0),9.1,10,-30,-84,{minor:true});
+tag(['Wind ≈ 3.5–9.5 t Cu / MW','风电 · 每兆瓦约 3.5–9.5 吨铜'],at(bTurb,6.8,.02,0),9.1,10,12,52,{acc:true,m:[16,-150]});
+tag(['Solar PV ≈ 5 t Cu / MW','光伏 · 每兆瓦约 5 吨铜'],at(bSolar,11.2,.02,.35),9.15,10,12,94,{acc:true,m:[8,-36]});
 
 const TITLES_ZH=['封面','元素','矿山','选矿厂','海运','冶炼与精炼','主要航线','供应风险','最终用途','新需求'];
-window.__lang&&window.__lang.subs.push(()=>{ANN.forEach(a=>{a.el.firstChild.textContent=TT(a.txt);});if(typeof lastSheet!=='undefined')lastSheet=-1;});
+window.__lang&&window.__lang.subs.push(()=>{ANN.forEach(a=>{a.el.firstChild.textContent=TT(a.txt);a.w=0;});if(typeof lastSheet!=='undefined')lastSheet=-1;});
 const vtmp=V(),gc=V(),cdir=V();
 function updateAnn(U,W,H,narrow){
   globe.getWorldPosition(gc);
@@ -874,8 +929,13 @@ function updateAnn(U,W,H,narrow){
     if(a.facing){cdir.copy(camera.position).sub(vtmp);const n=vtmp.clone().sub(gc).normalize();const d=n.dot(cdir.normalize());if(d<.12){al=0;}else al*=clamp((d-.12)/.2);}
     vtmp.project(camera);
     if(al<=.01||vtmp.z>1||Math.abs(vtmp.x)>1.1||Math.abs(vtmp.y)>1.1){if(a.on){a.el.style.display='none';a.g.style.display='none';a.on=false;}continue;}
-    const sx=(vtmp.x*.5+.5)*W,sy=(-vtmp.y*.5+.5)*H,ex=sx+a.dx,ey=sy+a.dy;
+    const sx=(vtmp.x*.5+.5)*W,sy=(-vtmp.y*.5+.5)*H,DX=(narrow&&a.m)?a.m[0]:a.dx,DY=(narrow&&a.m)?a.m[1]:a.dy;let ex=sx+DX,ey=sy+DY;
     if(!a.on){a.el.style.display='';a.g.style.display='';a.on=true;}
+    if(narrow){if(!a.w)a.w=a.el.firstChild.offsetWidth||0;let left=DX<0;
+      if(!left&&ex+a.w>W-10)left=true;else if(left&&ex-a.w<10)left=false;
+      ex=sx+(left?-1:1)*Math.abs(DX);ex=left?clamp(ex,a.w+10,W-10):clamp(ex,10,W-10-a.w);
+      if(left!==a.el.classList.contains('left'))a.el.classList.toggle('left',left);}
+    else if((a.dx<0)!==a.el.classList.contains('left'))a.el.classList.toggle('left',a.dx<0);
     a.el.style.transform=`translate(${ex.toFixed(1)}px,${ey.toFixed(1)}px)`;a.el.style.opacity=al;a.g.style.opacity=al;
     a.ln.setAttribute('x1',sx);a.ln.setAttribute('y1',sy);a.ln.setAttribute('x2',ex);a.ln.setAttribute('y2',ey);
     a.c.setAttribute('cx',sx);a.c.setAttribute('cy',sy);
@@ -906,7 +966,7 @@ function update(U,t,intro){
   cParts.forEach((o,i)=>setState(o,es(U,2.6+i*.04,2.95+i*.04),ca));
   const ba=win(U,2.95,3.9,.12);bubbles.visible=ba>.01;bubbles.material.opacity=ba;
   if(bubbles.visible){for(let i=0;i<NBU;i++){const s=buSeed[i],y=((s[3]+T*s[4])%1);buArr[i*3]=CELLX[s[0]]+s[1]*(1-y*.3);buArr[i*3+1]=.15+y*1.5;buArr[i*3+2]=s[2]*(1-y*.3);}buGeo.attributes.position.needsUpdate=true;}
-  flowC.update(t,win(U,2.95,3.85,.1));
+  flowC.update(t,portrait?0:win(U,2.95,3.85,.1));
   // 4 at sea
   const sa=1-seg(U,4.65,4.95),sr=es(U,3.6,4.05);
   setState(sideShip,sr,sa);setState(hullG,sr,sa);setState(seaLines,sr,sa);setState(gauge,es(U,3.75,4.1),sa);
@@ -923,7 +983,7 @@ function update(U,t,intro){
   // 5 smelter
   const sma=1-seg(U,5.65,5.95);
   smParts.forEach((o,i)=>setState(o,es(U,4.6+i*.06,4.95+i*.06),sma));
-  flowS.update(t,win(U,4.95,5.85,.1));
+  flowS.update(t,portrait?0:win(U,4.95,5.85,.1));
   // 6–7 globe
   setState(globe,es(U,5.6,6.0),1-seg(U,7.7,7.95));
   spin.rotation.y=(U<6.97?lerp(70,-118,es(U,6.0,6.92)):lerp(-118,80,es(U,7.02,7.88)))*Math.PI/180;
@@ -936,9 +996,9 @@ function update(U,t,intro){
   const ua=1-seg(U,8.65,8.95);
   setState(cath,es(U,7.6,7.9),ua);
   branches.forEach((b,i)=>setState(b,es(U,7.85+i*.05,8.15+i*.05),ua));
-  uA.forEach((o,i)=>setState(o,es(U,7.95+i*.05,8.3+i*.05),ua));
+  uA.forEach((o,i)=>setState(o,es(U,7.95+i*.05,8.3+i*.05),ua));if(portrait)setState(groundA,0);
   // 9 new demand
-  uB.forEach((o,i)=>setState(o,es(U,8.6+i*.06,8.95+i*.06),1));
+  uB.forEach((o,i)=>setState(o,es(U,8.6+i*.06,8.95+i*.06),1));if(portrait)setState(groundB,0);
   rotor.rotation.z=-T*.55;
 }
 
@@ -951,6 +1011,7 @@ function resize(){
   renderer.setSize(W,H,false);camera.aspect=W/H;
   const card=Math.min(420,W*.34);
   camera.setViewOffset(W,H,narrow?0:-card/2,narrow?H*.2:0,W,H);camera.updateProjectionMatrix();
+  layout(narrow&&W<H);camFit();
 }
 addEventListener('resize',resize);resize();
 

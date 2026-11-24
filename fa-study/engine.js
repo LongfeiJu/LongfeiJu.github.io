@@ -359,8 +359,8 @@ class PL{
 }
 for(const b of $$('[data-pdf]'))b.onclick=async()=>{closePops();if(!CUR)return;toast('Building PDF…',20000);
   try{const r=await makePDF(b.dataset.pdf);const d=await dlP;
-    if(!d){toast(`PDF ready (${r.pages} pages), but downloads aren't available in this view. Open the page on claude.ai to save it.`,6000);return}
-    try{await d.save({filename:r.name,data:r.bytes});toast(`Saved ${r.name} (${r.pages} pages)`)}catch(e){toast(e&&e.code==='declined'?'Download cancelled.':e&&e.code==='host_unavailable'?'This app can’t save files — open the page in a browser to download.':'Could not save the PDF ('+(e&&e.code||'error')+').',6000)}
+    if(!d){const u=URL.createObjectURL(new Blob([r.bytes],{type:'application/pdf'}));const a=document.createElement('a');a.href=u;a.download=r.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),60000);toast(`Downloaded ${r.name} (${r.pages} page${r.pages===1?'':'s'})`);return}
+    try{await d.save({filename:r.name,data:r.bytes});toast(`Saved ${r.name} (${r.pages} page${r.pages===1?'':'s'})`)}catch(e){toast(e&&e.code==='declined'?'Download cancelled.':e&&e.code==='host_unavailable'?'This app can’t save files — open the page in a browser to download.':'Could not save the PDF ('+(e&&e.code||'error')+').',6000)}
   }catch(e){console.error(e);toast('Sorry — the PDF could not be built.',5000)}};
 window.__makePDF=makePDF;
 route();

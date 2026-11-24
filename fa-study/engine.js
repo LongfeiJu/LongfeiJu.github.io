@@ -63,7 +63,7 @@ function applyTheme(t){root.setAttribute('data-theme',t);const b=$('#tbtn');b.te
 $('#tbtn').onclick=()=>{const t=curTheme()==='dark'?'light':'dark';applyTheme(t);store.set('theme',t)};
 function buildMenu(){
   const cid=CUR?.ch?.n;
-  $('#menu').innerHTML=CH.map(ch=>`<details ${ch.n===cid?'open':''}><summary><b style="background:${ch.color}">${ch.n}</b>${esc(ch.title)}</summary>`+
+  $('#menu').innerHTML=`<div class="mx"><a href="#bank">Question bank</a><a href="#final">Final exam</a></div>`+CH.map(ch=>`<details ${ch.n===cid?'open':''}><summary><b style="background:${ch.color}">${ch.n}</b>${esc(ch.title)}</summary>`+
     ch.pages.map(p=>`<a href="#${p.id}" data-id="${p.id}" class="${CUR&&p.id===CUR.id?'cur':''}"><span class="tick">${visited.has(p.id)?'✓':''}</span>${esc(p.label)}</a>`).join('')+'</details>').join('');
 }
 function refreshTicks(){for(const a of $$('[data-id]')){const t=$('.tick',a);if(t)t.textContent=visited.has(a.dataset.id)?'✓':''}}
@@ -73,6 +73,7 @@ $('#pbtn').onclick=e=>{e.stopPropagation();const m=$('#pmenu');const o=m.hidden;
 document.addEventListener('click',e=>{if(!e.target.closest('.pop'))closePops();else if(e.target.closest('#menu a'))closePops()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePops();hideTip()}
   if(e.altKey||e.ctrlKey||e.metaKey||e.target.closest('input,textarea,select,[contenteditable]'))return;
+  if(['bank','final'].includes(location.hash.slice(1)))return;
   if(e.key==='ArrowLeft'){e.preventDefault();go(-1)}if(e.key==='ArrowRight'){e.preventDefault();go(1)}});
 $('#prev').onclick=()=>go(-1);$('#next').onclick=()=>go(1);
 function go(d){if(!CUR){if(d>0)location.hash=SEQ[0].id;return}const n=SEQ[CUR.idx+d];if(n)location.hash=n.id}
@@ -114,6 +115,7 @@ function homeHTML(){
   const tot=SEQ.filter(p=>p.type!=='open').length,done=SEQ.filter(p=>p.type!=='open'&&visited.has(p.id)).length;
   return `<div class="hero"><h1>Financial Accounting, explained from scratch</h1><p>Ten textbook chapters built from your lecture decks — every term explained in plain English, every slide example worked step by step, with practice at the end of each chapter.</p>
   <div class="stats"><div><b>${done} / ${tot}</b>pages read</div><div><b>${CH.reduce((a,c)=>a+c.lessons.length,0)}</b>lessons</div><div><b>${CH.reduce((a,c)=>a+c.mcq.length,0)}</b>practice questions</div></div></div>
+  <div class="xband"><a class="xcard" href="#bank"><b>Question bank</b><span>${BANK.length} multiple-choice questions, filter by chapter and Easy / Medium / Hard, instant feedback.</span></a><a class="xcard" href="#final"><b>Final exam</b><span>2-hour timed mock final · 30% MCQ, 40% short cases, 30% integrated case${exState()&&!exState().done?' · <em>in progress</em>':exState()&&exState().done?` · last score ${exState().score}/100`:''}</span></a></div>
   <div class="grid">${CH.map(ch=>{const [d,t]=chProgress(ch);const b=best[ch.n];return `<a class="card" href="#c${ch.n}" style="--c:${ch.color}"><div class="top"><b>${ch.n}</b><span>${esc(ch.title)}</span></div><div class="bot"><p>${esc(ch.hook)}</p><div class="meter" role="img" aria-label="${d} of ${t} pages read"><i style="width:${Math.round(d/t*100)}%"></i></div><div class="row"><span>${d}/${t} pages read</span><span>${b!=null?`Quiz best ${b}/${ch.mcq.length}`:`${ch.lessons.length} lessons`}</span></div></div></a>`}).join('')}</div>`;
 }
 /* ================= glossary underline + popups ================= */
@@ -163,6 +165,9 @@ function updNav(){$('#prev').disabled=!CUR||CUR.idx===0;$('#next').disabled=CUR&
 function route(force){
   const h=location.hash.slice(1);const p=BYID[h];
   if(io){io.disconnect();io=null}
+  clearInterval(exTimer);
+  if(h==='bank'||h==='final'){CUR=null;renderedChapter=null;setAccent(null);document.title=h==='bank'?'Question bank':'Final exam';layout.classList.remove('has-side');side.innerHTML='';
+    main.innerHTML=`<div class="page wide noterm">${h==='bank'?bankHTML():''}</div>`;if(h==='bank')wireBank();else renderExam();updNav();scrollTo(0,0);return}
   if(!p){CUR=null;renderedChapter=null;setAccent(null);layout.classList.remove('has-side');side.innerHTML='';main.innerHTML=homeHTML();updNav();scrollTo(0,0);return}
   CUR=p;setAccent(p.ch);layout.classList.add('has-side');
   if(mode==='sec'){
@@ -182,6 +187,99 @@ function route(force){
   io=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){const q=BYID[e.target.dataset.id];if(q&&q!==CUR){CUR=q;history.replaceState(null,'','#'+q.id);updNav()}if(q&&q.type!=='open')markVisited(q.id)}},{rootMargin:'-30% 0px -60% 0px'});
   for(const s of $$('.sec',main))io.observe(s);
 }
+
+/* ================= question bank ================= */
+const DL={e:'Easy',m:'Medium',h:'Hard'};
+const BANK=[];
+for(const ch of CH){const d=(typeof BANKDIFF!=='undefined'&&BANKDIFF[ch.n])||'';ch.mcq.forEach((m,i)=>BANK.push({c:ch.n,d:d[i]||'m',q:m[0],o:m[1],a:m[2],x:m[3]}));((typeof BANKX!=='undefined'&&BANKX[ch.n])||[]).forEach(m=>BANK.push({c:ch.n,d:m[4],q:m[0],o:m[1],a:m[2],x:m[3]}))}
+BANK.forEach((b,i)=>b.id=i);
+const bankF={c:'0',d:'all',shuf:false};
+function bankHTML(){
+  const cnt=k=>BANK.filter(b=>b.d===k).length;
+  return `<h1 class="lt">Question bank</h1><p class="lead">${BANK.length} questions from all ten chapters — ${cnt('e')} easy, ${cnt('m')} medium, ${cnt('h')} hard. Pick a chapter and level; answers are checked instantly.</p>
+  <div class="filters"><label class="sans">Chapter <select id="bkC"><option value="0">All chapters</option>${CH.map(c=>`<option value="${c.n}">${c.n}. ${esc(c.title)}</option>`).join('')}</select></label>
+  <div class="seg" role="group" aria-label="Difficulty">${['all','e','m','h'].map(k=>`<button data-d="${k}" aria-pressed="${bankF.d===k}">${k==='all'?'All':DL[k]}</button>`).join('')}</div>
+  <button class="bbtn" id="bkS">Shuffle</button></div>
+  <div class="score" data-bscore><span></span><button class="bbtn" id="bkR">Reset</button></div><div id="bkL"></div>`}
+function wireBank(){
+  $('#bkC').value=bankF.c;
+  $('#bkC').onchange=e=>{bankF.c=e.target.value;renderBank()};
+  for(const b of $$('[data-d]'))b.onclick=()=>{bankF.d=b.dataset.d;for(const x of $$('[data-d]'))x.setAttribute('aria-pressed',x===b);renderBank()};
+  $('#bkS').onclick=()=>{bankF.shuf=true;renderBank()};$('#bkR').onclick=()=>renderBank();
+  renderBank();
+}
+function renderBank(){
+  let L=BANK.filter(b=>(bankF.c==='0'||b.c===+bankF.c)&&(bankF.d==='all'||b.d===bankF.d));
+  if(bankF.shuf){L=L.slice();for(let i=L.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[L[i],L[j]]=[L[j],L[i]]}bankF.shuf=false}
+  const ans={};const upd=()=>{const n=Object.keys(ans).length,c=Object.values(ans).filter(Boolean).length;$('[data-bscore] span').textContent=`Score: ${c} / ${n} answered · ${L.length} questions shown`};
+  $('#bkL').innerHTML=L.length?L.map((b,i)=>`<div class="mcq" data-b="${b.id}"><div class="qmeta"><span class="dif d-${b.d}">${DL[b.d]}</span><span style="color:${CH[b.c-1].color}">Ch ${b.c} · ${esc(CH[b.c-1].title)}</span></div><div class="q">${i+1}. ${b.q}</div>${b.o.map((o,j)=>`<button class="o" data-o="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join('')}<div class="fb" hidden></div></div>`).join(''):'<p>No questions match these filters.</p>';
+  for(const q of $$('#bkL .mcq')){const b=BANK[+q.dataset.b];
+    for(const o of $$('.o',q))o.onclick=()=>{if(b.id in ans)return;const j=+o.dataset.o;ans[b.id]=j===b.a;for(const x of $$('.o',q)){x.disabled=true;if(+x.dataset.o===b.a)x.classList.add('ok')}if(j!==b.a)o.classList.add('no');const fb=$('.fb',q);fb.hidden=false;fb.innerHTML=`<b class="sans">${j===b.a?'Correct.':'Not quite — the answer is '+String.fromCharCode(65+b.a)+'.'}</b> ${b.x}`;upd()}}
+  upd();
+}
+/* ================= final exam ================= */
+let exTimer=null;
+function exState(){return store.get('exam',null)}
+function exSave(st){store.set('exam',st)}
+const exParts=()=>{const L=[];EXAM.short.forEach((c,i)=>c.parts.forEach((p,j)=>L.push({k:`s${i}p${j}`,sec:'short',ci:i,p})));EXAM.full.parts.forEach((p,j)=>L.push({k:`fp${j}`,sec:'full',p}));return L};
+function pnum(v){if(v==null)return null;let s=String(v).trim();if(!s)return null;const neg=/^\(.*\)$/.test(s)||/^-/.test(s);s=s.replace(/[₱,\s%()\-]/g,'');if(!s)return null;const n=parseFloat(s);return isNaN(n)?null:(neg?-n:n)}
+const mmss=ms=>{const t=Math.max(0,Math.round(ms/1000));const h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=t%60;return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`};
+function renderExam(){
+  const st=exState();const pg=$('.page',main);
+  if(st&&!st.done&&Date.now()>=st.end){gradeExam(true);return}
+  if(!st){pg.innerHTML=examIntro();$('#exStart').onclick=()=>{exSave({start:Date.now(),end:Date.now()+EXAM.minutes*60000,m:{},v:{},w:{},done:false});renderExam()};return}
+  if(st.done){pg.innerHTML=examResults(st);$('#exAgain').onclick=()=>{const b=$('#exAgainC');b.hidden=!b.hidden};$('#exAgainYes').onclick=()=>{store.set('exam',null);try{localStorage.removeItem('fa-exam')}catch(e){};renderExam()};return}
+  pg.innerHTML=examForm(st);wireExam();
+}
+function examIntro(){const n=EXAM.mcq.length;return `<h1 class="lt">Final exam</h1><p class="lead">A 2-hour mock final covering all ten chapters, pitched at the level of your pre- and post-midterm exams.</p>
+  ${tbl(['Part','Content','Points'],[['I. Multiple choice',`${n} questions × ${EXAM.mcqPts} pts`,`${n*EXAM.mcqPts} (30%)`],['II. Short cases',`${EXAM.short.length} cases × 10 pts: ${EXAM.short.map(c=>c.t.toLowerCase()).join(', ')}`,'40 (40%)'],['III. Full case','One integrated case: adjustments, statements and ratios','30 (30%)'],['Total','','100']],{num:[2],tot:true})}
+  <div class="box tip"><div class="bh"><i>!</i>How it works</div><ul><li>The 2-hour timer starts when you press Start and keeps running if you leave this page or close the browser. When it reaches zero, the exam is submitted automatically.</li><li>Written parts: type the final figure for each part (commas and ₱ are fine). There is a working-space box for each case — it isn't marked.</li><li>Answers are saved in this browser as you go. After you submit you get your score, the correct answers and full worked solutions.</li><li>Use a calculator and your PDF notes, as in an open-book exam.</li></ul></div>
+  <button class="start" id="exStart">Start exam — 2:00:00</button>`}
+function examForm(st){
+  const num=(k,lab,pts)=>`<label class="np"><span>${lab} <small>(${pts} pts)</small></span><input class="num" data-k="${k}" inputmode="decimal" autocomplete="off" value="${esc(st.v[k]||'')}"></label>`;
+  return `<div class="exbar" role="timer"><span>Time left <b id="exT">${mmss(st.end-Date.now())}</b></span><span id="exA"></span><button class="bbtn" id="exSub">Submit exam</button></div>
+  <div id="exConf" class="box warn" hidden><div class="bh"><i>!</i>Submit now?</div><p id="exConfT"></p><p><button class="bbtn" id="exYes">Yes, submit</button> <button class="bbtn" id="exNo">Keep working</button></p></div>
+  <h1 class="lt">Final exam</h1>
+  <h2>Part I — Multiple choice (30 points)</h2><p class="sans" style="color:var(--mut)">${EXAM.mcqPts} points each. No feedback until you submit.</p>
+  ${EXAM.mcq.map((m,i)=>`<div class="mcq" data-q="${i}"><div class="q">${i+1}. ${m[0]}</div>${m[1].map((o,j)=>`<button class="o${st.m[i]===j?' sel':''}" data-o="${j}" aria-pressed="${st.m[i]===j}">${String.fromCharCode(65+j)}. ${o}</button>`).join('')}</div>`).join('')}
+  <h2>Part II — Short cases (40 points)</h2>
+  ${EXAM.short.map((c,i)=>`<div class="case-q"><h3>Case ${i+1}: ${c.t} <small>(10 pts)</small></h3>${c.intro}<div class="nps">${c.parts.map((p,j)=>num(`s${i}p${j}`,`(${String.fromCharCode(97+j)}) ${p[0]}`,p[3])).join('')}</div><textarea data-w="s${i}" placeholder="Working space (not marked)">${esc(st.w['s'+i]||'')}</textarea></div>`).join('')}
+  <h2>Part III — Full case (30 points)</h2>
+  <div class="case-q"><h3>${EXAM.full.t}</h3>${EXAM.full.intro}<p><b>Required:</b> compute the following.</p><div class="nps">${EXAM.full.parts.map((p,j)=>num(`fp${j}`,`(${j+1}) ${p[0]}`,p[3])).join('')}</div><textarea data-w="f" placeholder="Working space (not marked)">${esc(st.w.f||'')}</textarea></div>
+  <p><button class="start" id="exSub2">Submit exam</button></p>`}
+function wireExam(){
+  const st=exState();
+  const cnt=()=>{const s=exState();const nm=Object.keys(s.m).length,nv=exParts().filter(x=>pnum(s.v[x.k])!=null).length;return [nm,nv,EXAM.mcq.length,exParts().length]};
+  const updA=()=>{const [a,b,c,d]=cnt();$('#exA').textContent=`Answered: MCQ ${a}/${c} · written ${b}/${d}`};
+  for(const q of $$('.mcq[data-q]',main))for(const o of $$('.o',q))o.onclick=()=>{const s=exState();s.m[+q.dataset.q]=+o.dataset.o;exSave(s);for(const x of $$('.o',q)){x.classList.toggle('sel',x===o);x.setAttribute('aria-pressed',x===o)}updA()};
+  for(const i of $$('input.num',main))i.oninput=()=>{const s=exState();s.v[i.dataset.k]=i.value;exSave(s);updA()};
+  for(const t of $$('textarea[data-w]',main))t.oninput=()=>{const s=exState();s.w[t.dataset.w]=t.value;exSave(s)};
+  const ask=()=>{const [a,b,c,d]=cnt();$('#exConfT').textContent=(a<c||b<d)?`You have ${c-a} unanswered MCQ and ${d-b} unanswered written parts. Submitting ends the exam.`:'All questions answered. Submitting ends the exam.';$('#exConf').hidden=false;$('#exConf').scrollIntoView({block:'center'})};
+  $('#exSub').onclick=ask;$('#exSub2').onclick=ask;$('#exNo').onclick=()=>$('#exConf').hidden=true;$('#exYes').onclick=()=>gradeExam(false);
+  updA();
+  const tick=()=>{const left=exState().end-Date.now();const el=$('#exT');if(!el){clearInterval(exTimer);return}el.textContent=mmss(left);$('.exbar').classList.toggle('low',left<600000);if(left<=0){clearInterval(exTimer);gradeExam(true)}};
+  clearInterval(exTimer);exTimer=setInterval(tick,1000);tick();
+}
+function gradeExam(auto){
+  clearInterval(exTimer);const st=exState();if(!st)return;
+  let m=0;EXAM.mcq.forEach((q,i)=>{if(st.m[i]===q[2])m+=EXAM.mcqPts});
+  let s=0,f=0;for(const x of exParts()){const v=pnum(st.v[x.k]);const ok=v!=null&&Math.abs(v-x.p[1])<=x.p[2]+1e-9;if(ok){if(x.sec==='short')s+=x.p[3];else f+=x.p[3]}}
+  Object.assign(st,{done:true,auto,mScore:m,sScore:s,fScore:f,score:Math.round((m+s+f)*10)/10,used:Math.min(Date.now(),st.end)-st.start});exSave(st);
+  if(location.hash==='#final')renderExam();scrollTo(0,0);toast(auto?'Time is up — your exam was submitted.':'Exam submitted.');
+}
+function examResults(st){
+  const row=(lab,k,p)=>{const v=pnum(st.v[k]);const ok=v!=null&&Math.abs(v-p[1])<=p[2]+1e-9;return `<tr class="${ok?'rok':'rno'}"><td>${lab}</td><td class="n">${st.v[k]?esc(st.v[k]):'—'}</td><td class="n">${fm(p[1])}</td><td class="n">${ok?p[3]:0} / ${p[3]}</td></tr>`};
+  const grade=st.score>=90?'Excellent':st.score>=75?'Good — passing comfortably':st.score>=60?'Passing — review the parts you missed':'Below passing — work through the solutions and retake';
+  return `<h1 class="lt">Final exam — results</h1>
+  <div class="result"><div class="big">${st.score}<small>/100</small></div><div><b>${grade}</b><br><span class="sans">Part I ${st.mScore}/30 · Part II ${st.sScore}/40 · Part III ${st.fScore}/30 · time used ${mmss(st.used)}${st.auto?' (auto-submitted)':''}</span></div></div>
+  <p><button class="bbtn" id="exAgain">Retake exam</button></p><div id="exAgainC" class="box warn" hidden><div class="bh"><i>!</i>Retake?</div><p>This clears your answers and this result, and starts a fresh 2-hour attempt.</p><p><button class="bbtn" id="exAgainYes">Yes, clear and retake</button></p></div>
+  <h2>Part I — Multiple choice</h2>
+  ${EXAM.mcq.map((q,i)=>{const a=st.m[i];return `<div class="mcq"><div class="qmeta"><span style="color:${CH[q[4]-1].color}">Ch ${q[4]}</span><span>${a===q[2]?'✓ '+EXAM.mcqPts+' pts':'✗ 0 pts'}</span></div><div class="q">${i+1}. ${q[0]}</div>${q[1].map((o,j)=>`<button class="o${j===q[2]?' ok':j===a?' no':''}" disabled>${String.fromCharCode(65+j)}. ${o}</button>`).join('')}<div class="fb">${a==null?'<b class="sans">Not answered.</b> ':''}${q[3]}</div></div>`}).join('')}
+  <h2>Part II — Short cases</h2>
+  ${EXAM.short.map((c,i)=>`<div class="case-q"><h3>Case ${i+1}: ${c.t}</h3><table><thead><tr><th>Part</th><th class="n">Your answer</th><th class="n">Correct</th><th class="n">Points</th></tr></thead><tbody>${c.parts.map((p,j)=>row(`(${String.fromCharCode(97+j)}) ${p[0]}`,`s${i}p${j}`,p)).join('')}</tbody></table><details><summary>Worked solution</summary><div class="ans">${c.sol()}</div></details></div>`).join('')}
+  <h2>Part III — Full case</h2>
+  <div class="case-q"><h3>${EXAM.full.t}</h3><table><thead><tr><th>Part</th><th class="n">Your answer</th><th class="n">Correct</th><th class="n">Points</th></tr></thead><tbody>${EXAM.full.parts.map((p,j)=>row(`(${j+1}) ${p[0]}`,`fp${j}`,p)).join('')}</tbody></table><details open><summary>Worked solution</summary><div class="ans">${EXAM.full.sol()}</div></details></div>`}
+
 addEventListener('hashchange',()=>route());
 /* ================= toast ================= */
 let tt;function toast(m,ms=3500){let t=$('.toast');if(!t){t=document.createElement('div');t.className='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,ms)}

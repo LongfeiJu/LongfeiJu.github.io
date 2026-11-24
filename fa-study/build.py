@@ -1,6 +1,6 @@
 import glob,re
 css=open('style.css').read()
-parts=['const CH=[];']+[open(f).read() for f in sorted(glob.glob('content/ch*.js'))]
+parts=['const CH=[];']+[open(f).read() for f in sorted(glob.glob('content/*.js'))]
 js=open('fontdata.js').read()+'\n'+'\n'.join(parts)+'\n'+open('engine.js').read()
 html=f'''<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">

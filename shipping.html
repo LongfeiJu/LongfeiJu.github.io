@@ -199,9 +199,9 @@ const DEG=Math.PI/180;
 /* ================= renderer ================= */
 const canvas=document.getElementById('gl');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+let PR=Math.min(devicePixelRatio,PHONE?1:1.25);renderer.setPixelRatio(PR);
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.55;
-renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;renderer.shadowMap.autoUpdate=false;
 const sea=new THREE.Scene(),globeScene=new THREE.Scene();let active=sea;
 const camera=new THREE.PerspectiveCamera(42,1,1,24000);
 const controls=new OrbitControls(camera,canvas);
@@ -249,7 +249,7 @@ const plimsollTex=tex(cnv(256,256,(x)=>{x.strokeStyle='#fff';x.fillStyle='#fff';
 /* ================= sky, sun, env ================= */
 const sky=new Sky();sky.scale.setScalar(18000);sky.layers.set(FX);sea.add(sky);
 const sunDir=V();
-const sun=new THREE.DirectionalLight(0xffffff,2.4);sun.castShadow=true;sun.shadow.mapSize.setScalar(PHONE?1024:2048);
+const sun=new THREE.DirectionalLight(0xffffff,2.4);sun.castShadow=true;sun.shadow.mapSize.setScalar(PHONE?1024:1536);
 const SC=sun.shadow.camera;SC.near=10;SC.far=2400;sun.shadow.bias=-.0004;sun.shadow.normalBias=.6;
 function shadowBox(r){SC.left=-r;SC.right=r;SC.top=r;SC.bottom=-r;SC.updateProjectionMatrix();}shadowBox(320);
 sea.add(sun,sun.target);const shadowC=V();
@@ -311,7 +311,7 @@ col=mix(col,uFog,smoothstep(uFogNear,uFogFar,dist));gl_FragColor=vec4(col,1.);
 #include <tonemapping_fragment>
 #include <colorspace_fragment>
 }`});
-const OG=new THREE.PlaneGeometry(9000,9000,PHONE?170:260,PHONE?170:260).rotateX(-Math.PI/2);
+const OG=new THREE.PlaneGeometry(9000,9000,PHONE?140:200,PHONE?140:200).rotateX(-Math.PI/2);
 {const pa=OG.attributes.position;for(let i=0;i<pa.count;i++){const x=pa.getX(i)/4500,z=pa.getZ(i)/4500;pa.setX(i,Math.sign(x)*Math.pow(Math.abs(x),2.3)*4500);pa.setZ(i,Math.sign(z)*Math.pow(Math.abs(z),2.3)*4500);}}
 const ocean=new THREE.Mesh(OG,oceanMat);ocean.frustumCulled=false;ocean.layers.set(FX);sea.add(ocean);
 function waveH(x,z,t){let y=0;for(const w of WU){const k=6.2831853/w.z,A=w.w*oceanU.uAmp.value,f=k*(w.x*(x+oceanU.uDrift.value)+w.y*z)-Math.sqrt(9.81*k)*t;y+=A*Math.sin(f);}return y;}
@@ -392,7 +392,7 @@ function accommodation(g,x,y,w,d,decks,{funnelX,funnelH=14,funnelR=2.6,band=mat.
   const lb=new THREE.CapsuleGeometry(1.5,5,6,12);lb.rotateZ(Math.PI/2);lb.rotateZ(-.5);lb.translate(fx-funnelR*1.6-4,y+5,d*.15);P.push([lb,mat.orange]);
   P.push(beamG(V(fx-funnelR*1.6-8,y+2,d*.15+1.6),V(fx-funnelR*1.6,y+7,d*.15+1.6),.3,mat.white),beamG(V(fx-funnelR*1.6-8,y+2,d*.15-1.6),V(fx-funnelR*1.6,y+7,d*.15-1.6),.3,mat.white));
   for(const s of[1,-1])P.push(cyl(.7,.7,1.6,x+w*.3,y+3*2.8+.8,s*(d/2+.9),mat.white,10));
-  g.add(build(P));const scanner=new THREE.Mesh(new THREE.BoxGeometry(5,.25,.5),mat.dark);scanner.position.set(x,yy+9.3,0);g.add(scanner);SCANNERS.push(scanner);return yy;}
+  g.add(build(P));const scanner=new THREE.Mesh(new THREE.BoxGeometry(5,.25,.5),mat.dark);scanner.userData.keep=true;scanner.position.set(x,yy+9.3,0);g.add(scanner);SCANNERS.push(scanner);return yy;}
 
 /* ================= ships ================= */
 function makeBulker({L=225,B=32.3,D=19.8,T=12.2,holds=7,cranes=true,hullTop=0x1b2733,openHold=-1,name='STRAITS PIONEER'}={}){
@@ -449,6 +449,23 @@ function pirate(i){const g=new THREE.Group();const c=M(PCOL[i%PCOL.length],{roug
 function makeSkiff(col){const g=makeSmall({L:9.5,B:2.5,D:1.2,T:.45,top:col,house:false});g.add(build([box(.7,1.1,.6,-4.9,.8,0,mat.black),box(.25,1.2,.2,-5.1,-.2,0,mat.black),box(1,.25,2.2,-1,.95,0,mat.steel)]));
   const crew=[];for(let i=0;i<4;i++){const p=pirate(i);p.position.set(-3+i*1.7,.8,(i%2?.5:-.5));g.add(p);crew.push(p);}g.userData.crew=crew;return g;}
 
+
+/* merge every static mesh under a root into one mesh per material (far fewer draw calls) */
+function splitGroups(g){const n=g.index?g.toNonIndexed():g;if(!n.groups.length)return[[n,0]];return n.groups.map(gr=>{const b=new THREE.BufferGeometry();
+  for(const k in n.attributes){const a=n.attributes[k],sz=a.itemSize;b.setAttribute(k,new THREE.BufferAttribute(a.array.slice(gr.start*sz,(gr.start+gr.count)*sz),sz));}return[b,gr.materialIndex];});}
+function bake(root){root.updateMatrixWorld(true);const inv=root.matrixWorld.clone().invert(),buckets=new Map(),gone=[];
+  const kept=o=>{for(let q=o;q&&q!==root;q=q.parent)if(q.userData.keep)return true;return false;};
+  root.traverse(o=>{if(!o.isMesh||o.isInstancedMesh||kept(o))return;const ms=Array.isArray(o.material)?o.material:[o.material];if(ms.some(m=>m.transparent))return;
+    const mx=new THREE.Matrix4().multiplyMatrices(inv,o.matrixWorld);
+    for(const[g,mi]of splitGroups(o.geometry)){const m=ms[mi]||ms[0];const c=g===o.geometry?g.clone():g;c.applyMatrix4(mx);
+      for(const k of Object.keys(c.attributes))if(!['position','normal','uv','color'].includes(k))c.deleteAttribute(k);
+      if(!c.attributes.uv)c.setAttribute('uv',new THREE.BufferAttribute(new Float32Array(c.attributes.position.count*2),2));
+      if(!c.attributes.normal)c.computeVertexNormals();
+      const key=m.uuid+(c.attributes.color?'c':'');if(!buckets.has(key))buckets.set(key,[m,[]]);buckets.get(key)[1].push(c);}
+    gone.push(o);});
+  for(const o of gone)o.parent.remove(o);
+  for(const[m,gs]of buckets.values()){const mesh=new THREE.Mesh(mergeGeometries(gs),m);mesh.castShadow=mesh.receiveShadow=true;root.add(mesh);}}
+
 /* ================= floating ================= */
 const floaters=[];
 function float(obj,{x=0,z=0,yaw=0,bob=1}={}){obj.rotation.order='YXZ';sea.add(obj);const f={obj,x,z,yaw,bob,extraRoll:0,extraY:0};floaters.push(f);updateFloat(f,0);return f;}
@@ -492,7 +509,7 @@ function stsCrane(x){const g=new THREE.Group(),P=[],m=mat.red,w=mat.white;
   g.add(build(P));g.position.x=x;port.add(g);
   const trolley=build([box(6,2.4,6,0,54.2,0,mat.dark)]);const spreader=new THREE.Group();spreader.add(build([box(12.4,.8,2.6,0,0,0,mat.yellow)]));
   const cab=new THREE.Mesh(new THREE.BoxGeometry(12.2,2.55,2.42),new THREE.MeshStandardMaterial({map:boxMat.map,color:0xb23a2e,roughness:.65}));cab.position.y=-1.8;cab.castShadow=true;spreader.add(cab);
-  const cable=new THREE.Mesh(new THREE.BoxGeometry(.25,1,.25),mat.dark);g.add(trolley,spreader,cable);trolley.position.z=-40;spreader.position.set(0,40,-40);cable.position.set(0,47,-40);cable.scale.y=14;cab.visible=false;cranes.push({g,trolley,spreader,cable,box:cab});}
+  const cable=new THREE.Mesh(new THREE.BoxGeometry(.25,1,.25),mat.dark);trolley.userData.keep=spreader.userData.keep=cable.userData.keep=true;g.add(trolley,spreader,cable);trolley.position.z=-40;spreader.position.set(0,40,-40);cable.position.set(0,47,-40);cable.scale.y=14;cab.visible=false;cranes.push({g,trolley,spreader,cable,box:cab});}
 [-180,-110,-40].forEach(stsCrane);
 {const P=[],x0=300;for(const dx of[-6,6])for(const z of[-70,-92])P.push(box(1.4,30,1.4,x0+dx,19,z,mat.steel));
  P.push(box(14,2,26,x0,34,-81,mat.yellow),box(3,2,62,x0,36,-58,mat.yellow),box(2,12,2,x0,29,-28,mat.yellow),box(4,4,4,x0,24,-28,mat.yellow),box(260,2,3,300,10,-120,mat.steel));
@@ -502,7 +519,7 @@ const glowMat=new THREE.SpriteMaterial({map:glowTex,blending:THREE.AdditiveBlend
 const lampG=new THREE.Group();port.add(lampG);
 {const P=[];for(let x=-520;x<=520;x+=60){P.push(box(.6,26,.6,x,17,-110,mat.steel),box(3,1,3,x,30,-110,mat.dark));const s=new THREE.Sprite(glowMat);s.position.set(x,29,-110);s.scale.setScalar(16);s.layers.set(FX);lampG.add(s);}lampG.add(build(P));}
 const trucks=[];for(let i=0;i<5;i++){const wheels=[];for(const x of[-6,-2,3,6])for(const z of[1.2,-1.2]){const w=new THREE.CylinderGeometry(.6,.6,.5,14);w.rotateX(Math.PI/2);w.translate(x,4.7,z);wheels.push([w,mat.rubber]);}
-  const tg=build([box(5,3.2,2.6,4.5,5.7,0,mat.white),box(12,1,2.5,-3,5,0,mat.dark),box(12.2,2.55,2.42,-3,6.9,0,mat.red),...wheels]);port.add(tg);trucks.push({g:tg,o:i/5});}
+  const tg=build([box(5,3.2,2.6,4.5,5.7,0,mat.white),box(12,1,2.5,-3,5,0,mat.dark),box(12.2,2.55,2.42,-3,6.9,0,mat.red),...wheels]);tg.userData.keep=true;port.add(tg);trucks.push({g:tg,o:i/5});}
 
 /* ================= the fleet ================= */
 const boxBerth=makeBoxShip();float(boxBerth,{x:-110,z:-38,bob:.25});
@@ -522,7 +539,7 @@ const oreShip=makeBulker({L:190,B:32,D:18,T:11.5,holds:5,hullTop:0x24323f,openHo
 const OH=oreShip.userData,holdX=OH.hx[2],HL=OH.hl*1.25,HW=OH.B*.86,HD=OH.D-2.5;
 const holdBox=new THREE.Mesh(new THREE.BoxGeometry(HL,HD,HW),mat.holdIn);holdBox.position.set(holdX,OH.deckY-HD/2,0);oreShip.add(holdBox);
 const oreGeo=new THREE.PlaneGeometry(HL*.98,HW*.98,34,26).rotateX(-Math.PI/2);const ore=new THREE.Mesh(oreGeo,mat.ore);ore.position.set(holdX,0,0);ore.receiveShadow=true;oreShip.add(ore);
-const slurryGeo=oreGeo.clone();const slurry=new THREE.Mesh(slurryGeo,mat.slurry);slurry.position.set(holdX,0,0);oreShip.add(slurry);const oreFloor=OH.deckY-HD;
+const slurryGeo=oreGeo.clone();const slurry=new THREE.Mesh(slurryGeo,mat.slurry);slurry.position.set(holdX,0,0);oreShip.add(slurry);const oreFloor=OH.deckY-HD;ore.userData.keep=holdBox.userData.keep=true;
 const bubN=500,bubArr=new Float32Array(bubN*3),bubGeo=new THREE.BufferGeometry();bubGeo.setAttribute('position',new THREE.BufferAttribute(bubArr,3));
 const bubbles=new THREE.Points(bubGeo,new THREE.PointsMaterial({color:0xe8f1f5,size:1.4,transparent:true,opacity:0,depthWrite:false}));bubbles.frustumCulled=false;bubbles.layers.set(FX);sea.add(bubbles);
 const bubSeed=Array.from({length:bubN},()=>[R(-80,80),R(-14,14),rnd(),R(.4,1)]);
@@ -549,6 +566,7 @@ const skiffWakes=skiffs.map(()=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(
 const RN=2600,rainArr=new Float32Array(RN*6),rainGeo=new THREE.BufferGeometry();rainGeo.setAttribute('position',new THREE.BufferAttribute(rainArr,3));
 const rain=new THREE.LineSegments(rainGeo,new THREE.LineBasicMaterial({color:0xb9c6d2,transparent:true,opacity:0,fog:false}));rain.frustumCulled=false;rain.layers.set(FX);sea.add(rain);
 const rainSeed=Array.from({length:RN},()=>[R(-200,200),R(0,140),R(-200,200)]);
+[boxBerth,bulkBerth,boxSea,bulkSea,tanker,bulkAnch,tug,pilot,bulkStorm,oreShip,raidShip,port].forEach(bake);
 sea.traverse(o=>{if(o.isMesh&&o.layers.mask===1&&!o.material.transparent&&o!==seabed){o.castShadow=true;o.receiveShadow=true;}});
 
 /* ================= globe ================= */
@@ -823,7 +841,7 @@ function craneLoop(t){const c=cranes[1],p=(t%14)/14,quay=-82,ship=-40,hi=38,lowQ
 const liqPhase=[[0,T2('Loaded: moisture below the TML. The cargo is a firm heap.','装货完成：含水率低于 TML，货堆稳固。')],[2.2,T2('Rain while loading and engine vibration: moisture creeps up…','装货时下雨、主机振动：含水率慢慢上升…')],
   [5,T2('Above the TML. Rolling squeezes water out and the ore turns to slurry.','超过 TML。横摇把水挤出，矿石变成泥浆。'),1],[8,T2('The slurry slides to the low side and stays there. The ship lists.','泥浆涌向低的一侧并停留，船舶倾侧。'),1],
   [11.5,T2('Past the point of no return: she capsizes.','越过临界点：船舶倾覆。'),1],[14.5,T2('Lost in minutes, with little time to send a distress call.','几分钟内沉没，几乎来不及发出求救。'),1]];
-function updateLiquefaction(t,dt){const on=topicKey==='liquefy';if(on)liqT+=dt;const T_=on?liqT:0;
+let liqIdle=false;function updateLiquefaction(t,dt){const on=topicKey==='liquefy';if(on)liqT+=dt;const T_=on?liqT:0;if(!on){if(liqIdle){fOre.extraRoll=0;fOre.extraY=0;fOre.bob=.9;return;}liqIdle=true;}else liqIdle=false;
   const moist=lerp(7,12.8,ease(seg(T_,1.5,6.5))),liq=ease(seg(T_,5,8)),shift=ease(seg(T_,7.5,11.5)),cap=ease(seg(T_,11.5,14.5)),sink=ease(seg(T_,13.5,19));
   const osc=Math.sin(t*1.05)*(4+7*liq)*DEG*(1-cap);fOre.extraRoll=(24*shift+130*cap)*DEG+osc*(on?1:.3);fOre.extraY=-34*sink-3*cap;fOre.bob=.9*(1-cap);
   const phi=oreShip.rotation.x,pa=oreGeo.attributes.position,sa=slurryGeo.attributes.position,c=oreFloor+HD*.62,tilt=Math.tan(clamp(phi*.85+.35*shift,-1.2,1.2));
@@ -835,7 +853,7 @@ function updateLiquefaction(t,dt){const on=topicKey==='liquefy';if(on)liqT+=dt;c
 const raidPhase=[[0,T2('Two skiffs close in from astern at 25+ knots.','两艘快艇以 25 节以上的速度从船尾逼近。')],[7,T2('Alongside the low stern: they hook a ladder onto the rail.','靠近低矮的船尾：他们把梯子挂上船舷。'),1],
   [10,T2('Boarding attempt. The crew turn fire hoses on the ladder…','试图登船。船员用消防水枪对准梯子…'),1],[16,T2('…then retreat to the citadel, call for help and wait for the navy.','…然后撤入安全舱，呼救并等待海军。')],[22,T2('Speed, razor wire, hoses and a citadel make boarding far harder.','航速、蛇腹铁丝网、水枪和安全舱让登船难上加难。')]];
 const SK=[{side:1,lag:0},{side:-1,lag:1.2},{side:1,lag:2.6}];
-function updateRaid(t,dt){const on=topicKey==='raid';if(on)raidT+=dt;const T_=raidT%28,RS=raidShip.userData,yaw=fRaid.yaw,cx=Math.cos(yaw),sx=Math.sin(yaw),fb=RS.deckY,half=RS.B/2;
+let raidIdle=false;function updateRaid(t,dt){const on=topicKey==='raid';if(!on&&raidIdle)return;raidIdle=!on;if(on)raidT+=dt;const T_=raidT%28,RS=raidShip.userData,yaw=fRaid.yaw,cx=Math.cos(yaw),sx=Math.sin(yaw),fb=RS.deckY,half=RS.B/2;
   skiffs.forEach((s,i)=>{s.visible=on;skiffWakes[i].visible=on;if(!on)return;const k=SK[i],a=ease(seg(T_,k.lag,7+k.lag*.6));let lx=lerp(-RS.L/2-260+i*40,-RS.L/2+30+i*14,a),lz=k.side*lerp(70+i*25,half+2.4,ease(seg(T_,3+k.lag,8+k.lag*.6)));
     if(T_>17&&i!==0){const r=ease(seg(T_,17,23));lx-=r*160;lz+=k.side*r*90;}
     const wx=RAID.x+lx*cx+lz*sx,wz=RAID.z-lx*sx+lz*cx;s.position.set(wx,waveH(wx,wz,t)*.9+.1,wz);s.rotation.y=yaw+(T_<8?k.side*-.12:0);s.rotation.z=.08+Math.sin(t*2+i)*.05;s.rotation.x=Math.sin(t*1.7+i)*.06;
@@ -851,11 +869,11 @@ function updateRain(){if(rain.material.opacity<.01)return;const c=camera.positio
 let flash=0;
 
 /* ================= loop ================= */
-const rtScale=PHONE?.5:.75;
-const composer=new EffectComposer(renderer,new THREE.WebGLRenderTarget(4,4,{type:THREE.HalfFloatType,samples:PHONE?0:4}));
+const rtScale=PHONE?.4:.5;
+const composer=new EffectComposer(renderer,new THREE.WebGLRenderTarget(4,4,{type:THREE.HalfFloatType,samples:PHONE?0:2}));
 const renderPass=new RenderPass(sea,camera);composer.addPass(renderPass);
 const aoCam=camera.clone();const gtao=PHONE?null:new GTAOPass(sea,aoCam,4,4);
-if(gtao){gtao.blendIntensity=.85;gtao.updateGtaoMaterial({radius:5,distanceExponent:1.5,thickness:4,scale:1.1,samples:12,distanceFallOff:1,screenSpaceRadius:false});gtao.updatePdMaterial({lumaPhi:10,depthPhi:2,normalPhi:3,radius:6,rings:2,samples:12});composer.addPass(gtao);}
+let aoOn=false;if(gtao){gtao.enabled=false;gtao.blendIntensity=.85;gtao.updateGtaoMaterial({radius:5,distanceExponent:1.5,thickness:4,scale:1.1,samples:12,distanceFallOff:1,screenSpaceRadius:false});gtao.updatePdMaterial({lumaPhi:10,depthPhi:2,normalPhi:3,radius:6,rings:2,samples:12});composer.addPass(gtao);}
 const bloom=new UnrealBloomPass(new THREE.Vector2(256,256),.3,.55,.92);composer.addPass(bloom);
 composer.addPass(new OutputPass());
 const grade=new ShaderPass({uniforms:{tDiffuse:{value:null},uTime:{value:0}},vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
@@ -866,15 +884,23 @@ function resize(){const W=Math.max(1,innerWidth),H=Math.max(1,innerHeight),nar=n
   const cw=Math.min(410,W-36)+18,ch=card.classList.contains('min')?70:H*.46;camera.setViewOffset(W,H,nar?0:-cw/2,nar?ch/2:0,W,H);camera.updateProjectionMatrix();
   composer.setPixelRatio(renderer.getPixelRatio());composer.setSize(W,H);const db=renderer.getDrawingBufferSize(new THREE.Vector2());refrRT.setSize(Math.round(db.x*rtScale),Math.round(db.y*rtScale));oceanU.uRes.value.set(db.x,db.y);}
 addEventListener('resize',()=>{resize();if(!isFinite(camera.position.x)){const P=PLACES[topicKey];camera.position.copy(fit(V(...P.cam),V(...P.tgt)));controls.target.set(...P.tgt);}});
-let last=performance.now();
-function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;const t=now/1000;updateFlight(now);
+let last=performance.now(),frameN=0;
+/* auto quality: watch the frame rate and trade resolution and effects for smoothness */
+let qAcc=0,qN=0,qT=0,qCool=0;
+function setPR(v){PR=v;renderer.setPixelRatio(v);resize();}
+function autoQuality(dt){if(document.hidden||moving)return;qAcc+=dt;qN++;qT+=dt;if(qT<2)return;const fps=qN/qAcc;qAcc=qN=qT=0;if(qCool>0){qCool--;return;}
+  const maxPR=Math.min(devicePixelRatio,1.5);
+  if(fps<38){if(aoOn){aoOn=false;gtao.enabled=false;}else if(PR>.7)setPR(Math.max(.7,+(PR-.15).toFixed(2)));else bloom.enabled=false;qCool=1;}
+  else if(fps>57){if(!bloom.enabled)bloom.enabled=true;else if(PR<maxPR)setPR(Math.min(maxPR,+(PR+.1).toFixed(2)));else if(gtao&&!aoOn&&fps>59){aoOn=true;qCool=1;}}}
+function frame(now){const rdt=(now-last)/1000,dt=Math.min(.05,rdt);last=now;if(rdt>0&&rdt<.5)autoQuality(rdt);const t=now/1000;updateFlight(now);
   if(active===sea){
     if(presetT<1){presetT=Math.min(1,presetT+dt/(fly?fly.dur/1000:1.2));applyPreset(lerpPreset(presetFrom,presetTo,ease(presetT)));}
     drift+=(targetDrift-drift)*dt*.8;oceanU.uDrift.value+=drift*dt;oceanU.uTime.value=t;
     skyClouds.position.x=camera.position.x;skyClouds.position.z=camera.position.z;skyCloudU.uTime.value=t;ocean.position.x=Math.round(camera.position.x/40)*40;ocean.position.z=Math.round(camera.position.z/40)*40;
     fTug.x=ANCH.x+140*Math.cos(t*.03);fTug.z=ANCH.z+140*Math.sin(t*.03);fTug.yaw=-t*.03-Math.PI/2;
-    for(const f of floaters)updateFloat(f,t);
-    for(const f of wakes){const o=f.obj,off=o.userData.L/2+f.wake.len/2-6;f.wake.m.position.set(o.position.x-Math.cos(f.yaw)*off,.4,o.position.z+Math.sin(f.yaw)*off);f.wake.m.rotation.y=f.yaw;f.wake.m.visible=drift>1;}
+    const cx=camera.position.x,cz=camera.position.z;port.visible=Math.hypot(cx,cz)<7500;
+    for(const f of floaters){const near=Math.hypot(f.x-cx,f.z-cz)<5200;f.obj.visible=near;if(near)updateFloat(f,t);}
+    for(const f of wakes){const o=f.obj,off=o.userData.L/2+f.wake.len/2-6;f.wake.m.position.set(o.position.x-Math.cos(f.yaw)*off,.4,o.position.z+Math.sin(f.yaw)*off);f.wake.m.rotation.y=f.yaw;f.wake.m.visible=drift>1&&o.visible;}
     trucks.forEach(tr=>tr.g.position.set(lerp(-500,500,(t*.012+tr.o)%1),0,-74));
     SCANNERS.forEach(s=>s.rotation.y=t*2.2);lhBeam.rotation.y=t*.8;
     craneLoop(t);updateLiquefaction(t,dt);updateRaid(t,dt);updateRain();
@@ -882,8 +908,8 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;const t=now/
     const sc=isNaN(shadowC.x)?controls.target:shadowC;sun.position.copy(sc).addScaledVector(sunDir,900);sun.target.position.copy(sc);sun.target.updateMatrixWorld();
   }else{cloudMesh.rotation.y=-Math.PI/2+t*.004;zoneRings.forEach((r,i)=>r.material.opacity=.5+.5*Math.sin(t*3+i));oceanU.uTime.value=t;}
   controls.update();updateOverlays();
-  if(active===sea){renderer.shadowMap.needsUpdate=true;camera.layers.set(0);renderer.setClearColor(oceanU.uDeep.value,1);renderer.setRenderTarget(refrRT);renderer.clear();renderer.render(sea,camera);
-    renderer.setRenderTarget(null);camera.layers.enableAll();renderPass.scene=sea;if(gtao){gtao.enabled=true;gtao.scene=sea;aoCam.copy(camera);aoCam.layers.set(0);aoCam.updateMatrixWorld();}grade.uniforms.uTime.value=t;composer.render(dt);}
+  if(active===sea){renderer.shadowMap.needsUpdate=(frameN++%2===0)||!!fly;camera.layers.set(0);renderer.setClearColor(oceanU.uDeep.value,1);renderer.setRenderTarget(refrRT);renderer.clear();renderer.render(sea,camera);
+    renderer.setRenderTarget(null);camera.layers.enableAll();renderPass.scene=sea;if(gtao){gtao.enabled=aoOn;gtao.scene=sea;aoCam.copy(camera);aoCam.layers.set(0);aoCam.updateMatrixWorld();}grade.uniforms.uTime.value=t;composer.render(dt);}
   else{camera.layers.enableAll();renderPass.scene=globeScene;if(gtao)gtao.enabled=false;composer.render(dt);}
   requestAnimationFrame(frame);}
 

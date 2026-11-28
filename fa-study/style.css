@@ -193,3 +193,5 @@ tr.rok td:last-child{color:#1a8a4a;font-weight:700}tr.rno td:last-child{color:#c
 .case-q details summary{cursor:pointer;font:700 14px var(--sans);color:var(--acct);margin-top:10px;min-height:32px}
 @media(max-width:600px){.np{grid-template-columns:1fr}}
 [hidden]{display:none!important}
+
+.vid{--bc:#d62828}

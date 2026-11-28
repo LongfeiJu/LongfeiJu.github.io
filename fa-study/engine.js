@@ -1,6 +1,6 @@
 {
 /* ================= data prep ================= */
-const BOX={tip:['Exam Tip','!'],ex:['Example','E'],case:['Case in Point','C'],warn:['Watch Out','!'],deep:['Going Deeper','+'],ph:['Philippine Angle','P'],fix:['Slide Check','✓'],kt:['Key Terms','K']};
+const BOX={tip:['Exam Tip','!'],ex:['Example','E'],case:['Case in Point','C'],warn:['Watch Out','!'],deep:['Going Deeper','+'],ph:['Philippine Angle','P'],fix:['Slide Check','✓'],kt:['Key Terms','K'],vid:['From the Lecture Video','▶']};
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const GL={}; // lower term -> {t,d,c}

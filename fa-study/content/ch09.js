@@ -87,7 +87,7 @@ ${calc([['Receipts from customers = 975,000 + 3,000 (A/R ↓)',978000],['Payment
 <div class="tip"><p>Check with the indirect method: 84,000 + 18,000 + 1,000 + 3,000 + 30,000 + 2,000 − 8,000 − 5,000 + 12,000 = <b>137,000</b>. Both methods must give the same answer — a great way to check your work in an exam.</p></div>`},
 {t:'Using cash flows to evaluate a company',lo:6,h:`
 ${kt('Free cash flow','Capital expenditure ratio')}
-<p class="lead">The deck's preview lists free cash flow and the capital expenditure ratio but has no slides on them, so this lesson is brief and uses common textbook definitions (check your readings).</p>
+<p class="lead">The deck's preview lists free cash flow and the capital expenditure ratio but has no slides on them. Your FS-analysis lecture video confirms the free cash flow formula below (operating cash − capital expenditures − dividends); the capital expenditure ratio is a common textbook definition (check your readings).</p>
 ${calc([['Free cash flow = Cash provided by operations − Capital expenditures − Cash dividends',''],['Capital expenditure ratio = Cash provided by operations ÷ Capital expenditures','']])}
 <div class="ex" data-t="Computer Services Company, 2000"><p>Operating cash $218,000; capital expenditures (building $160,000 + equipment $25,000) $185,000; dividends $15,000.</p>${calc([['Free cash flow = 218,000 − 185,000 − 15,000','$18,000'],['Capital expenditure ratio = 218,000 ÷ 185,000','1.18 times']])}<p>Operations paid for all of the year's investment with a little left over. (Some textbooks define free cash flow without deducting dividends.)</p></div>
 <h2>What to look for</h2>
